@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { makeStyles } from "@material-ui/styles";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import {Typography, Modal, Button, Grid, TextField, InputAdornment } from '@mui/material';
+import {Typography, Button, Grid, TextField } from '@mui/material';
 import { useSession, getSession } from "next-auth/react";
-import {startExecuteMyMutation} from './api/signUpAPI'
+import { useRouter } from "next/router";
+
+
 
 
 const Register = () => {
@@ -13,6 +14,7 @@ const Register = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [comName, setComName] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
+  const [shouldRedirect, setShouldRedirect] = useState(false);
   
   const { data: session, status } = useSession()
 
@@ -25,66 +27,20 @@ const Register = () => {
   }
 
 
+function Redirect({to}){
+  const router = useRouter();
 
-  
+  useEffect(()=> {
+
+    router.push(to);
+
+  }, [to]);
+  return null;
+}
+  const router = useRouter();
   const handleSubmit = async (e) => {
       e.preventDefault()
   
-      // async function fetchGraphQL(operationsDoc, operationName, variables) {
-      //     const result = await fetch(
-      //       " https://just-chamois-38.hasura.app/v1/graphql",
-    
-      //       {
-      //         method: "POST",
-      //         body: JSON.stringify({
-      //           query: operationsDoc,
-                // variables: {
-                //   id: user.id,
-                //   firstName: user.firstName,
-                //   lastName: user.lastName,
-                //   email: user.email,
-                //   phone: user.phone,
-                //   company: user.company,
-                //   truckPlateNumber: user.truckPlateNumber,
-                  
-                // },
-      //           operationName: operationName
-      //         })
-      //       }
-      //     );
-        
-      //     return await result.json();
-      //   }
-        
-      //   const operationsDoc =  `mutation insertUser($id:String,$firstName:String,$lastName:String,$phone:String,$company:String, $truckPlateNumber:String, $truckPlateNumber:String) {
-      //     insert_Users(objects: {email:$email, netlify_id:$id, firstName:$firstName, lastName:$lastName, phone:$phone, company:$company, truckPlateNumber:$truckPlateNumber}) {
-      //       affected_rows
-      //     }
-      //   }
-      //   `;
-        
-      //   function executeMyMutation() {
-      //     return fetchGraphQL(
-      //       operationsDoc,
-      //       "MyMutation",
-      //       {}
-      //     );
-      //   }
-        
-      //   async function startExecuteMyMutation() {
-      //     const { errors, data } = await executeMyMutation();
-        
-      //     if (errors) {
-      //       // handle those errors like a pro
-      //       console.error(errors);
-      //     }
-        
-      //     // do something great with this precious data
-      //     console.log(data);
-      //   }
-      
-     
-            // startExecuteMyMutation();
   
       const data ={
     
@@ -135,7 +91,9 @@ const Register = () => {
     const handleClose = () => {
       setOpen(false);
     };
-
+if(shouldRedirect){
+  return <Redirect to="/profile" />
+}
 
       return (
     
@@ -152,8 +110,6 @@ const Register = () => {
        <br />
        <Grid container columns={8}>
      <Grid item xs={4}>
-   
-    <FormField>  
       <TextField 
       required={true}
       type="text"
@@ -162,11 +118,11 @@ const Register = () => {
       onChange={(e) => setFirstName(e.target.value)}
       placeholder="First Name" 
        />
-      </FormField>
+    
       </Grid>
       <Grid item xs={4}>
   
-    <FormField>  
+     
       <TextField 
       required={true}
       type="text"
@@ -175,10 +131,10 @@ const Register = () => {
       onChange={(e) => setLastName(e.target.value)}
       placeholder="Last Name" 
        />
-      </FormField>
+      
       </Grid>
       <Grid item xs={4}>
-      <FormField>
+ 
         <TextField
         required={true} 
         name="email" 
@@ -188,10 +144,10 @@ const Register = () => {
         value={email} 
         onChange={(e) => setEmail(e.target.value)}
          />
-      </FormField>
+    
       </Grid>
       <Grid item xs={4}>
-      <FormField>
+      
         <TextField 
         required={true}
         name="phoneNumber" 
@@ -201,11 +157,10 @@ const Register = () => {
         placeholder=" Phone Number" 
         onChange={(e) => setPhoneNumber(e.target.value)}
         />
-      </FormField>
+      
       </Grid>
       <Grid item xs={4}>
      
-      <FormField>
         <TextField
         required={true} 
         name="comName" 
@@ -215,11 +170,9 @@ const Register = () => {
         placeholder=" Comapany Name" 
         onChange={(e) => setComName(e.target.value)}
         />
-      </FormField>
+    
       </Grid>
       <Grid item xs={4}>
-     
-      <FormField>
         <TextField
         required={true} 
         name="truckPlateNumber" 
@@ -229,11 +182,11 @@ const Register = () => {
         placeholder=" Plate Number" 
         onChange={(e) => setTruckPlateNumber(e.target.value)}
         />
-      </FormField>
+      
       </Grid>
       </Grid>
         
-        <Button type="submit" onClick={handleSubmit}>Create</Button>
+        <Button type="submit" onClick={() =>  setShouldRedirect(true) }>Create</Button>
         <Button onClick={handleClose}>Cancel</Button>
       </FormWrapper>
   
@@ -246,32 +199,10 @@ const Register = () => {
 
 export default Register;
 
-const HeaderText = styled.div`
-
-`
-const Field = `
-  
-`;
 const FormWrapper = styled.form`
 
 `;
-const FormField = styled.div`
 
-`;
-
-const Input = styled.input`
-  ${Field}
-`;
-
-
-const SubmitButton = styled.button`
-
-`;
-
-
-const Label = styled.label`
-
-`;
 
 
 
