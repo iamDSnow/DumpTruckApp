@@ -1,21 +1,29 @@
-import React, {useEffect, useState} from 'react'
-import {useSession, signIn, signOut} from 'next-auth/react';
-import {Button} from '@mui/material';
-import styled from 'styled-components';
-import { useRouter } from 'next/router';
-import Link from 'next/link'
+import React, { useEffect, useState } from 'react'
+import { useSession, signIn, signOut } from 'next-auth/react'
+import { Button } from '@mui/material'
+import styled from 'styled-components'
+import  Router  from 'next/router'
+
+
 const Wrapper = styled.div`
-display: flex;
-flex-flow: column nowrap;
-justify-content: center;
-content-align: center;
-` 
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  content-align: center;
+`
 
 const SButton = styled(Button)`
-align-self: center;`
+  align-self: center;
+`
 
-export const getStaticProps = async () => {
-    const res = await fetch(
+function Login ()  {
+  const [d, setD] = useState()
+  const [isLoading, setLoading] = useState(false)
+
+
+  useEffect(() => {
+    const ApiAsync = async () => {
+      const resopnse = await fetch(
         "https://just-chamois-38.hasura.app/v1/graphql",
       {
         method: "POST",
@@ -24,61 +32,62 @@ export const getStaticProps = async () => {
           query:  `
           query MyQuery {
             Users {
-
+              uid
               email
-            
+              firstName
+              driverLic
             }
           }
         `
         })
       }
     );
-  const data = await res.json()
-
-  return{
-    props: { data}
-
-  }
-
-  }
+      const resopnseJson = await resopnse.json();
+  
+      setD(resopnseJson);
+    };
+    ApiAsync();
+  }, []);
 
 
-
-const Login = ({data}) => {
-const router = useRouter();
-
-//    const logged = useEffect(()=> {
-//     router.push('/register')
-//    })
-
-    const {data: session} = useSession();
- if(session){
-
+  const { data: session, status }  =  useSession()
+  if (status === 'authenticated') {
+    
+    d ?
+    
+     d.data.Users.map((user)=> {
+  
+      if (user.email === session.user.email) 
+{
+        return Router.push('/dashboard/'+ user.uid.toString())   
+}})
+    :
+       Router.push('/register')
+    
+    
+ 
+  
     return (
-    <Wrapper>
-        <p>Welcome, {session.user.name} 
-        {/* <h1>{user.data.Users.map((Users, i)=>{
-        return(
-          <div key={i}> {Users.email}</div> 
-            )})}</h1>  */}
-
-                
-             </p>
-        <SButton size="large" onClick={()=>signOut()}> Sign Out </SButton>
-    </Wrapper>
-  )
-} else{
-    return(
-
-    <Wrapper>
-        <p> Please sign in.</p>
-        <SButton size="large"  onClick={() =>
-    signIn( {
-      pages: `${window.location.origin}/register`,
-    })
-  }> Sign In </SButton>
-    </Wrapper>
+      <Wrapper>
+       <div></div>
+      </Wrapper>
     )
-}}
+  } else {
+    return (
+      <Wrapper>
+        <p> Please sign in.</p>
+        <SButton
+          size='large'
+          onClick={() => {
+            signIn('google', { callbackUrl: '/register/' })
+          }}
+        >
+          {' '}
+          Sign In{' '}
+        </SButton>
+      </Wrapper>
+    )
+  }
+}
 
 export default Login

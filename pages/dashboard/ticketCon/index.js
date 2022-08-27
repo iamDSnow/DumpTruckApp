@@ -1,5 +1,9 @@
 import Layout from "../../components/Layout";
 
+import React from "react";
+import { useSession } from 'next-auth/react'
+import Router from 'next/router'
+
 export const getStaticProps = async () => {
     const res = await fetch(
         "https://just-chamois-38.hasura.app/v1/graphql",
@@ -34,18 +38,38 @@ export default function TicketCon({data, error}) {
 
   if (error) return <div>Failed to load</div>
   if (!data) return <div>Loading...</div>
+  
+  const session = useSession()
+
+  const [ticketData, setTicketData] = React.useState('')
+
+  React.useEffect(() => {
+    if (session.status === 'authenticated') 
+  
+    setTicketData(JSON.parse(localStorage.getItem('u')))
+   
+
+   
+    
+  }, [session.status])
+  React.useEffect(() => {
+    const { pathname } = Router;
+    if (pathname === "/dashboard/ticketCon") {
+      Router.push("/dashboard/ticketCon/" + ticketData.substring(1))
+    }
+  });
 
 
   return (
 
     <div>
           <Layout/> 
-      <h1>{data.data.Users.map((Users)=>{
-        return(
-          <div key={Users.uid}> {Users.email}</div> 
-            )})}</h1>
-
+    
+<div>...Loading</div>
 
     </div>
   )
+}
+TicketCon.auth = {
+  unauthorized: "/", // redirect to this url
 }

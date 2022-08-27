@@ -1,7 +1,7 @@
 import { Container, Grid, Button, Box } from '@mui/material'
 import { Divider } from '@mui/material'
 import Layout from '../components/Layout'
-import { useRouter } from 'next/router'
+import Router from 'next/router'
 import { TicketContext } from '../components/helper/context'
 import * as React from 'react'
 import {Modal } from '@mui/material';
@@ -14,6 +14,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { createContext, useState } from 'react';
+
 
 export const UserDetailsContext = createContext();
 
@@ -80,6 +81,7 @@ export const getStaticPaths = async () => {
               load_id
               loadSite
               Material
+              ton
             }
           }
         }
@@ -88,7 +90,7 @@ export const getStaticPaths = async () => {
     })
   })
   const data = await res.json()
-  const paths = data.data.Users.map(user => {
+  const paths = await data.data.Users.map(user => {
     return {
       params: { id: user.uid.toString() }
     }
@@ -140,6 +142,7 @@ export const getStaticProps = async context => {
                 load_id
                 loadSite
                 Material
+                ton
               }
             }
           }
@@ -152,13 +155,77 @@ export const getStaticProps = async context => {
   const data = await response.json()
 
   return {
-    props: { data, id }
+    props: { data, id },
+    revalidate: 2
   }
 }
 
 export default function Details ({ data, id }) {
 
-  const router = useRouter();
+  
+  const handleSubmit = async (e) => {
+
+
+    // Prep Payload
+    const payload = await {
+      ticket_id: Number(selectedRow.ticket_id),
+      totalLoads: Number(totalLoadsUpdate),
+    }
+
+    console.log('payload ready...' + JSON.stringify(payload))
+
+    // If User
+    if (payload) {
+      console.log('ran')
+      async function fetchGraphQL (operationsDoc, operationName, variables) {
+        const result = await fetch(
+          'https://just-chamois-38.hasura.app/v1/graphql',
+          {
+            method: 'POST',
+            headers: {
+              ['x-hasura-admin-secret']: process.env.NEXT_PUBLIC_HASURA_SECRET
+            },
+            body: JSON.stringify({
+              query: operationsDoc,
+              variables: variables,
+              operationName: operationName
+            })
+          }
+        )
+
+        return await result.json()
+      }
+
+      const operationsDoc = `
+  mutation MyMutation($ticket_id: Int = 0, $totalLoads: Int = 0) {
+    update_Tickets_by_pk(pk_columns: {ticket_id: $ticket_id}, _set: {totalLoads: $totalLoads}) {
+      totalLoads
+    }
+  }
+`;
+
+      function executeMyMutation () {
+        return fetchGraphQL(operationsDoc, 'MyMutation', payload)
+      }
+
+      async function startExecuteMyMutation () {
+        const { errors, data } = await executeMyMutation()
+
+        if (errors) {
+          // handle those errors like a pro
+          console.error(errors)
+        }
+
+        // do something great with this precious data
+        console.log(data)
+        console.log('ran')
+      }
+      startExecuteMyMutation()
+    }
+
+  }
+
+
 
 //Modal Open/Close
   const [open, setOpen] = React.useState(false);
@@ -179,8 +246,11 @@ export default function Details ({ data, id }) {
   const [selectedRow, setSelectedRow] = React.useState({});
   const [rowTF, setRowTF ]= React.useState(false);
 
+  const [loadDisplay, setLoadDisplay] = React.useState();
+  const [totalLoadsUpdate, setTotalLoadsUpdate] = React.useState();
 
-  React.useEffect( async () => {
+
+  React.useEffect(() => {
 
     data.data.Users.map(user => {
   
@@ -189,15 +259,47 @@ export default function Details ({ data, id }) {
  
     })
 
+    
     //get initial data
     getD()
+
+    setLoadDisplay()
     
     return () => {
       
-      tableData
+      tableData,
+      loadDisplay
       
     };
   }, []);
+
+
+  // console.log(
+  //  rowTF ? data.data.Users.map(user => {
+  //   if (user.uid === id) {
+  //     return user.Tickets.filter(
+  //       item => item.ticket_id === selectedRow.ticket_id
+  //     ).map(ticket => {
+  //       return ticket.Loads.filter(
+  //         item => item.ticket_id === selectedRow.ticket_id
+  //       ).map(load => load.ton
+  //       ).reduce((a, b) => a + b, 0) 
+  //     })
+  //   }
+  //  } ): '0'
+  // )
+
+  // {rowTF ? <h1>{selectedRow.totalLoads}</h1> :  data.data.Users.map(user => {
+  //   if (user.uid === id) {
+  //     return user.Tickets.filter(
+  //       item => item.ticket_id === selectedRow.ticket_id
+  //     ).map(ticket => {
+  //       return ticket.Loads.filter(
+  //         item => item.ticket_id === selectedRow.ticket_id
+  //       ).map(load => load)
+  //     })
+  //   }
+  // })}
 
   //function to get opening data in state 
   function getD() {new Promise(resolve => {
@@ -215,32 +317,52 @@ export default function Details ({ data, id }) {
                     
                   }
                 })
-              }) : "null"
+              }) : "null",
+              
+              
               ) 
             }, 1000)
           })}
          
-                console.log(dT);
                 
 
                 const handleOpen = () => {
                   setOpen(true);
                   setData({data});
+                  
                 };
               
-                const handleClose = () => {
-                  setOpen(false);
+                const handleClose = async () => {
+               
+                   await setOpen(false);
+                   await setTotalLoadsUpdate(data.data.Users.map(user => {
+                    if (user.uid === id) {
+                      return user.Tickets.filter(
+                        item => item.ticket_id === selectedRow.ticket_id
+                      ).map(ticket => {
+                        return JSON.stringify(ticket.Loads.filter(
+                          item => item.ticket_id === selectedRow.ticket_id
+                        ).map(load => load.ton
+                        ).reduce((a, b) => a + b, 0) 
+                      )})
+                    }
+                   } ));
                 };
                
 
   // Modal Layout
   const CustomModal = () => {
+
+    
+    console.log(totalLoadsUpdate)
+
     return modalData ? (
       <Modal
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
         open={open}
         onClose={handleClose}
+        sx={{ flexGrow: 1, display: { xs: 10} }}
       >
         <div style={modalStyle} className={classes.paper}>
         <TableContainer component={Paper}>
@@ -268,6 +390,8 @@ export default function Details ({ data, id }) {
                           handleClose(); 
                           setRowTF(true);
                           localStorage.setItem("data",JSON.stringify(list)); 
+                         
+        
                         }}
                       
                        
@@ -289,7 +413,8 @@ export default function Details ({ data, id }) {
         </div>
       </Modal>
     ) : null;
-  };
+  }; 
+
 
 
   return (
@@ -300,7 +425,8 @@ export default function Details ({ data, id }) {
 
 
       <Container static>
- 
+      <CustomModal />
+
         <Grid
           container
           columns={12}
@@ -345,8 +471,7 @@ export default function Details ({ data, id }) {
              <p>View Ticket</p>
           </Button>
 
-      <CustomModal />
-
+    
             
             </Box>
           </Grid>
@@ -375,6 +500,7 @@ export default function Details ({ data, id }) {
           xs
           zeroMinWidth
         >
+       
           <Grid item xs={6}>
             <Box
               sx={{
@@ -387,6 +513,7 @@ export default function Details ({ data, id }) {
                 borderRadius: '5px'
               }}
             >
+                 <br />
               <Grid
                 container
                 columns={16}
@@ -401,7 +528,7 @@ export default function Details ({ data, id }) {
                   justifyContent='center'
                   alignItems='center'
                 >
-                  <Grid item xs={9}>
+                  <Grid item xs={10}>
                     {rowTF ? <div>{`NAME: `} <strong>{selectedRow.customerName}</strong></div> : data.data.Users.map(user => {
                       return user.Tickets.map((tickets, i, row) => {
                         if (i + 1 === row.length) {
@@ -449,7 +576,7 @@ export default function Details ({ data, id }) {
                           color: '#000'
                         }
                       }}
-                      onClick={() => router.push('./ticketCon/' + id)}
+                      onClick={() => Router.push('./ticketCon/' + id)}
                     >
                       Edit Ticket
                     </Button>
@@ -460,13 +587,18 @@ export default function Details ({ data, id }) {
                   <h2> Total Loads</h2>
                 </Grid>
                 <Grid item xs={12}>
-                  {rowTF ? <h1>{selectedRow.totalLoads}</h1> : data.data.Users.map(user => {
-                    return user.Tickets.map((tickets, i, row) => {
-                      if (i + 1 === row.length) {
-                        return <h1>{tickets.totalLoads}</h1>
-                      }
-                    })
-                  })}
+                 <h1>{rowTF ? data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === selectedRow.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === selectedRow.ticket_id
+        ).map(load => load.ton
+        ).reduce((a, b) => a + b, 0) 
+      })
+    }
+   }): '0'}</h1> 
                 </Grid>
                 <Grid item xs={6}>
                   <Button
@@ -484,6 +616,7 @@ export default function Details ({ data, id }) {
                         color: '#000'
                       }
                     }}
+                    onClick={() => Router.push('./createLoad/' + id)}
                   >
                     Add Load
                   </Button>
@@ -522,6 +655,9 @@ export default function Details ({ data, id }) {
                         color: '#000'
                       }
                     }}
+                    onClick={ async () => { 
+                   await  handleSubmit();
+                   await  Router.push('./sendEmail/' + id);}}
                   >
                     Send Ticket
                   </Button>
@@ -539,10 +675,29 @@ export default function Details ({ data, id }) {
                         color: '#000'
                       }
                     }}
+                    onClick={() => {Router.push('./createTicket/' + id); }} 
                   >
                     Create Ticket
                   </Button>
                 </Grid>
+                  <Grid item xs={10}>
+                    <Button
+                      variant='outlined'
+                      sx={{
+                        height: '64.45px',
+                        width: '335px;',
+                        backgroundColor: '#fff',
+                        color: '#000',
+                        '&:hover': {
+                          backgroundColor: '#FFA500',
+                          color: '#000'
+                        }
+                      }}
+                      onClick={() => Router.push('./loadData/' + id)}
+                    >
+                      View Load
+                    </Button>
+                  </Grid>
               </Grid>
             </Box>
           </Grid>
@@ -550,4 +705,7 @@ export default function Details ({ data, id }) {
       </Container>
     </UserDetailsContext.Provider>
   )
+}
+Details.auth = {
+  unauthorized: "/", // redirect to this url
 }

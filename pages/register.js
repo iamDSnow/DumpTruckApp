@@ -1,22 +1,53 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {Typography, Button, Grid, TextField } from '@mui/material';
-import { useSession, getSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 
+export const getStaticProps = async () => {
+  await fetch('https://just-chamois-38.hasura.app/v1/graphql' )
 
+  const response = await fetch(
+    'https://just-chamois-38.hasura.app/v1/graphql',
+    {
+      method: 'POST',
+      headers: {
+        ['x-hasura-admin-secret']: process.env.NEXT_PUBLIC_HASURA_SECRET
+      },
+      body: JSON.stringify({
+        query: `
+        query MyQuery {
+          Users {
+            uid
+            email
+          }
+        }
+      `
+      })
+    }
+  )
 
-const Register = () => {
+  const reg = await response.json()
+
+  return {
+    props: { reg }
+  }
+}
+
+const Register = ({reg}) => {
   const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [driverLic, setDriverLic] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [comName, setComName] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
   
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
+  const router = useRouter();
+
+
 
   if (status === "loading") {
     return <p>Loading...</p>
@@ -25,7 +56,17 @@ const Register = () => {
   if (status === "unauthenticated") {
     return <p>Access Denied</p>
   }
-
+  if (status === "authenticated") {
+    const gM = session.user.email;
+    const uName = session.user.name;
+  
+    // console.log(reg.data.Users.map(user => {
+    //   if (user.email === gM) {
+    //     return user.uid
+    //   }
+    // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )
+    
+   
 
 function Redirect({to}){
   const router = useRouter();
@@ -37,25 +78,24 @@ function Redirect({to}){
   }, [to]);
   return null;
 }
-  const router = useRouter();
+
   const handleSubmit = async (e) => {
-      e.preventDefault()
+     
   
   
       const data ={
     
           
     
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
+        firstName: session.user.name,
+        driverLic: driverLic,
+        email: session.user.email,
          phoneNumber: phoneNumber,
          comName: comName,
          truckPlateNumber: truckPlateNumber,
        
     
       }
-
 
 
   // Send the data to the server in JSON format.
@@ -91,8 +131,15 @@ function Redirect({to}){
     const handleClose = () => {
       setOpen(false);
     };
+    const id = reg.data.Users.map(user => {
+      if (user.email === gM) {
+        return user.uid
+      }
+      else return ''
+    }).reduce((a, b) => a + b, 0).replace('NaN', '') 
+    localStorage.setItem("u",JSON.stringify(id))
 if(shouldRedirect){
-  return <Redirect to="/profile" />
+  return <Redirect to={"/dashboard/" + id.substring(1)} />
 }
 
       return (
@@ -108,15 +155,21 @@ if(shouldRedirect){
     >
        <Typography >Create An Account</Typography>
        <br />
-       <Grid container columns={8}>
+
+       <Grid container columns={8}
+       direction='row'
+       justifyContent='center'
+       alignItems='center'>
+
      <Grid item xs={4}>
-      <TextField 
+      <TextField
+       disabled 
       required={true}
       type="text"
-      name="firstName"
-      value={firstName}
-      onChange={(e) => setFirstName(e.target.value)}
-      placeholder="First Name" 
+      name="Name"
+      value={uName}
+      onChange={(e) => setFirstName(session.user.name)}
+      placeholder="Full Name" 
        />
     
       </Grid>
@@ -126,22 +179,23 @@ if(shouldRedirect){
       <TextField 
       required={true}
       type="text"
-      name="lastName"
-      value={lastName}
-      onChange={(e) => setLastName(e.target.value)}
-      placeholder="Last Name" 
+      name="driverLic"
+      value={driverLic}
+      onChange={(e) => setDriverLic(e.target.value)}
+      placeholder="Driver Lic." 
        />
       
       </Grid>
       <Grid item xs={4}>
  
         <TextField
+         disabled
         required={true} 
         name="email" 
         id="email" 
         type="text"
         placeholder="Email Address"
-        value={email} 
+        value={gM} 
         onChange={(e) => setEmail(e.target.value)}
          />
     
@@ -186,12 +240,14 @@ if(shouldRedirect){
       </Grid>
       </Grid>
         
-        <Button type="submit" onClick={() =>  setShouldRedirect(true) }>Create</Button>
-        <Button onClick={handleClose}>Cancel</Button>
+        <Button type="submit" onClick={() => { handleSubmit(); 
+          setShouldRedirect(true);
+          } }>Create</Button>
+      
       </FormWrapper>
   
       ) 
-    };
+    }}
   
 
   
@@ -199,13 +255,12 @@ if(shouldRedirect){
 
 export default Register;
 
+
+
 const FormWrapper = styled.form`
 
 `;
 
 
-
-
-   
   
   

@@ -122,7 +122,7 @@ export const getStaticProps = async context => {
 
   return {
     props: { data, id },
-    revalidate: 10
+    revalidate: 5
   }
 }
 
@@ -145,12 +145,15 @@ export default function Details ({ data, id }) {
   const [totalHoursInput, setTotalHoursInput] = React.useState('')
   const [customerNameInput, setCustomerNameInput] = React.useState('')
   const session = useSession()
-  const [loadIdInput, setLoadIdInput] = React.useState('')
+  const [loadIdInput, setLoadIdInput] = React.useState([])
   const [loadSiteInput, setLoadSiteInput ] = React.useState('')
   const [tripNumberInput, setTripNumberInput] = React.useState('')
   const [materialInput, setMaterialInput] = React.useState('')
   const [tonInput, setTonInput] = React.useState('')
   const [ticketData, setTicketData] = React.useState('')
+
+  const API = process.env.NEXT_PUBLIC_SENDGRID;
+
 
   React.useEffect(() => {
     if (session.status === 'authenticated')
@@ -275,6 +278,72 @@ export default function Details ({ data, id }) {
     )
     st.getTime(startTimeInput)
     et.getTime(endTimeInput)
+
+    setLoadIdInput(
+      data.data.Users.map(user => {
+        if (user.uid === id) {
+          return user.Tickets.filter(
+            item => item.ticket_id === ticketData.ticket_id
+          ).map(ticket => {
+            return ticket.Loads.filter(
+              item => item.ticket_id === ticketData.ticket_id
+            ).map(load => (load.load_id ))
+          })
+        }
+      })
+    )
+    setLoadSiteInput(
+      data.data.Users.map(user => {
+        if (user.uid === id) {
+          return user.Tickets.filter(
+            item => item.ticket_id === ticketData.ticket_id
+          ).map(ticket => {
+            return ticket.Loads.filter(
+              item => item.ticket_id === ticketData.ticket_id
+            ).map(load => (load.loadSite ))
+          })
+        }
+      })
+    )
+    setTripNumberInput(
+      data.data.Users.map(user => {
+        if (user.uid === id) {
+          return user.Tickets.filter(
+            item => item.ticket_id === ticketData.ticket_id
+          ).map(ticket => {
+            return ticket.Loads.filter(
+              item => item.ticket_id === ticketData.ticket_id
+            ).map(load => (load.tripNumber ))
+          })
+        }
+      })
+    )
+    setMaterialInput(
+      data.data.Users.map(user => {
+        if (user.uid === id) {
+          return user.Tickets.filter(
+            item => item.ticket_id === ticketData.ticket_id
+          ).map(ticket => {
+            return ticket.Loads.filter(
+              item => item.ticket_id === ticketData.ticket_id
+            ).map(load => (load.Material ))
+          })
+        }
+      })
+    )
+     setTonInput(
+      data.data.Users.map(user => {
+        if (user.uid === id) {
+          return user.Tickets.filter(
+            item => item.ticket_id === ticketData.ticket_id
+          ).map(ticket => {
+            return ticket.Loads.filter(
+              item => item.ticket_id === ticketData.ticket_id
+            ).map(load => (load.ton ))
+          })
+        }
+      })
+    )
     setTicketData(JSON.parse(localStorage.getItem('data')))
   }, [session.status])
 
@@ -302,17 +371,56 @@ export default function Details ({ data, id }) {
 
   //    function tk(){
   //      const tick =}
-const handleSubmit =()=>{
-  
+async function handleSubmit (){
+
+const SG = ({
+  company: companyInput,
+  driverLic: driverLicInput,
+  truckNumber: truckNumberInput,
+  clientPhone: phoneClientInput,
+  startTime: startTimeInput,
+  endTime: endTimeInput,
+  contractor: contractorInput,
+  deliveryLocation: deliveryLocationInput,
+  notes: notesInput,
+  phone: phoneInput,
+  totalLoads: totalLoadsInput,
+  totalHours: totalHoursInput,
+  customerName: customerNameInput,
+  loadId: loadIdInput,
+  loadSite: loadSiteInput,
+  tripNumber: tripNumberInput,
+  material: materialInput,
+  ton: tonInput,
+
+
+})
+await fetch('/api/mail.js', {
+  method: 'POST',
+  body: JSON.stringify(SG)
+});
+
+fetch(
+  '/pages/api/mail.js',
+  {
+    method: 'POST',
+    headers: {
+      ['key']: API
+    },
+    body: JSON.stringify(SG)
+
+  }
+)
 
 }
+console.log(loadIdInput)
   return (
     <>
       <Layout />
       <br />
       <NoSsr>
         <Container>
-          <form onSubmit={handleSubmit}>
+        <form onSubmit={handleSubmit}>
             <Box>
               <Grid
                 container
@@ -566,7 +674,6 @@ const handleSubmit =()=>{
                     value={load.load_id}
                     name='loadID'
                     
-                    onChange={e => setLoadIdInput(e.target.value)}
                   ></TextField>
                                 
                               </Grid>
@@ -586,7 +693,7 @@ const handleSubmit =()=>{
                     value={load.loadSite}
                     name='loadSite'
                     
-                    onChange={e => setLoadSiteInput(e.target.value)}
+                    // onChange={e => setLoadSiteInput(e.target.value)}
                   ></TextField>
                                 
                             </Grid>
@@ -602,7 +709,7 @@ const handleSubmit =()=>{
                     value={load.tripNumber}
                     name='tripNo'
                     
-                    onChange={e => setTripNumberInput(e.target.value)}
+                    // onChange={e => setTripNumberInput(e.target.value)}
                   ></TextField>
             
                               </Grid>
@@ -616,9 +723,7 @@ const handleSubmit =()=>{
                     label='MATERIAL'
                     value={load.Material}
                     name='material'
-                    
-                    onChange={e => setMaterialInput(e.target.value)}
-                  ></TextField>
+                                      ></TextField>
         
                               </Grid>
 
@@ -633,7 +738,6 @@ const handleSubmit =()=>{
                     name='ton'
                     
                     
-                    onChange={e => setTonInput(e.target.value)}
                   >
                     
                   </TextField>
@@ -680,12 +784,15 @@ const handleSubmit =()=>{
                     color: '#000'
                   }
                 }}
+                onClick={() => handleSubmit()}
+
               >
                 Send Email
               </Button>
            
             </Box>
           </form>
+          <br />
           <Button
                 variant='outlined'
                 sx={{
@@ -707,4 +814,7 @@ const handleSubmit =()=>{
       </NoSsr>
     </>
   )
+}
+Details.auth = {
+  unauthorized: "/", // redirect to this url
 }

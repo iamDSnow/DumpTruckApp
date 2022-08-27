@@ -13,15 +13,11 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import logo from '../../images/logo.webp';
 import Image from 'next/image';
-import {useSession} from 'next-auth/react';
-
-
-const settings = ['Profile', 'Logout'];
+import Router from 'next/router';
+import {useSession, signOut} from 'next-auth/react';
 
 
 const Layout = () => {
-
-
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -40,21 +36,23 @@ const Layout = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   
-  const [gMail, setGMAIL] = React.useState('');
-  const [gImage, setGImage] = React.useState('');
+  const [ids, setIDs] = React.useState('');
   const session = useSession();
+  
+
+  React.useEffect(() => {
+    const data = window.localStorage.getItem('data');
+    if ( data !== null ) setIDs(JSON.parse(data));
+  }, []);
   if(session.status == 'authenticated'){
  
-   
-   gMail = session.data.user.email;
+    
+   const gMail = session.data.user.email;
    const gImage = session.data.user.image;
  
   // console.log(gMail)
-  console.log(gImage)
+  // console.log(gImage)
   
-
-
-
   return (
     <>
         <AppBar position="static" color="primary" enableColorOnDark style={{ background: '#A9A9A9' }}>
@@ -76,6 +74,8 @@ const Layout = () => {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            onClick={() => Router.push('/') }
+
           >
              <Image
       
@@ -141,6 +141,7 @@ const Layout = () => {
       alt="logo"
       width={175}
       height={45}
+
       
     />
           </Typography>
@@ -173,11 +174,23 @@ const Layout = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
+              {/* {settings.map((setting) => (
+              <Link href={`/${setting}`}>
+
+                <MenuItem 
+                key={setting} 
+                onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              </Link>
+
+              ))} */}
+
+<MenuItem
+onClick={() => { handleCloseUserMenu(); Router.push('/dashboard/profile/' + ids.user_id); }} >
+  Profile
+  </MenuItem>
+      <MenuItem onClick={()=>{signOut(); handleCloseUserMenu(); Router.push('/');}}>Signout</MenuItem>
             </Menu>
           </Box>
         </Toolbar>
