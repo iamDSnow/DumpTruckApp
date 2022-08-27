@@ -139,7 +139,7 @@ function Redirect({to}){
     }).reduce((a, b) => a + b, 0).replace('NaN', '') 
     localStorage.setItem("u",JSON.stringify(id))
 if(shouldRedirect){
-  return <Redirect to={"/dashboard/" + id.substring(1)} />
+  return <Redirect to={"/thankyou" } />
 }
 
       return (

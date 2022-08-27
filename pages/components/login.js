@@ -19,6 +19,9 @@ const SButton = styled(Button)`
 function Login ()  {
   const [d, setD] = useState()
   const [isLoading, setLoading] = useState(false)
+  const [gM, setGM] = useState()
+  const { data: session, status }  =  useSession()
+
 
 
   useEffect(() => {
@@ -49,15 +52,21 @@ function Login ()  {
     ApiAsync();
   }, []);
 
+  React.useEffect(() => {
+    if (status === 'authenticated') 
+  
+    setGM(session.user.email)
 
-  const { data: session, status }  =  useSession()
+   
+    
+  }, [status])
   if (status === 'authenticated') {
     
     d ?
     
      d.data.Users.map((user)=> {
   
-      if (user.email === session.user.email) 
+      if (user.email === gM) 
 {
         return Router.push('/dashboard/'+ user.uid.toString())   
 }})

@@ -38,30 +38,15 @@ export const getStaticProps = async () => {
 export default function Dashboard({data, error}) {
 
   const session = useSession()
-
-
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
-
   const [ticketData, setTicketData] = React.useState('')
 
   React.useEffect(() => {
     if (session.status === 'authenticated') 
-    {
+  
+    setTicketData(JSON.parse(localStorage.getItem('u')))
    
 
-    setTicketData(data.data.Users)
-
-    localStorage.setItem("u",JSON.stringify(id))
-    
-  }
-
-  const id = data.data.Users.map((user) => {
-    user.email === session.user.email
-    ?
-       user.uid
-   : ''
-  }).reduce((a, b) => a + b, 0).replace('NaN', '') 
+   
     
   }, [session.status])
   React.useEffect(() => {
@@ -71,22 +56,17 @@ export default function Dashboard({data, error}) {
     }
   });
 
-  if(session){
-
-  }
 
   return (
 
     <div>
           <Layout/> 
-      {/* <h1>{data.data.Users.map((Users)=>{
-        return(
-          <div key={Users.uid}> {Users.email}</div> 
-            )})}</h1> */}
-
-
-
+    
+<div>...Loading</div>
 
     </div>
   )
+}
+Dashboard.auth = {
+  unauthorized: "/", // redirect to this url
 }
