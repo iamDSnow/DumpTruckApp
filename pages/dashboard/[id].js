@@ -53,7 +53,7 @@ export const getStaticPaths = async () => {
       ['x-hasura-admin-secret']: process.env.NEXT_PUBLIC_HASURA_SECRET
     },
     body: JSON.stringify({
-      query: `
+      query:`
       query MyQuery {
         Users {
           uid

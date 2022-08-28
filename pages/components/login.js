@@ -3,7 +3,6 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import { Button } from '@mui/material'
 import styled from 'styled-components'
 import  Router  from 'next/router'
-import { getDate } from 'date-fns'
 
 
 const Wrapper = styled.div`
@@ -17,16 +16,19 @@ const SButton = styled(Button)`
   align-self: center;
 `
 
-function Login ()  {
+ function Login ()  {
   const [d, setD] = useState()
-  const [emailInput, setEmailInput] = useState()
   const [gM, setGM] = useState()
   const { data: session, status }  =  useSession()
 
-
+  function getD(){
+    return true
+  }
 
   useEffect(() => {
     const ApiAsync = async () => {
+      if (status === 'authenticated') 
+{
       const resopnse = await fetch(
         "https://just-chamois-38.hasura.app/v1/graphql",
       {
@@ -49,32 +51,20 @@ function Login ()  {
       const resopnseJson = await resopnse.json();
   
       setD(resopnseJson);
-    };
-    ApiAsync();
-  }, []);
+    }
+    await ApiAsync(),
+    await setGM(session.user.email),
+    await getD()
+  }
+  }, [status]);
 
-  React.useEffect(() => {
-    if (status === 'authenticated') 
-  
-
-   getD()
-    
-  }, [status])
   if (status === 'authenticated') {
     
-    function getD(){
-      setGM(session.user.email)
-      setEmailInput(d.data.Users.map((user)=> {
-  
-      return (user.email) 
-          }))
-
-      return true
-    }
+   
     if ( getD()===false){
       return <div>loading</div>
     }
-    else{
+    else
     d ?
     
      d.data.Users.map((user)=> {
@@ -86,7 +76,7 @@ function Login ()  {
     :
        Router.push('/register')
     
-}
+    
  
   
     return (

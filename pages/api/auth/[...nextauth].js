@@ -11,7 +11,7 @@ export default NextAuth({
   callbacks: {
     async signIn({ account, profile }) {
       if (account.provider === "google ") {
-        return profile.email_verified 
+        return profile.email 
       }
       return true // Do different verification for other providers that don't have `email_verified`
     },
@@ -22,5 +22,9 @@ export default NextAuth({
     error: '/404', // Error code passed in query string as ?error=
     // verifyRequest: '/auth/verify-request', // (used for check email message)
     newUser: '/register' // New users will be directed here on first sign in (leave the property out if not of interest)
-  }
-});
+  },
+  secret: process.env.NEXTAUTH_SECRET
+  
+},
+);
+
