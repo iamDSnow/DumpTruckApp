@@ -313,7 +313,7 @@ export default function Details ({ data, id }) {
               }))
               
               ) 
-            }, 1000)
+            }, 1000) 
           })}
          
                 // console.log(ticket_IdInput)
@@ -321,19 +321,7 @@ export default function Details ({ data, id }) {
                 const handleOpen = () => {
                   setOpen(true);
                   setData({data});
-                  // setTotalLoadsUpdate(data.data.Users.map(user => {
-                  //   if (user.uid === id) {
-                  //     return user.Tickets.filter(
-                  //       item => item.ticket_id === ticketData.ticket_id
-                  //     ).map(ticket => {
-                  //       return JSON.stringify(ticket.Loads.filter(
-                  //         item => item.ticket_id === ticketData.ticket_id
-                  //       ).map(load => load.ton
-                  //       ).reduce((a, b) => a + b, 0) 
-                  //     )})
-                  //   }
-                  //  } ))
-                  
+               
                 };
               
                 const handleClose = async () => {
