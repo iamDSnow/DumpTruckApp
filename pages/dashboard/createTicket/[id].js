@@ -7,7 +7,6 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useSession, getSession } from 'next-auth/react'
 import NoSsr from '@mui/material/NoSsr'
-import { TicketContext } from '../../components/helper/context'
 import Router from 'next/router';
 import { Suspense } from 'react'
 
@@ -213,7 +212,6 @@ export default function Details ({ data, id }) {
 
   const session = useSession()
   const [gM, setGM] = React.useState('')
-  const { dT } = React.useContext(TicketContext)
   const [ticketData, setTicketData] = React.useState('')
 
   React.useEffect(() => {

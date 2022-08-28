@@ -3,6 +3,7 @@ import { useSession, signIn, signOut } from 'next-auth/react'
 import { Button } from '@mui/material'
 import styled from 'styled-components'
 import  Router  from 'next/router'
+import { getDate } from 'date-fns'
 
 
 const Wrapper = styled.div`
@@ -18,7 +19,7 @@ const SButton = styled(Button)`
 
 function Login ()  {
   const [d, setD] = useState()
-  const [isLoading, setLoading] = useState(false)
+  const [emailInput, setEmailInput] = useState()
   const [gM, setGM] = useState()
   const { data: session, status }  =  useSession()
 
@@ -55,13 +56,25 @@ function Login ()  {
   React.useEffect(() => {
     if (status === 'authenticated') 
   
-    setGM(session.user.email)
 
-   
+   getD()
     
   }, [status])
   if (status === 'authenticated') {
     
+    function getD(){
+      setGM(session.user.email)
+      setEmailInput(d.data.Users.map((user)=> {
+  
+      return (user.email) 
+          }))
+
+      return true
+    }
+    if ( getD()===false){
+      return <div>loading</div>
+    }
+    else{
     d ?
     
      d.data.Users.map((user)=> {
@@ -73,7 +86,7 @@ function Login ()  {
     :
        Router.push('/register')
     
-    
+}
  
   
     return (
