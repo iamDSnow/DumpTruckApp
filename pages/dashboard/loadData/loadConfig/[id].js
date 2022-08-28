@@ -322,9 +322,14 @@ export default function Details ({ data, id }) {
             })
           ),
         )
-      }, 3000)
+         return true
+      }, 1000)
     })
   }
+  if ( getD()===false){
+    return <div>loading</div>
+  }
+  else
   return (
     <>
       <Layout />

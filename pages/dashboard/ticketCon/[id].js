@@ -383,10 +383,14 @@ export default function Details ({ data, id }) {
             }).join('')
           )
         )
+        return true
       }, 1000)
     })
   }
-
+if ( getD()===false){
+  return <div>loading</div>
+}
+else
   return (
     <>
       <Layout />

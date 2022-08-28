@@ -1,8 +1,15 @@
 {
+  "name": "next-js-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build"
-  },
+  }, 
+  "keywords": [],
+  "author": "Derrick Snow Jr",
+  "license": "ISC",
   "dependencies": {
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
@@ -14,7 +21,6 @@
     "axios": "^0.27.2",
     "date-fns": "^2.29.1",
     "dotenv": "^16.0.1",
-    "firebaseui": "^6.0.1",
     "fs": "^0.0.1-security",
     "graphql": "^16.5.0",
     "graphql-request": "^4.3.0",

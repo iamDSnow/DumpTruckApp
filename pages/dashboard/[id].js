@@ -2,7 +2,7 @@ import { Container, Grid, Button, Box } from '@mui/material'
 import { Divider } from '@mui/material'
 import Layout from '../components/Layout'
 import Router from 'next/router'
-import { TicketContext } from '../components/helper/context'
+import { useSession } from 'next-auth/react'
 import * as React from 'react'
 import {Modal } from '@mui/material';
 import { makeStyles } from "@material-ui/styles";
@@ -249,7 +249,16 @@ export default function Details ({ data, id }) {
   const [loadDisplay, setLoadDisplay] = React.useState();
   const [totalLoadsUpdate, setTotalLoadsUpdate] = React.useState();
 
+  const session = useSession()
+  const [ticketData, setTicketData] = React.useState('')
+  const [ticket_IdInput, setTicket_IdInput] = React.useState('')
 
+
+  React.useEffect(() => {
+    if (session.status === 'authenticated')
+      setTicketData(JSON.parse(localStorage.getItem('data')))
+   
+  }, [session.status])
   React.useEffect(() => {
 
     data.data.Users.map(user => {
@@ -274,32 +283,6 @@ export default function Details ({ data, id }) {
   }, []);
 
 
-  // console.log(
-  //  rowTF ? data.data.Users.map(user => {
-  //   if (user.uid === id) {
-  //     return user.Tickets.filter(
-  //       item => item.ticket_id === selectedRow.ticket_id
-  //     ).map(ticket => {
-  //       return ticket.Loads.filter(
-  //         item => item.ticket_id === selectedRow.ticket_id
-  //       ).map(load => load.ton
-  //       ).reduce((a, b) => a + b, 0) 
-  //     })
-  //   }
-  //  } ): '0'
-  // )
-
-  // {rowTF ? <h1>{selectedRow.totalLoads}</h1> :  data.data.Users.map(user => {
-  //   if (user.uid === id) {
-  //     return user.Tickets.filter(
-  //       item => item.ticket_id === selectedRow.ticket_id
-  //     ).map(ticket => {
-  //       return ticket.Loads.filter(
-  //         item => item.ticket_id === selectedRow.ticket_id
-  //       ).map(load => load)
-  //     })
-  //   }
-  // })}
 
   //function to get opening data in state 
   function getD() {new Promise(resolve => {
@@ -319,34 +302,56 @@ export default function Details ({ data, id }) {
                 })
               }) : "null",
               
+              setTicket_IdInput( data.data.Users.map(user => {
+                return user.Tickets.map((tickets, i, row) => {
+                  if (i + 1 === row.length) {
+                    return( tickets.ticket_id
+                    )
+                      
+                  }
+                }).join('')
+              }))
               
               ) 
             }, 1000)
           })}
          
-                
+                // console.log(ticket_IdInput)
 
                 const handleOpen = () => {
                   setOpen(true);
                   setData({data});
+                  // setTotalLoadsUpdate(data.data.Users.map(user => {
+                  //   if (user.uid === id) {
+                  //     return user.Tickets.filter(
+                  //       item => item.ticket_id === ticketData.ticket_id
+                  //     ).map(ticket => {
+                  //       return JSON.stringify(ticket.Loads.filter(
+                  //         item => item.ticket_id === ticketData.ticket_id
+                  //       ).map(load => load.ton
+                  //       ).reduce((a, b) => a + b, 0) 
+                  //     )})
+                  //   }
+                  //  } ))
                   
                 };
               
                 const handleClose = async () => {
                
                    await setOpen(false);
-                   await setTotalLoadsUpdate(data.data.Users.map(user => {
+                   await  setTotalLoadsUpdate(data.data.Users.map(user => {
                     if (user.uid === id) {
                       return user.Tickets.filter(
-                        item => item.ticket_id === selectedRow.ticket_id
+                        item => item.ticket_id === ticketData.ticket_id
                       ).map(ticket => {
                         return JSON.stringify(ticket.Loads.filter(
-                          item => item.ticket_id === selectedRow.ticket_id
+                          item => item.ticket_id === ticketData.ticket_id
                         ).map(load => load.ton
                         ).reduce((a, b) => a + b, 0) 
                       )})
                     }
                    } ));
+                  
                 };
                
 
@@ -389,6 +394,7 @@ export default function Details ({ data, id }) {
                           setDT(list); 
                           handleClose(); 
                           setRowTF(true);
+                         
                           localStorage.setItem("data",JSON.stringify(list)); 
                          
         
@@ -540,8 +546,7 @@ export default function Details ({ data, id }) {
                   </Grid>
                   <Grid item xs={4}>
                     {rowTF ?  <p>{`TICKET: ` + selectedRow.ticket_id}</p> 
-                    : 
-                    data.data.Users.map(user => {
+                    :  data.data.Users.map(user => {
                       return user.Tickets.map((tickets, i, row) => {
                         if (i + 1 === row.length) {
                           return( <p>{`TICKET: ` + tickets.ticket_id}</p>
@@ -598,7 +603,18 @@ export default function Details ({ data, id }) {
         ).reduce((a, b) => a + b, 0) 
       })
     }
-   }): '0'}</h1> 
+   }):  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === Number(ticket_IdInput)
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === Number(ticket_IdInput)
+        ).map(load => load.ton
+        ).reduce((a, b) => a + b, 0) 
+      })
+    }
+   })}</h1> 
                 </Grid>
                 <Grid item xs={6}>
                   <Button

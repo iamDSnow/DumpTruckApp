@@ -357,7 +357,7 @@ const handleSubmit = async e => {
                     variant='outlined'
                     sx={{
                       height: '64.45px',
-                      width: '160px;',
+                      width: '150px;',
                       backgroundColor: '#A9A9A9',
                       color: '#000',
                       borderColor: 'transparent',
@@ -376,7 +376,8 @@ const handleSubmit = async e => {
                     variant='outlined'
                     sx={{
                       height: '64.45px',
-                      width: '170px;',
+                      marginLeft: '35px',
+                      width: '150px;',
                       backgroundColor: '#A9A9A9',
                       borderColor: 'transparent',
                       color: '#000',
