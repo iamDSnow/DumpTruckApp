@@ -1,23 +1,24 @@
 {
-    "name": "Dump Truck App",
-    "short_name": "App",
-    "icons": [
-      {
-        "src": "/images/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any maskable"
-      },
-      {
-        "src": "/images/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png"
-      }
-    ],
-    "theme_color": "#FFFFFF",
-    "background_color": "#FFFFFF",
-    "start_url": "/pages/index.js",
-    "display": "standalone",
-    "orientation": "portrait",
-    "scope": "/pages/"
-  }
+  "name": "Dump Truck App",
+  "short_name": "Dump Truck App",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#fff",
+  "theme_color": "#fff",
+  "orientation": "portrait",
+  "icons": [
+  
+    {
+      "src": "/images/android-chrome-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+   
+    {
+      "src": "/images/android-chrome-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}

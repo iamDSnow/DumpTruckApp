@@ -17,7 +17,7 @@ export default function Homepage() {
   direction="column"
   justifyContent="center"
   alignItems="center"
-  xs zeroMinWidth
+   zeroMinWidth
 >
   <Head>
   <meta name="application-name" content="Dump Truck App" />
@@ -25,11 +25,11 @@ export default function Homepage() {
 <meta name="apple-mobile-web-app-status-bar-style" content="default" />
 <meta name="apple-mobile-web-app-title" content="Dump Truck App" />
 <meta name="description" content="Dump Truck App" />
-<meta name="format-detection" content="telephone=no" />
+{/* <meta name="format-detection" content="telephone=no" />
 <meta name="mobile-web-app-capable" content="yes" />
-{/* <meta name="msapplication-config" content="/icons/browserconfig.xml" /> */}
+<meta name="msapplication-config" content="/icons/browserconfig.xml" />
 <meta name="msapplication-TileColor" content="#2B5797" />
-<meta name="msapplication-tap-highlight" content="no" />
+<meta name="msapplication-tap-highlight" content="no" /> */}
 <meta name="theme-color" content="#000000" />
 
 <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" />
@@ -39,8 +39,8 @@ export default function Homepage() {
 
 <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png" />
 <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png" />
-<link rel="manifest" href="/manifest.json" />
-<link rel="mask-icon" href="/images/apple-touch-icon.png" color="#fff" />
+<link rel="manifest" href="/public/manifest.json" />
+<link rel="mask-icon" href="/images/maskable_icon.png" color="#fff" />
 <link rel="shortcut icon" href="/images/favicon.ico" />
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
 
@@ -56,6 +56,7 @@ export default function Homepage() {
 <meta property="og:site_name" content="Dump Truck App" />
 <meta property="og:url" content="https://dump-truck-app.vercel.app" />
 <meta property="og:image" content="/images/logo.webp" />
+
   </Head>
 <Layout />
         <Image
