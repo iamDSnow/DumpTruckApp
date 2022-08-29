@@ -15,7 +15,6 @@ export default async function handler (req, res) {
   }
 
 
-  (async () => {
     try {
       await sgMail.send(msg);
     } catch (error) {
@@ -25,5 +24,5 @@ export default async function handler (req, res) {
         console.error(error.response.body)
       }
     }
-  })()
-}
+  }
+

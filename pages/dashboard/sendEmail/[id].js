@@ -1,11 +1,10 @@
 import { Container, Grid, Button } from '@mui/material'
-import { Divider } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Layout from '../../components/Layout'
 import * as React from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
-import { useSession, getSession } from 'next-auth/react'
+import { useSession } from 'next-auth/react'
 import NoSsr from '@mui/material/NoSsr'
 import Router from 'next/router'
 
@@ -151,225 +150,216 @@ export default function Details ({ data, id }) {
   const [tonInput, setTonInput] = React.useState('')
   const [ticketData, setTicketData] = React.useState('')
 
-  const API = process.env.NEXT_PUBLIC_SENDGRID;
+  function getD () {
+    new Promise(resolve => {
+      setTimeout(() => {
+        resolve(
+          
+  setContractorInput(
+    data.data.Users.map(user => {
+      if (user.uid === id) {
+        return user.Tickets.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(ticket => ticket.contractor)
+      }
+    }).join('')
+  ),
 
+setCustomerNameInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.customerName)
+    }
+  }).join('')
+),
+setCustomerNameInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.customerName)
+    }
+  }).join('')
+),
+setPhoneClientInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.phone)
+    }
+  }).join('')
+),
+setStartTimeInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.startTime)
+    }
+  }).join('')
+),
+setEndTimeInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.endTime)
+    }
+  }).join('')
+),
+setTotalHoursInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.totalHours)
+    }
+  }).join('')
+),
+setTotalLoadsInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.totalLoads)
+    }
+  }).join('')
+),
+setDeliveryLocationInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.deliveryLocation)
+    }
+  }).join('')
+),
+setNotesInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.notes)
+    }
+  }).join('')
+),
+setDriverLicInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.driverLic
+    }
+  }).join('')
+),
+setTruckNumberInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.truckPlateNumber
+    }
+  }).join('')
+),
+setPhoneInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.phone
+    }
+  }).join('')
+),
+setCompanyInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.company
+    }
+  }).join('')
+),
 
-  React.useEffect(() => {
-    if (session.status === 'authenticated')
-      setContractorInput(
-        data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.contractor)
-          }
-        }).join('')
-      )
+st.getTime(startTimeInput),
 
-    setCustomerNameInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.customerName)
-        }
-      }).join('')
-    )
-    setCustomerNameInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.customerName)
-        }
-      }).join('')
-    )
-    setPhoneClientInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.phone)
-        }
-      }).join('')
-    )
-    setStartTimeInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.startTime)
-        }
-      }).join('')
-    )
-    setEndTimeInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.endTime)
-        }
-      }).join('')
-    )
-    setTotalHoursInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.totalHours)
-        }
-      }).join('')
-    )
-    setTotalLoadsInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.totalLoads)
-        }
-      }).join('')
-    )
-    setDeliveryLocationInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.deliveryLocation)
-        }
-      }).join('')
-    )
-    setNotesInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => ticket.notes)
-        }
-      }).join('')
-    )
-    setDriverLicInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.driverLic
-        }
-      }).join('')
-    )
-    setTruckNumberInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.truckPlateNumber
-        }
-      }).join('')
-    )
-    setPhoneInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.phone
-        }
-      }).join('')
-    )
-    setCompanyInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.company
-        }
-      }).join('')
-    )
-    st.getTime(startTimeInput)
-    et.getTime(endTimeInput)
+et.getTime(endTimeInput),
 
-    setLoadIdInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(load => (load.load_id ))
-          })
-        }
+setLoadIdInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(load => (load.load_id ))
       })
-    )
-    setLoadSiteInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(load => (load.loadSite ))
-          })
-        }
+    }
+  })
+),
+setLoadSiteInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(load => (load.loadSite ))
       })
-    )
-    setTripNumberInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(load => (load.tripNumber ))
-          })
-        }
+    }
+  })
+),
+setTripNumberInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(load => (load.tripNumber ))
       })
-    )
-    setMaterialInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(load => (load.Material ))
-          })
-        }
+    }
+  })
+),
+setMaterialInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(load => (load.Material ))
       })
-    )
-     setTonInput(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(load => (load.ton ))
-          })
-        }
+    }
+  })
+),
+ setTonInput(
+  data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.filter(
+          item => item.ticket_id === ticketData.ticket_id
+        ).map(load => (load.ton ))
       })
-    )
-    setTicketData(JSON.parse(localStorage.getItem('data')))
-  }, [session.status])
+    }
+  })
+)
+ )
+return true
+      }, 1000)
+    })
+  }
+
+React.useEffect(() => {
+  if (session.status === 'authenticated') setGM(session.data.user.email)
+  setTicketData(JSON.parse(localStorage.getItem('data'))),
+
+  getD()
+}, [session.status])
 
   const st = new Date()
   const et = new Date()
 
-  // console.log( data.data.Users.map((user)=> {
-
-  //     if(user.uid === id){
-  //       return(
-  //         user.Tickets.map((ticket , i )=>{
-  //             if(ticket.ticket_id===ticketData.ticket_id ? console.log('error') : i === 0  ){
-  //             return(
-
-  //                 ticket.contractor
-  //             )
-  //             }
-  //         })
-  //       )
-  //     }
-
-  // }))
-
-  // item => item.ticket_id === ticketData.ticket_id
-
-  //    function tk(){
-  //      const tick =}
 async function handleSubmit (){
 
 const SG = ({
@@ -400,12 +390,9 @@ await fetch('/api/mail.js', {
 });
 
 fetch(
-  '/pages/api/mail.js',
+  '/api/mail.js',
   {
     method: 'POST',
-    headers: {
-      ['key']: API
-    },
     body: JSON.stringify(SG)
 
   }
@@ -413,6 +400,11 @@ fetch(
 
 }
 console.log(loadIdInput)
+
+if ( getD()===false){
+  return <div>loading</div>
+}
+else
   return (
     <>
       <Layout />
@@ -783,7 +775,7 @@ console.log(loadIdInput)
                     color: '#000'
                   }
                 }}
-                onClick={() => handleSubmit()}
+                onClick={() =>{; Router.push('../../dashboard/' + id);}}
 
               >
                 Send Email
