@@ -214,13 +214,21 @@ export default function Details ({ data, id }) {
   React.useEffect(() => {
     if (session.status === 'authenticated') 
     setGM(session.data.user.email),
+    localStorage.getItem('data')?
     setTicketData(JSON.parse(localStorage.getItem('data')))
+    : Router.push ('/dashboard/'+ id)
    
     
   }, [session.status])
   
  
   console.log(ticketData.ticket_id)
+  if (!ticketData.ticket_id){
+    return (<>
+    <h1>Please Create a Ticket</h1>
+    </>)
+  }
+  else
   return (
     <>
       <Layout />

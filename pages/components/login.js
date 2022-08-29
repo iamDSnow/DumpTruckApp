@@ -16,19 +16,16 @@ const SButton = styled(Button)`
   align-self: center;
 `
 
- function Login ()  {
+function Login ()  {
   const [d, setD] = useState()
+  const [isLoading, setLoading] = useState(false)
   const [gM, setGM] = useState()
   const { data: session, status }  =  useSession()
 
-  function getD(){
-    return true
-  }
+
 
   useEffect(() => {
     const ApiAsync = async () => {
-      if (status === 'authenticated') 
-{
       const resopnse = await fetch(
         "https://just-chamois-38.hasura.app/v1/graphql",
       {
@@ -49,33 +46,49 @@ const SButton = styled(Button)`
       }
     );
       const resopnseJson = await resopnse.json();
-  
-      setD(resopnseJson);
-    }
-    await ApiAsync(),
-    await setGM(session.user.email),
-    await getD()
-  }
-  }, [status]);
 
+  
+      await setD(resopnseJson);
+      await setLoading(true)
+    };
+    ApiAsync();
+  }, []);
+
+  React.useEffect(() => {
+    if (status === 'authenticated') 
+  
+    setGM(session.user.email)
+
+
+   
+    
+    
+  }, [status])
+
+  
   if (status === 'authenticated') {
     
    
-    if ( getD()===false){
-      return <div>loading</div>
-    }
-    else
-    d ?
+
+          isLoading ?
     
-     d.data.Users.map((user)=> {
+          d.data.Users.map((user)=> {
+       
+           if (user.email === gM) 
+     {
+             return Router.push('/dashboard/'+ user.uid.toString())   
+     }})
+         :
+            Router.push('/register')
+         
+
+// console.log(JSON.stringify(d))
+
+    //       (d ==='undefined')?
   
-      if (user.email === gM) 
-{
-        return Router.push('/dashboard/'+ user.uid.toString())   
-}})
-    :
-       Router.push('/register')
-    
+    // <div>...loading</div>
+    // :
+    // getE()
     
  
   
@@ -91,7 +104,9 @@ const SButton = styled(Button)`
         <SButton
           size='large'
           onClick={() => {
-            signIn('google', { callbackUrl: '/register/' })
+            signIn(
+              // 'google', { callbackUrl: '/register/' }
+              )
           }}
         >
           {' '}
