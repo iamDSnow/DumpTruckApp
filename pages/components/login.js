@@ -76,7 +76,7 @@ function Login ()  {
        
            if (user.email === gM) 
      {
-             return Router.push('/dashboard')   
+             return Router.push('/dashboard/'+ user.uid.toString())   
      }})
          :
             Router.push('/register')

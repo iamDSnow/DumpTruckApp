@@ -10,6 +10,8 @@ import Head from 'next/head';
 export default function Homepage() {
 
   return (
+    <>
+    
         <Grid
   container
   direction="column"
@@ -75,7 +77,7 @@ export default function Homepage() {
        </Stack>
        </Grid>
   
-   
+       </>
   
      
   );
