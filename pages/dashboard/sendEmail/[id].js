@@ -2,12 +2,10 @@ import { Container, Grid, Button } from '@mui/material'
 import TextField from '@mui/material/TextField'
 import Layout from '../../components/Layout'
 import * as React from 'react'
-import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { useSession } from 'next-auth/react'
 import NoSsr from '@mui/material/NoSsr'
 import Router from 'next/router'
-
 
 export const getStaticPaths = async () => {
   const res = await fetch('https://just-chamois-38.hasura.app/v1/graphql', {
@@ -120,7 +118,7 @@ export const getStaticProps = async context => {
 
   return {
     props: { data, id },
-    revalidate: 5
+    revalidate: 15
   }
 }
 
@@ -142,7 +140,7 @@ export default function Details ({ data, id }) {
   const [totalLoadsInput, setTotalLoadsInput] = React.useState(0)
   const [totalHoursInput, setTotalHoursInput] = React.useState('')
   const [customerNameInput, setCustomerNameInput] = React.useState('')
-  const session = useSession()
+  const {data: session, status} = useSession()
   const [loadIdInput, setLoadIdInput] = React.useState([])
   const [loadSiteInput, setLoadSiteInput ] = React.useState('')
   const [tripNumberInput, setTripNumberInput] = React.useState('')
@@ -351,16 +349,25 @@ return true
   }
 
 React.useEffect(() => {
-  if (session.status === 'authenticated') setGM(session.data.user.email)
+  if (status === 'authenticated')
+  { 
   setTicketData(JSON.parse(localStorage.getItem('data'))),
 
   getD()
-}, [session.status])
+  
+  return(()=>
+  {
+    getD()
+  })
+}
+}, [status])
 
   const st = new Date()
   const et = new Date()
 
 async function handleSubmit (){
+
+
 
 const SG = ({
   company: companyInput,
@@ -376,30 +383,25 @@ const SG = ({
   totalLoads: totalLoadsInput,
   totalHours: totalHoursInput,
   customerName: customerNameInput,
-  loadId: loadIdInput,
-  loadSite: loadSiteInput,
-  tripNumber: tripNumberInput,
-  material: materialInput,
-  ton: tonInput,
+  // loadId: loadIdInput,
+  // loadSite: loadSiteInput,
+  // tripNumber: tripNumberInput,
+  // material: materialInput,
+  // ton: tonInput,
 
 
 })
-await fetch('/api/mail.js', {
+try{
+await fetch('/api/mail', {
   method: 'POST',
-  body: JSON.stringify(SG)
-});
-
-fetch(
-  '/api/mail.js',
-  {
-    method: 'POST',
-    body: JSON.stringify(SG)
-
-  }
-)
-
+  body: JSON.stringify(SG),
+})
 }
-console.log(loadIdInput)
+catch(err){
+  console.log(err)
+}
+}
+// console.log(loadIdInput)
 
 if ( getD()===false){
   return <div>loading</div>
@@ -683,9 +685,7 @@ else
                     label='SITE'
                     value={load.loadSite}
                     name='loadSite'
-                    
-                    // onChange={e => setLoadSiteInput(e.target.value)}
-                  ></TextField>
+                    ></TextField>
                                 
                             </Grid>
 
@@ -775,7 +775,7 @@ else
                     color: '#000'
                   }
                 }}
-                onClick={() =>{; Router.push('../../dashboard/' + id);}}
+                onClick={() =>{ handleSubmit(); Router.push('/dashboard/' + id);}}
 
               >
                 Send Email
