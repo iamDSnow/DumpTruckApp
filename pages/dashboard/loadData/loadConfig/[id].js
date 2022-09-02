@@ -212,17 +212,20 @@ export default function Details ({ data, id }) {
     Router.push('../../loadData/' + id)
   }
 
-  const session = useSession()
+  const { data: session, status } = useSession()
   const [gM, setGM] = React.useState('')
   const [ticketData, setTicketData] = React.useState('')
   const [loadId, setLoadId] = React.useState('')
+  const [isLoading, setIsLoading] = React.useState(false)
+
 
   React.useEffect(() => {
-    if (session.status === 'authenticated') setGM(session.data.user.email)
-    setTicketData(JSON.parse(localStorage.getItem('data'))),
-      setLoadId(JSON.parse(localStorage.getItem('LOADID'))),
-      getD()
-  }, [session.status])
+    if (status === 'authenticated') 
+{    setTicketData(JSON.parse(localStorage.getItem('data'))),
+      setLoadId(JSON.parse(localStorage.getItem('LOADID')))
+    return()=>{
+    }}
+  }, [status])
 
   function getD () {
     new Promise(resolve => {
@@ -306,28 +309,20 @@ export default function Details ({ data, id }) {
               if (user.uid === id) {
                 return user.Tickets.filter(
                   item => item.ticket_id === ticketData.ticket_id
-                ).map(ticket => {
-                  return ticket.Loads.filter(
-                    item => item.ticket_id === ticketData.ticket_id
-                  )
-                    .map(load => {
-                      if (load.load_id === Number(loadId))
-                        return load.ticket_id
-                    })
-                    .join('')
-                })
+                ).map(ticket => ticket.ticket_id)
               }
-            })
+            }).join('')
           ),
+          setIsLoading(true)
+  
         )
-         return true
+        return()=>{true}
+
       }, 1000)
     })
   }
-  if ( getD()===false){
-    return <div>loading</div>
-  }
-  else
+  isLoading ? console.log('success') : getD()
+
   return (
     <>
       <Layout />

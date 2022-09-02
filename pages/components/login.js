@@ -18,6 +18,7 @@ const SButton = styled(Button)`
 
 function Login ()  {
   const [d, setD] = useState()
+  const [userArray, setUserArray] = useState()
   const [isLoading, setLoading] = useState(false)
   const [gM, setGM] = useState()
   const { data: session, status }  =  useSession()
@@ -59,7 +60,9 @@ function Login ()  {
   
     setGM(session.user.email)
 
-
+    d ? setUserArray(d.data.Users.map((user)=> {
+       
+      user.email})) : console.log('not logged')
    
     
     
@@ -69,17 +72,17 @@ function Login ()  {
   if (status === 'authenticated') {
     
    
-
+          
           isLoading ?
     
-          d.data.Users.map((user)=> {
-       
-           if (user.email === gM) 
-     {
-             return Router.push('/dashboard/'+ user.uid.toString())   
-     }})
+           userArray === gM ?
+     
+      d.data.Users.map((user)=> {
+             Router.push('/dashboard/'+ user.uid.toString())   
+     })
          :
             Router.push('/register')
+            :console.log('failed')
          
 
 // console.log(JSON.stringify(d))
@@ -100,7 +103,7 @@ function Login ()  {
   } else {
     return (
       <Wrapper>
-        <p> Please sign in.</p>
+        <p> </p>
         <SButton
           size='large'
           onClick={() => {

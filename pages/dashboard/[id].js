@@ -327,7 +327,8 @@ export default function Details ({ data, id }) {
                 const handleClose = async () => {
                
                    await setOpen(false);
-                   await  setTotalLoadsUpdate(data.data.Users.map(user => {
+
+                   await setTimeout(setTotalLoadsUpdate(data.data.Users.map(user => {
                     if (user.uid === id) {
                       return user.Tickets.filter(
                         item => item.ticket_id === ticketData.ticket_id
@@ -338,7 +339,7 @@ export default function Details ({ data, id }) {
                         ).reduce((a, b) => a + b, 0) 
                       )})
                     }
-                   } ));
+                   } )), 2000)
                   
                 };
                

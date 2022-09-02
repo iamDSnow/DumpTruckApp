@@ -156,12 +156,6 @@ export default function Details ({ data, id }) {
     })
   )
 
-  
-
-  //   filter(
-  //     item => item.ticket_id === ticketData.ticket_id
-  //   ).map(ticket => ticket)
-
   return (
     <>
       <Layout />
