@@ -263,7 +263,7 @@ export default function Details ({ data, id }) {
       startExecuteMyMutation()
     }
 
-    // Router.push('../../dashboard/' + id)
+    Router.push('../../dashboard/' + id)
   }
 
   const { data: session, status } = useSession()

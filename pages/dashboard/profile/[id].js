@@ -128,7 +128,6 @@ export default function Details ({ data, id }) {
   // console.log(data)
   const [gM, setGM] = React.useState('');
   const [emailInput, setEmailInput] = React.useState('')
-  const [ids, setIDs] = React.useState('');
   const [companyInput, setCompanyInput] = React.useState('');
   const [ticketData, setTicketData] =React.useState('');
   const [phoneInput, setPhoneInput] = React.useState('');

@@ -272,7 +272,7 @@ export default function Details ({ data, id }) {
         }).join('')
       : ''
 
-    const loadIdInput =  myFunction(
+    const loadIdInput = ticketData ?  myFunction(
       data.data.Users.map(user => {
         if (user.uid === id) {
           return user.Tickets.filter(
@@ -282,7 +282,7 @@ export default function Details ({ data, id }) {
           })
         }
       })
-    )
+    ):''
 
     //       const loadSiteInput
     //       = ticketData ? data.data.Users.map(user => {
@@ -360,9 +360,9 @@ export default function Details ({ data, id }) {
       console.log(SG)
       // Router.push('/dashboard/' + id);
     }
-    
+    loadIdInput?
     console.log(JSON.stringify(loadIdInput[0][0]))
-
+: console.log('did not run')
     return (
       <>
         <Layout />
