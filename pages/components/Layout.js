@@ -33,12 +33,14 @@ const Layout = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-  const [anchorElNav, setAnchorElNav] = React.useState(null);
+  const [anchorElNav, setAnchorElNav] = React.useState();
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   
   const [ids, setIDs] = React.useState('');
   const session = useSession();
   
+  const open = Boolean(anchorElNav);
+
 
   React.useEffect(() => {
     const data = window.localStorage.getItem('data');
@@ -110,7 +112,7 @@ const Layout = () => {
                 vertical: 'top',
                 horizontal: 'left',
               }}
-              open={Boolean(anchorElNav)}
+              open={open}
               onClose={handleCloseNavMenu}
               sx={{
                 display: { xs: 'block', md: 'none' },
@@ -203,7 +205,7 @@ onClick={() => { handleCloseUserMenu(); Router.push('/dashboard/profile/' + ids.
               return(
 
                 <div>
-                    <p> Please sign in.</p>
+                    <p></p>
                     
                 </div>
                 )

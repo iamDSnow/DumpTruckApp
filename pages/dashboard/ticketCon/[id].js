@@ -179,11 +179,6 @@ export default function Details ({ data, id }) {
   //Tab State
   const [value, setValue] = React.useState(0)
 
-  //Whos Hauling State
-  const [load_id, setLoad_id] = React.useState(0)
-  const [tripNumber, setTripNumber] = React.useState(0)
-  const [loadSite, setLoadSite] = React.useState('')
-  const [material, setMaterial] = React.useState('')
 
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -271,22 +266,23 @@ export default function Details ({ data, id }) {
     Router.push('../../dashboard/' + id)
   }
 
-  const session = useSession()
-  const [gM, setGM] = React.useState('')
+  const { data: session, status } = useSession()
+  const [isLoading, setIsLoading] = React.useState(false)
   const [ticketData, setTicketData] = React.useState('')
 
-  React.useEffect(() => {
-    if (session.status === 'authenticated') setGM(session.data.user.email)
-    setTicketData(JSON.parse(localStorage.getItem('data'))),
+  React.useEffect(async() => {
+    if (status === 'authenticated') {
+      
+{    await setTicketData(JSON.parse(localStorage.getItem('data')));
 
-    getD()
-  }, [session.status])
-
+    return()=>{}
+  }}
+  }, [status])
+ 
   function getD () {
     new Promise(resolve => {
       setTimeout(() => {
         resolve(
-          
           setContractorInput(
             data.data.Users.map(user => {
               if (user.uid === id) {
@@ -296,7 +292,7 @@ export default function Details ({ data, id }) {
               }
             }).join('')
           ),
-
+         
           setCustomerNameInput(
             data.data.Users.map(user => {
               if (user.uid === id) {
@@ -379,16 +375,17 @@ export default function Details ({ data, id }) {
                 ).map(ticket => ticket.ticket_id)
               }
             }).join('')
-          )
+          ),
+          setIsLoading(true)
+  
         )
-        return true
+        return()=>{true}
+
       }, 1000)
     })
   }
-if ( getD()===false){
-  return <div>loading</div>
-}
-else
+  isLoading ? console.log('success') : getD()
+
   return (
     <>
       <Layout />
@@ -455,7 +452,7 @@ else
                         id='outlined-required'
                         type='text'
                         label='Contractor'
-                        value={contractorInput}
+                        value={ contractorInput}
                         name='contractorInput'
                         style={{ width: 335 }}
                         onChange={e => setContractorInput(e.target.value)}
@@ -526,7 +523,6 @@ else
                         label='Total Hours'
                         name='totalHoursInput'
                         type='text'
-                        // defaultValue={ticketData.totalHours}
                         value={totalHoursInput}
                         InputLabelProps={{
                           shrink: true
