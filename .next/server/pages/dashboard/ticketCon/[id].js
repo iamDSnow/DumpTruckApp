@@ -230,11 +230,6 @@ function Details({ data , id  }) {
     const [ticket_idInput, setTicket_idInput] = external_react_.useState("");
     //Tab State
     const [value, setValue] = external_react_.useState(0);
-    //Whos Hauling State
-    const [load_id, setLoad_id] = external_react_.useState(0);
-    const [tripNumber, setTripNumber] = external_react_.useState(0);
-    const [loadSite, setLoadSite] = external_react_.useState("");
-    const [material, setMaterial] = external_react_.useState("");
     const handleChange = (event, newValue)=>{
         setValue(newValue);
     };
@@ -306,14 +301,18 @@ function Details({ data , id  }) {
         }
         router_default().push("../../dashboard/" + id);
     };
-    const session = (0,react_.useSession)();
-    const [gM, setGM] = external_react_.useState("");
+    const { data: session , status  } = (0,react_.useSession)();
+    const [isLoading, setIsLoading] = external_react_.useState(false);
     const [ticketData, setTicketData] = external_react_.useState("");
-    external_react_.useEffect(()=>{
-        if (session.status === "authenticated") setGM(session.data.user.email);
-        setTicketData(JSON.parse(localStorage.getItem("data"))), getD();
+    external_react_.useEffect(async ()=>{
+        if (status === "authenticated") {
+            {
+                await setTicketData(JSON.parse(localStorage.getItem("data")));
+                return ()=>{};
+            }
+        }
     }, [
-        session.status
+        status
     ]);
     function getD() {
         new Promise((resolve)=>{
@@ -358,16 +357,15 @@ function Details({ data , id  }) {
                     if (user.uid === id) {
                         return user.Tickets.filter((item)=>item.ticket_id === ticketData.ticket_id).map((ticket)=>ticket.ticket_id);
                     }
-                }).join("")));
-                return true;
+                }).join("")), setIsLoading(true));
+                return ()=>{
+                    true;
+                };
             }, 1000);
         });
     }
-    if (getD() === false) {
-        return /*#__PURE__*/ jsx_runtime_.jsx("div", {
-            children: "loading"
-        });
-    } else return /*#__PURE__*/ (0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
+    isLoading ? console.log("success") : getD();
+    return /*#__PURE__*/ (0,jsx_runtime_.jsxs)(jsx_runtime_.Fragment, {
         children: [
             /*#__PURE__*/ jsx_runtime_.jsx(Layout["default"], {}),
             /*#__PURE__*/ (0,jsx_runtime_.jsxs)((NoSsr_default()), {
@@ -568,7 +566,6 @@ function Details({ data , id  }) {
                                                                     label: "Total Hours",
                                                                     name: "totalHoursInput",
                                                                     type: "text",
-                                                                    // defaultValue={ticketData.totalHours}
                                                                     value: totalHoursInput,
                                                                     InputLabelProps: {
                                                                         shrink: true

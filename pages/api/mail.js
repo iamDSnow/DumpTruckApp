@@ -4,9 +4,9 @@ export default async function handler (req, res) {
     await mail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID)
 
     
-  const appContractor = req.contractor
+    const appContractor = await req.contractor
 
-  const msg = {
+  const msg = await {
     to: 'suprawhiz@gmail.com',
     from: 'suprawhiz@gmail.com',
     subject: 'JOB APPLICATION:',
@@ -16,7 +16,7 @@ export default async function handler (req, res) {
 
 
     try {
-      await sgMail.send(msg);
+      await msg.send();
     } catch (error) {
       console.error(error);
   

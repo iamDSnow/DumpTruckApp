@@ -81,10 +81,11 @@ const Layout = ()=>{
     const handleCloseUserMenu = ()=>{
         setAnchorElUser(null);
     };
-    const [anchorElNav, setAnchorElNav] = react__WEBPACK_IMPORTED_MODULE_1__.useState(null);
+    const [anchorElNav, setAnchorElNav] = react__WEBPACK_IMPORTED_MODULE_1__.useState();
     const [anchorElUser, setAnchorElUser] = react__WEBPACK_IMPORTED_MODULE_1__.useState(null);
     const [ids, setIDs] = react__WEBPACK_IMPORTED_MODULE_1__.useState("");
     const session = (0,next_auth_react__WEBPACK_IMPORTED_MODULE_15__.useSession)();
+    const open = Boolean(anchorElNav);
     react__WEBPACK_IMPORTED_MODULE_1__.useEffect(()=>{
         const data = window.localStorage.getItem("data");
         if (data !== null) setIDs(JSON.parse(data));
@@ -162,7 +163,7 @@ const Layout = ()=>{
                                             vertical: "top",
                                             horizontal: "left"
                                         },
-                                        open: Boolean(anchorElNav),
+                                        open: open,
                                         onClose: handleCloseNavMenu,
                                         sx: {
                                             display: {
@@ -269,9 +270,7 @@ const Layout = ()=>{
         });
     }
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
-            children: " Please sign in."
-        })
+        children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {})
     });
 };
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Layout);

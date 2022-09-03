@@ -39,7 +39,7 @@ const SButton = styled_components__WEBPACK_IMPORTED_MODULE_4___default()(_mui_ma
 `;
 function Login() {
     const { 0: d , 1: setD  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
-    const { 0: isLoading , 1: setLoading  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
+    const { 0: isLoading , 1: setLoading  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
     const { 0: gM , 1: setGM  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)();
     const { data: session , status  } = (0,next_auth_react__WEBPACK_IMPORTED_MODULE_2__.useSession)();
     (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{
@@ -63,8 +63,10 @@ function Login() {
                 })
             });
             const resopnseJson = await resopnse.json();
-            await setD(resopnseJson);
-            await setLoading(true);
+            await setD(resopnseJson.data.Users.map((user)=>{
+                user.email;
+            }));
+            await setLoading(resopnseJson);
         };
         ApiAsync();
     }, []);
@@ -74,11 +76,7 @@ function Login() {
         status
     ]);
     if (status === "authenticated") {
-        isLoading ? d.data.Users.map((user)=>{
-            if (user.email === gM) {
-                return next_router__WEBPACK_IMPORTED_MODULE_5___default().push("/dashboard/" + user.uid.toString());
-            }
-        }) : next_router__WEBPACK_IMPORTED_MODULE_5___default().push("/register");
+        d === gM ? next_router__WEBPACK_IMPORTED_MODULE_5___default().push("/thankyou") : next_router__WEBPACK_IMPORTED_MODULE_5___default().push("/register");
         // console.log(JSON.stringify(d))
         //       (d ==='undefined')?
         // <div>...loading</div>

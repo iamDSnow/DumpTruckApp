@@ -22,8 +22,8 @@ __webpack_require__.r(__webpack_exports__);
 const mail = __webpack_require__(2139);
 async function handler(req, res) {
     await mail.setApiKey("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");
-    const appContractor = req.contractor;
-    const msg = {
+    const appContractor = await req.contractor;
+    const msg = await {
         to: "suprawhiz@gmail.com",
         from: "suprawhiz@gmail.com",
         subject: "JOB APPLICATION:",
@@ -31,7 +31,7 @@ async function handler(req, res) {
         html: appContractor
     };
     try {
-        await sgMail.send(msg);
+        await msg.send();
     } catch (error) {
         console.error(error);
         if (error.response) {

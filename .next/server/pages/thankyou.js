@@ -99,6 +99,7 @@ const ThankYou = ({ reg  })=>{
             } else return "";
         }).reduce((a, b)=>a + b, 0).replace("NaN", "");
         localStorage.setItem("u", JSON.stringify(id));
+        console.log(id);
         if (id) {
             return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(Redirect, {
                 to: "/dashboard/" + id.substring(1)
