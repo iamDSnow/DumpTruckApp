@@ -18,7 +18,7 @@ const SButton = styled(Button)`
 
 function Login ()  {
   const [d, setD] = useState()
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState()
   const [gM, setGM] = useState()
   const { data: session, status }  =  useSession()
 
@@ -48,8 +48,13 @@ function Login ()  {
       const resopnseJson = await resopnse.json();
 
   
-      await setD(resopnseJson);
-      await setLoading(true)
+      await setD(resopnseJson.data.Users.map((user)=> {
+       
+        user.email 
+  
+           
+  }));
+      await setLoading(resopnseJson)
     };
     ApiAsync();
   }, []);
@@ -70,14 +75,12 @@ function Login ()  {
     
    
 
-          isLoading ?
+        
+        
+         d=== gM? 
     
-          d.data.Users.map((user)=> {
-       
-           if (user.email === gM) 
-     {
-             return Router.push('/dashboard/'+ user.uid.toString())   
-     }})
+             
+   Router.push('/thankyou')
          :
             Router.push('/register')
          
