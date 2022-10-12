@@ -120,6 +120,7 @@ const ThankYou = ({ reg }) => {
     const { phone } = usePhone();
     const { id } = useID();
     const loading =  null;
+    const redir = null;
 
     var filtered = phone.filter(function (el) {
       return el != null;
@@ -131,6 +132,8 @@ const ThankYou = ({ reg }) => {
       }
     } else {
       setTimeout( loading = true, 4000);
+      redir = true
+
     }
 
     // const plainPhone =(JSON.stringify(phone))
@@ -139,10 +142,13 @@ const ThankYou = ({ reg }) => {
     console.log(filtered);
     console.log(loading);
 
-    if(loading===true){
+    if(loading===true|| redir === true){
        router.push("/dashboard/" + id.substring(1))
     }
-      else {router.push("/register")};
+      else {router.push("/register")
+      redir =true
+    
+    };
 
     // function Redirect({to}){
     //   const router = useRouter();
