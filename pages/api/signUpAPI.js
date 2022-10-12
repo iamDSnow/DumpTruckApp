@@ -1,17 +1,8 @@
 export default async function  handler(req, res) {
   // Get data submitted in request's body.
-  const data = req.body
+  const data = await req.body
 
- 
-
-  const responseBody = {
-    app_metadata: {
-      roles: ["new"],
-      my_user_info: "New User",
-    },
-  };
-
-  const responseBodyString = JSON.stringify({
+  const responseBodyString =  JSON.stringify({
     query: `
   mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
     insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
@@ -32,7 +23,7 @@ export default async function  handler(req, res) {
     },
   });
 // Optional logging to see the responses
-  console.log('body: ', data)
+   console.log('body: ', data)
 
 
   const response = await fetch(
@@ -43,11 +34,11 @@ export default async function  handler(req, res) {
       headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
     }
   );
-  console.log("finished");
   const { errors, payload } = await response.json();
   if (errors) {
     console.log(errors);
-  } else return { statusCode: 200, body: JSON.stringify(responseBody) };
+  } else 
+  return { statusCode: 200, body: JSON.stringify(payload) };
 
 
   if (!data.firstName) {
@@ -57,5 +48,8 @@ export default async function  handler(req, res) {
 
   // // Found the name.
   // // Sends a HTTP success code
-  res.status(200)
+ console.log(res.status());
+  await res.status(200);
+
+
 }
