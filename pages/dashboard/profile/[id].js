@@ -22,7 +22,6 @@ export const getStaticPaths = async () => {
               email
               company
               firstName
-              lastName
               phone
               driverLic
               truckPlateNumber
@@ -86,7 +85,6 @@ export const getStaticProps = async context => {
             email
             company
             firstName
-            lastName
             phone
             driverLic
             truckPlateNumber
