@@ -1,1 +1,0 @@
-{"pageProps":{"data":{"errors":[{"extensions":{"code":"tenant-limit-exceeded","path":"$"},"message":"hasura cloud limit of 60 requests/minute exceeded"}]},"id":"4c4e93b5-2b5e-40c7-860b-7ff0904de237"},"__N_SSG":true}

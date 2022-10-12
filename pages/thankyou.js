@@ -115,13 +115,22 @@ const ThankYou = ({reg}) => {
     }).reduce((a, b) => a + b, 0).replace('NaN', '') })
 
    
+    // function onlyNumbers(array) {
+    //   return array.every(element => {
+    //     return typeof element === 'number';
+    //   });
+    // }
     
+
     const { phone } = usePhone()
     const { id } = useID()
     const loading = null
 
+    var filtered = phone.filter(function (el) {
+      return el != null;
+    });
 
-    if (phone.length<=5){
+    if (!filtered?.length){
       {
 loading =false
    }
@@ -137,10 +146,17 @@ loading =false
  
 
 
-    console.log(phone)
 
 
-     loading ?    router.push( "/dashboard/" + id.substring(1))
+    // const plainPhone =(JSON.stringify(phone))
+
+    // console.log(onlyNumbers(plainPhone))
+    console.log(filtered)
+    console.log(loading)
+
+
+
+    loading ?   router.push( "/dashboard/" + id.substring(1))
      :
 
   router.push('/register')

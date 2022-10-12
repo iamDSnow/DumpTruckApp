@@ -116,6 +116,8 @@ function Redirect({to}){
   alert(`Is this your full name: ${result.data}`)
 
 
+// await  setShouldRedirect(true);
+
     }
     const handleOpen = index => {
       setOpen(true);
@@ -135,9 +137,9 @@ function Redirect({to}){
 
     localStorage.setItem("u",JSON.stringify(id));
 
-// if(shouldRedirect){
-//   return <Redirect to={"/thankyou" } />
-// }
+if(shouldRedirect){
+  return <Redirect to={"/thankyou" } />
+}
 
       return (
       
@@ -237,8 +239,8 @@ function Redirect({to}){
       </Grid>
         
         <Button type="submit" onClick={() => { handleSubmit(); 
-          // setShouldRedirect(true);
-          router.push('/thankyou');
+          setShouldRedirect(true);
+
           } }>Create</Button>
       
       </FormWrapper>

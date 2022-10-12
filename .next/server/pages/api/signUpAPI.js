@@ -1,73 +1,25 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 636;
-exports.ids = [636];
+exports.id = "pages/api/signUpAPI";
+exports.ids = ["pages/api/signUpAPI"];
 exports.modules = {
 
-/***/ 3563:
+/***/ "(api)/./pages/api/signUpAPI.js":
+/*!********************************!*\
+  !*** ./pages/api/signUpAPI.js ***!
+  \********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ handler)
-/* harmony export */ });
-async function handler(req, res) {
-    // Get data submitted in request's body.
-    const data = req.body;
-    const responseBody = {
-        app_metadata: {
-            roles: [
-                "new"
-            ],
-            my_user_info: "New User"
-        }
-    };
-    const responseBodyString = JSON.stringify({
-        query: `
-  mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
-    insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
-      affected_rows
-    }
-  }
-`,
-        variables: {
-            firstName: data.firstName,
-            email: data.email,
-            phone: data.phoneNumber,
-            company: data.comName,
-            truckPlateNumber: data.truckPlateNumber,
-            driverLic: data.driverLic
-        }
-    });
-    // Optional logging to see the responses
-    console.log("body: ", data);
-    const response = await fetch("https://just-chamois-38.hasura.app/v1/graphql", {
-        method: "POST",
-        body: responseBodyString,
-        headers: {
-            ["x-hasura-admin-secret"]: "MLy43KG049rHc1UVMsodU7dVHYrouGG3KEJ18Pm7z45qdxhZqAcnVte00i7uO4HY"
-        }
-    });
-    console.log("finished");
-    const { errors , payload  } = await response.json();
-    if (errors) {
-        console.log(errors);
-    } else return {
-        statusCode: 200,
-        body: JSON.stringify(responseBody)
-    };
-    if (!data.firstName) {
-        // Sends a HTTP bad request error code
-        return res.status(400).json({
-            data: "badHTTP"
-        });
-    }
-    // // Found the name.
-    // // Sends a HTTP success code
-    res.status(200);
-};
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (/* binding */ handler)\n/* harmony export */ });\nasync function handler(req, res) {\n    // Get data submitted in request's body.\n    const data = req.body;\n    const responseBody = {\n        app_metadata: {\n            roles: [\n                \"new\"\n            ],\n            my_user_info: \"New User\"\n        }\n    };\n    const responseBodyString = JSON.stringify({\n        query: `\n  mutation MyMutation($phone: String = \"\", $truckPlateNumber: String = \"\", $firstName: String = \"\", $email: String = \"\", $driverLic: String = \"\", $company: String = \"\") {\n    insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {\n      affected_rows\n    }\n  }\n`,\n        variables: {\n            firstName: data.firstName,\n            email: data.email,\n            phone: data.phoneNumber,\n            company: data.comName,\n            truckPlateNumber: data.truckPlateNumber,\n            driverLic: data.driverLic\n        }\n    });\n    // Optional logging to see the responses\n    console.log(\"body: \", data);\n    const response = await fetch(\"https://just-chamois-38.hasura.app/v1/graphql\", {\n        method: \"POST\",\n        body: responseBodyString,\n        headers: {\n            [\"x-hasura-admin-secret\"]: \"MLy43KG049rHc1UVMsodU7dVHYrouGG3KEJ18Pm7z45qdxhZqAcnVte00i7uO4HY\"\n        }\n    });\n    console.log(\"finished\");\n    const { errors , payload  } = await response.json();\n    if (errors) {\n        console.log(errors);\n    } else return {\n        statusCode: 200,\n        body: JSON.stringify(responseBody)\n    };\n    if (!data.firstName) {\n        // Sends a HTTP bad request error code\n        return res.status(400).json({\n            data: \"badHTTP\"\n        });\n    }\n    // // Found the name.\n    // // Sends a HTTP success code\n    res.status(200);\n};\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiKGFwaSkvLi9wYWdlcy9hcGkvc2lnblVwQVBJLmpzLmpzIiwibWFwcGluZ3MiOiI7Ozs7QUFBZSxlQUFnQkEsT0FBTyxDQUFDQyxHQUFHLEVBQUVDLEdBQUcsRUFBRTtJQUMvQyx3Q0FBd0M7SUFDeEMsTUFBTUMsSUFBSSxHQUFHRixHQUFHLENBQUNHLElBQUk7SUFJckIsTUFBTUMsWUFBWSxHQUFHO1FBQ25CQyxZQUFZLEVBQUU7WUFDWkMsS0FBSyxFQUFFO2dCQUFDLEtBQUs7YUFBQztZQUNkQyxZQUFZLEVBQUUsVUFBVTtTQUN6QjtLQUNGO0lBRUQsTUFBTUMsa0JBQWtCLEdBQUdDLElBQUksQ0FBQ0MsU0FBUyxDQUFDO1FBQ3hDQyxLQUFLLEVBQUUsQ0FBQzs7Ozs7O0FBTVosQ0FBQztRQUNHQyxTQUFTLEVBQUU7WUFFVEMsU0FBUyxFQUFFWCxJQUFJLENBQUNXLFNBQVM7WUFDekJDLEtBQUssRUFBRVosSUFBSSxDQUFDWSxLQUFLO1lBQ2pCQyxLQUFLLEVBQUViLElBQUksQ0FBQ2MsV0FBVztZQUN2QkMsT0FBTyxFQUFFZixJQUFJLENBQUNnQixPQUFPO1lBQ3JCQyxnQkFBZ0IsRUFBRWpCLElBQUksQ0FBQ2lCLGdCQUFnQjtZQUN2Q0MsU0FBUyxFQUFFbEIsSUFBSSxDQUFDa0IsU0FBUztTQUcxQjtLQUNGLENBQUM7SUFDSix3Q0FBd0M7SUFDdENDLE9BQU8sQ0FBQ0MsR0FBRyxDQUFDLFFBQVEsRUFBRXBCLElBQUksQ0FBQztJQUczQixNQUFNcUIsUUFBUSxHQUFHLE1BQU1DLEtBQUssQ0FDMUIsK0NBQStDLEVBQy9DO1FBQ0VDLE1BQU0sRUFBRSxNQUFNO1FBQ2R0QixJQUFJLEVBQUVLLGtCQUFrQjtRQUN4QmtCLE9BQU8sRUFBRTtZQUFFLENBQUMsdUJBQXVCLENBQUMsRUFBRUMsa0VBQXFDO1NBQUU7S0FDOUUsQ0FDRjtJQUNETixPQUFPLENBQUNDLEdBQUcsQ0FBQyxVQUFVLENBQUMsQ0FBQztJQUN4QixNQUFNLEVBQUVRLE1BQU0sR0FBRUMsT0FBTyxHQUFFLEdBQUcsTUFBTVIsUUFBUSxDQUFDUyxJQUFJLEVBQUU7SUFDakQsSUFBSUYsTUFBTSxFQUFFO1FBQ1ZULE9BQU8sQ0FBQ0MsR0FBRyxDQUFDUSxNQUFNLENBQUMsQ0FBQztLQUNyQixNQUFNLE9BQU87UUFBRUcsVUFBVSxFQUFFLEdBQUc7UUFBRTlCLElBQUksRUFBRU0sSUFBSSxDQUFDQyxTQUFTLENBQUNOLFlBQVksQ0FBQztLQUFFLENBQUM7SUFHdEUsSUFBSSxDQUFDRixJQUFJLENBQUNXLFNBQVMsRUFBRTtRQUNuQixzQ0FBc0M7UUFDdEMsT0FBT1osR0FBRyxDQUFDaUMsTUFBTSxDQUFDLEdBQUcsQ0FBQyxDQUFDRixJQUFJLENBQUM7WUFBRTlCLElBQUksRUFBRSxTQUFTO1NBQUUsQ0FBQztLQUNqRDtJQUVELHFCQUFxQjtJQUNyQiwrQkFBK0I7SUFDL0JELEdBQUcsQ0FBQ2lDLE1BQU0sQ0FBQyxHQUFHLENBQUM7Q0FDaEIiLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly9uZXh0LWpzLWFwcC8uL3BhZ2VzL2FwaS9zaWduVXBBUEkuanM/NzE4MSJdLCJzb3VyY2VzQ29udGVudCI6WyJleHBvcnQgZGVmYXVsdCBhc3luYyBmdW5jdGlvbiAgaGFuZGxlcihyZXEsIHJlcykge1xuICAvLyBHZXQgZGF0YSBzdWJtaXR0ZWQgaW4gcmVxdWVzdCdzIGJvZHkuXG4gIGNvbnN0IGRhdGEgPSByZXEuYm9keVxuXG4gXG5cbiAgY29uc3QgcmVzcG9uc2VCb2R5ID0ge1xuICAgIGFwcF9tZXRhZGF0YToge1xuICAgICAgcm9sZXM6IFtcIm5ld1wiXSxcbiAgICAgIG15X3VzZXJfaW5mbzogXCJOZXcgVXNlclwiLFxuICAgIH0sXG4gIH07XG5cbiAgY29uc3QgcmVzcG9uc2VCb2R5U3RyaW5nID0gSlNPTi5zdHJpbmdpZnkoe1xuICAgIHF1ZXJ5OiBgXG4gIG11dGF0aW9uIE15TXV0YXRpb24oJHBob25lOiBTdHJpbmcgPSBcIlwiLCAkdHJ1Y2tQbGF0ZU51bWJlcjogU3RyaW5nID0gXCJcIiwgJGZpcnN0TmFtZTogU3RyaW5nID0gXCJcIiwgJGVtYWlsOiBTdHJpbmcgPSBcIlwiLCAkZHJpdmVyTGljOiBTdHJpbmcgPSBcIlwiLCAkY29tcGFueTogU3RyaW5nID0gXCJcIikge1xuICAgIGluc2VydF9Vc2VycyhvYmplY3RzOiB7dHJ1Y2tQbGF0ZU51bWJlcjogJHRydWNrUGxhdGVOdW1iZXIsIHBob25lOiAkcGhvbmUsIGZpcnN0TmFtZTogJGZpcnN0TmFtZSwgZW1haWw6ICRlbWFpbCwgZHJpdmVyTGljOiAkZHJpdmVyTGljLCBjb21wYW55OiAkY29tcGFueX0pIHtcbiAgICAgIGFmZmVjdGVkX3Jvd3NcbiAgICB9XG4gIH1cbmAsXG4gICAgdmFyaWFibGVzOiB7XG4gICAgICBcbiAgICAgIGZpcnN0TmFtZTogZGF0YS5maXJzdE5hbWUsXG4gICAgICBlbWFpbDogZGF0YS5lbWFpbCxcbiAgICAgIHBob25lOiBkYXRhLnBob25lTnVtYmVyLFxuICAgICAgY29tcGFueTogZGF0YS5jb21OYW1lLFxuICAgICAgdHJ1Y2tQbGF0ZU51bWJlcjogZGF0YS50cnVja1BsYXRlTnVtYmVyLFxuICAgICAgZHJpdmVyTGljOiBkYXRhLmRyaXZlckxpYyxcbiAgICAgIFxuICAgICAgXG4gICAgfSxcbiAgfSk7XG4vLyBPcHRpb25hbCBsb2dnaW5nIHRvIHNlZSB0aGUgcmVzcG9uc2VzXG4gIGNvbnNvbGUubG9nKCdib2R5OiAnLCBkYXRhKVxuXG5cbiAgY29uc3QgcmVzcG9uc2UgPSBhd2FpdCBmZXRjaChcbiAgICBcImh0dHBzOi8vanVzdC1jaGFtb2lzLTM4Lmhhc3VyYS5hcHAvdjEvZ3JhcGhxbFwiLFxuICAgIHtcbiAgICAgIG1ldGhvZDogXCJQT1NUXCIsXG4gICAgICBib2R5OiByZXNwb25zZUJvZHlTdHJpbmcsXG4gICAgICBoZWFkZXJzOiB7IFtcIngtaGFzdXJhLWFkbWluLXNlY3JldFwiXTogcHJvY2Vzcy5lbnYuTkVYVF9QVUJMSUNfSEFTVVJBX1NFQ1JFVCB9LFxuICAgIH1cbiAgKTtcbiAgY29uc29sZS5sb2coXCJmaW5pc2hlZFwiKTtcbiAgY29uc3QgeyBlcnJvcnMsIHBheWxvYWQgfSA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKTtcbiAgaWYgKGVycm9ycykge1xuICAgIGNvbnNvbGUubG9nKGVycm9ycyk7XG4gIH0gZWxzZSByZXR1cm4geyBzdGF0dXNDb2RlOiAyMDAsIGJvZHk6IEpTT04uc3RyaW5naWZ5KHJlc3BvbnNlQm9keSkgfTtcblxuXG4gIGlmICghZGF0YS5maXJzdE5hbWUpIHtcbiAgICAvLyBTZW5kcyBhIEhUVFAgYmFkIHJlcXVlc3QgZXJyb3IgY29kZVxuICAgIHJldHVybiByZXMuc3RhdHVzKDQwMCkuanNvbih7IGRhdGE6ICdiYWRIVFRQJyB9KVxuICB9XG5cbiAgLy8gLy8gRm91bmQgdGhlIG5hbWUuXG4gIC8vIC8vIFNlbmRzIGEgSFRUUCBzdWNjZXNzIGNvZGVcbiAgcmVzLnN0YXR1cygyMDApXG59Il0sIm5hbWVzIjpbImhhbmRsZXIiLCJyZXEiLCJyZXMiLCJkYXRhIiwiYm9keSIsInJlc3BvbnNlQm9keSIsImFwcF9tZXRhZGF0YSIsInJvbGVzIiwibXlfdXNlcl9pbmZvIiwicmVzcG9uc2VCb2R5U3RyaW5nIiwiSlNPTiIsInN0cmluZ2lmeSIsInF1ZXJ5IiwidmFyaWFibGVzIiwiZmlyc3ROYW1lIiwiZW1haWwiLCJwaG9uZSIsInBob25lTnVtYmVyIiwiY29tcGFueSIsImNvbU5hbWUiLCJ0cnVja1BsYXRlTnVtYmVyIiwiZHJpdmVyTGljIiwiY29uc29sZSIsImxvZyIsInJlc3BvbnNlIiwiZmV0Y2giLCJtZXRob2QiLCJoZWFkZXJzIiwicHJvY2VzcyIsImVudiIsIk5FWFRfUFVCTElDX0hBU1VSQV9TRUNSRVQiLCJlcnJvcnMiLCJwYXlsb2FkIiwianNvbiIsInN0YXR1c0NvZGUiLCJzdGF0dXMiXSwic291cmNlUm9vdCI6IiJ9\n//# sourceURL=webpack-internal:///(api)/./pages/api/signUpAPI.js\n");
 
 /***/ })
 
@@ -78,7 +30,7 @@ async function handler(req, res) {
 var __webpack_require__ = require("../../webpack-api-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(3563));
+var __webpack_exports__ = (__webpack_exec__("(api)/./pages/api/signUpAPI.js"));
 module.exports = __webpack_exports__;
 
 })();

@@ -1,297 +1,82 @@
 "use strict";
+/*
+ * ATTENTION: An "eval-source-map" devtool has been used.
+ * This devtool is neither made for production nor for readable output files.
+ * It uses "eval()" calls to create a separate source file with attached SourceMaps in the browser devtools.
+ * If you are trying to read the output file, select a different devtool (https://webpack.js.org/configuration/devtool/)
+ * or disable the default devtool with "devtool: false".
+ * If you are looking for production-ready output files, see mode: "production" (https://webpack.js.org/configuration/mode/).
+ */
 (() => {
 var exports = {};
-exports.id = 495;
-exports.ids = [495,260];
+exports.id = "pages/register";
+exports.ids = ["pages/register"];
 exports.modules = {
 
-/***/ 72:
+/***/ "./pages/register.js":
+/*!***************************!*\
+  !*** ./pages/register.js ***!
+  \***************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
-/* harmony export */   "getStaticProps": () => (/* binding */ getStaticProps)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(997);
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(6689);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(7518);
-/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(5692);
-/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var next_auth_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(1649);
-/* harmony import */ var next_auth_react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_auth_react__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(1853);
-/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_5__);
-
-
-
-
-
-
-const getStaticProps = async ()=>{
-    await fetch("https://just-chamois-38.hasura.app/v1/graphql");
-    const response = await fetch("https://just-chamois-38.hasura.app/v1/graphql", {
-        method: "POST",
-        headers: {
-            ["x-hasura-admin-secret"]: "MLy43KG049rHc1UVMsodU7dVHYrouGG3KEJ18Pm7z45qdxhZqAcnVte00i7uO4HY"
-        },
-        body: JSON.stringify({
-            query: `
-        query MyQuery {
-          Users {
-            uid
-            email
-          }
-        }
-      `
-        })
-    });
-    const reg = await response.json();
-    return {
-        props: {
-            reg
-        }
-    };
-};
-const Register = ({ reg  })=>{
-    const { 0: firstName , 1: setFirstName  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: driverLic , 1: setDriverLic  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: email , 1: setEmail  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: phoneNumber , 1: setPhoneNumber  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: comName , 1: setComName  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: truckPlateNumber , 1: setTruckPlateNumber  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)("");
-    const { 0: shouldRedirect , 1: setShouldRedirect  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);
-    const { data: session , status  } = (0,next_auth_react__WEBPACK_IMPORTED_MODULE_4__.useSession)();
-    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
-    if (status === "loading") {
-        return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
-            children: "Loading..."
-        });
-    }
-    if (status === "unauthenticated") {
-        return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("p", {
-            children: "Access Denied"
-        });
-    }
-    if (status === "authenticated") {
-        const gM = session.user.email;
-        const uName = session.user.name;
-        // console.log(reg.data.Users.map(user => {
-        //   if (user.email === gM) {
-        //     return user.uid
-        //   }
-        // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )
-        function Redirect({ to  }) {
-            const router = (0,next_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();
-            (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{
-                router.push(to);
-            }, [
-                to
-            ]);
-            return null;
-        }
-        const handleSubmit = async (e)=>{
-            const data1 = {
-                firstName: session.user.name,
-                driverLic: driverLic,
-                email: session.user.email,
-                phoneNumber: phoneNumber,
-                comName: comName,
-                truckPlateNumber: truckPlateNumber
-            };
-            // Send the data to the server in JSON format.
-            const JSONdata = JSON.stringify(data1);
-            // console.log(JSONdata)
-            const endpoint = "/api/signUpAPI";
-            const options = {
-                // The method is POST because we are sending data.
-                method: "POST",
-                // Tell the server we're sending JSON.
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                // Body of the request is the JSON data we created above.
-                body: JSONdata
-            };
-            const response = await fetch(endpoint, options);
-            const result = await response.json();
-            alert(`Is this your full name: ${result.data}`);
-        };
-        const handleOpen = (index)=>{
-            setOpen(true);
-            setData(data[index]);
-        };
-        const handleClose = ()=>{
-            setOpen(false);
-        };
-        const id = reg.data.Users.map((user)=>{
-            if (user.email === gM) {
-                return user.uid;
-            } else return "";
-        }).reduce((a, b)=>a + b, 0).replace("NaN", "");
-        localStorage.setItem("u", JSON.stringify(id));
-        // if(shouldRedirect){
-        //   return <Redirect to={"/thankyou" } />
-        // }
-        return /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(FormWrapper, {
-            action: "/api/signUpAPI",
-            method: "post",
-            onSubmit: handleSubmit,
-            css: `
-        padding: 2rem 4rem;
-      `,
-            children: [
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Typography, {
-                    children: "Create An Account"
-                }),
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("br", {}),
-                /*#__PURE__*/ (0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxs)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                    container: true,
-                    columns: 8,
-                    direction: "row",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    children: [
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                disabled: true,
-                                required: true,
-                                type: "text",
-                                name: "Name",
-                                value: uName,
-                                onChange: (e)=>setFirstName(session.user.name),
-                                placeholder: "Full Name"
-                            })
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                required: true,
-                                type: "text",
-                                name: "driverLic",
-                                value: driverLic,
-                                onChange: (e)=>setDriverLic(e.target.value),
-                                placeholder: "Driver Lic."
-                            })
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                disabled: true,
-                                required: true,
-                                name: "email",
-                                id: "email",
-                                type: "text",
-                                placeholder: "Email Address",
-                                value: gM,
-                                onChange: (e)=>setEmail(e.target.value)
-                            })
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                required: true,
-                                name: "phoneNumber",
-                                id: "phoneNumber",
-                                type: "number",
-                                value: phoneNumber,
-                                placeholder: " Phone Number",
-                                onChange: (e)=>setPhoneNumber(e.target.value)
-                            })
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                required: true,
-                                name: "comName",
-                                id: "comName",
-                                type: "text",
-                                value: comName,
-                                placeholder: " Comapany Name",
-                                onChange: (e)=>setComName(e.target.value)
-                            })
-                        }),
-                        /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {
-                            item: true,
-                            xs: 4,
-                            children: /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {
-                                required: true,
-                                name: "truckPlateNumber",
-                                id: "truckPlateNumber",
-                                type: "text",
-                                value: truckPlateNumber,
-                                placeholder: " Plate Number",
-                                onChange: (e)=>setTruckPlateNumber(e.target.value)
-                            })
-                        })
-                    ]
-                }),
-                /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Button, {
-                    type: "submit",
-                    onClick: ()=>{
-                        handleSubmit();
-                        // setShouldRedirect(true);
-                        router.push("/thankyou");
-                    },
-                    children: "Create"
-                })
-            ]
-        });
-    }
-};
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Register);
-const FormWrapper = (styled_components__WEBPACK_IMPORTED_MODULE_2___default().form)`
-
-`;
-
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => (__WEBPACK_DEFAULT_EXPORT__),\n/* harmony export */   \"getStaticProps\": () => (/* binding */ getStaticProps)\n/* harmony export */ });\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react/jsx-dev-runtime */ \"react/jsx-dev-runtime\");\n/* harmony import */ var react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react */ \"react\");\n/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_1__);\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! styled-components */ \"styled-components\");\n/* harmony import */ var styled_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(styled_components__WEBPACK_IMPORTED_MODULE_2__);\n/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @mui/material */ \"@mui/material\");\n/* harmony import */ var _mui_material__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_mui_material__WEBPACK_IMPORTED_MODULE_3__);\n/* harmony import */ var next_auth_react__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! next-auth/react */ \"next-auth/react\");\n/* harmony import */ var next_auth_react__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(next_auth_react__WEBPACK_IMPORTED_MODULE_4__);\n/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! next/router */ \"next/router\");\n/* harmony import */ var next_router__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(next_router__WEBPACK_IMPORTED_MODULE_5__);\n\n\n\n\n\n\nconst getStaticProps = async ()=>{\n    await fetch(\"https://just-chamois-38.hasura.app/v1/graphql\");\n    const response = await fetch(\"https://just-chamois-38.hasura.app/v1/graphql\", {\n        method: \"POST\",\n        headers: {\n            [\"x-hasura-admin-secret\"]: \"MLy43KG049rHc1UVMsodU7dVHYrouGG3KEJ18Pm7z45qdxhZqAcnVte00i7uO4HY\"\n        },\n        body: JSON.stringify({\n            query: `\n        query MyQuery {\n          Users {\n            uid\n            email\n          }\n        }\n      `\n        })\n    });\n    const reg = await response.json();\n    return {\n        props: {\n            reg\n        }\n    };\n};\nconst Register = ({ reg  })=>{\n    const { 0: firstName , 1: setFirstName  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: driverLic , 1: setDriverLic  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: email , 1: setEmail  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: phoneNumber , 1: setPhoneNumber  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: comName , 1: setComName  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: truckPlateNumber , 1: setTruckPlateNumber  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(\"\");\n    const { 0: shouldRedirect , 1: setShouldRedirect  } = (0,react__WEBPACK_IMPORTED_MODULE_1__.useState)(false);\n    const { data: session , status  } = (0,next_auth_react__WEBPACK_IMPORTED_MODULE_4__.useSession)();\n    const router = (0,next_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();\n    if (status === \"loading\") {\n        return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"p\", {\n            children: \"Loading...\"\n        }, void 0, false, {\n            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n            lineNumber: 53,\n            columnNumber: 12\n        }, undefined);\n    }\n    if (status === \"unauthenticated\") {\n        return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"p\", {\n            children: \"Access Denied\"\n        }, void 0, false, {\n            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n            lineNumber: 57,\n            columnNumber: 12\n        }, undefined);\n    }\n    if (status === \"authenticated\") {\n        const gM = session.user.email;\n        const uName = session.user.name;\n        // console.log(reg.data.Users.map(user => {\n        //   if (user.email === gM) {\n        //     return user.uid\n        //   }\n        // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )\n        function Redirect({ to  }) {\n            const router = (0,next_router__WEBPACK_IMPORTED_MODULE_5__.useRouter)();\n            (0,react__WEBPACK_IMPORTED_MODULE_1__.useEffect)(()=>{\n                router.push(to);\n            }, [\n                to\n            ]);\n            return null;\n        }\n        const handleSubmit = async (e)=>{\n            const data1 = {\n                firstName: session.user.name,\n                driverLic: driverLic,\n                email: session.user.email,\n                phoneNumber: phoneNumber,\n                comName: comName,\n                truckPlateNumber: truckPlateNumber\n            };\n            // Send the data to the server in JSON format.\n            const JSONdata = JSON.stringify(data1);\n            // console.log(JSONdata)\n            const endpoint = \"/api/signUpAPI\";\n            const options = {\n                // The method is POST because we are sending data.\n                method: \"POST\",\n                // Tell the server we're sending JSON.\n                headers: {\n                    \"Content-Type\": \"application/json\"\n                },\n                // Body of the request is the JSON data we created above.\n                body: JSONdata\n            };\n            const response = await fetch(endpoint, options);\n            const result = await response.json();\n            alert(`Is this your full name: ${result.data}`);\n        // await  setShouldRedirect(true);\n        };\n        const handleOpen = (index)=>{\n            setOpen(true);\n            setData(data[index]);\n        };\n        const handleClose = ()=>{\n            setOpen(false);\n        };\n        const id = reg.data.Users.map((user)=>{\n            if (user.email === gM) {\n                return user.uid;\n            } else return \"\";\n        }).reduce((a, b)=>a + b, 0).replace(\"NaN\", \"\");\n        localStorage.setItem(\"u\", JSON.stringify(id));\n        if (shouldRedirect) {\n            return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(Redirect, {\n                to: \"/thankyou\"\n            }, void 0, false, {\n                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                lineNumber: 141,\n                columnNumber: 10\n            }, undefined);\n        }\n        return /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(FormWrapper, {\n            action: \"/api/signUpAPI\",\n            method: \"post\",\n            onSubmit: handleSubmit,\n            css: `\n        padding: 2rem 4rem;\n      `,\n            children: [\n                /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Typography, {\n                    children: \"Create An Account\"\n                }, void 0, false, {\n                    fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                    lineNumber: 154,\n                    columnNumber: 8\n                }, undefined),\n                /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(\"br\", {}, void 0, false, {\n                    fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                    lineNumber: 155,\n                    columnNumber: 8\n                }, undefined),\n                /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                    container: true,\n                    columns: 8,\n                    direction: \"row\",\n                    justifyContent: \"center\",\n                    alignItems: \"center\",\n                    children: [\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                disabled: true,\n                                required: true,\n                                type: \"text\",\n                                name: \"Name\",\n                                value: uName,\n                                onChange: (e)=>setFirstName(session.user.name),\n                                placeholder: \"Full Name\"\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 163,\n                                columnNumber: 7\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 162,\n                            columnNumber: 6\n                        }, undefined),\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                required: true,\n                                type: \"text\",\n                                name: \"driverLic\",\n                                value: driverLic,\n                                onChange: (e)=>setDriverLic(e.target.value),\n                                placeholder: \"Driver Lic.\"\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 177,\n                                columnNumber: 7\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 174,\n                            columnNumber: 7\n                        }, undefined),\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                disabled: true,\n                                required: true,\n                                name: \"email\",\n                                id: \"email\",\n                                type: \"text\",\n                                placeholder: \"Email Address\",\n                                value: gM,\n                                onChange: (e)=>setEmail(e.target.value)\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 189,\n                                columnNumber: 9\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 187,\n                            columnNumber: 7\n                        }, undefined),\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                required: true,\n                                name: \"phoneNumber\",\n                                id: \"phoneNumber\",\n                                type: \"number\",\n                                value: phoneNumber,\n                                placeholder: \" Phone Number\",\n                                onChange: (e)=>setPhoneNumber(e.target.value)\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 203,\n                                columnNumber: 9\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 201,\n                            columnNumber: 7\n                        }, undefined),\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                required: true,\n                                name: \"comName\",\n                                id: \"comName\",\n                                type: \"text\",\n                                value: comName,\n                                placeholder: \" Comapany Name\",\n                                onChange: (e)=>setComName(e.target.value)\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 216,\n                                columnNumber: 9\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 214,\n                            columnNumber: 7\n                        }, undefined),\n                        /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Grid, {\n                            item: true,\n                            xs: 4,\n                            children: /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.TextField, {\n                                required: true,\n                                name: \"truckPlateNumber\",\n                                id: \"truckPlateNumber\",\n                                type: \"text\",\n                                value: truckPlateNumber,\n                                placeholder: \" Plate Number\",\n                                onChange: (e)=>setTruckPlateNumber(e.target.value)\n                            }, void 0, false, {\n                                fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                                lineNumber: 228,\n                                columnNumber: 9\n                            }, undefined)\n                        }, void 0, false, {\n                            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                            lineNumber: 227,\n                            columnNumber: 7\n                        }, undefined)\n                    ]\n                }, void 0, true, {\n                    fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                    lineNumber: 157,\n                    columnNumber: 8\n                }, undefined),\n                /*#__PURE__*/ (0,react_jsx_dev_runtime__WEBPACK_IMPORTED_MODULE_0__.jsxDEV)(_mui_material__WEBPACK_IMPORTED_MODULE_3__.Button, {\n                    type: \"submit\",\n                    onClick: ()=>{\n                        handleSubmit();\n                        setShouldRedirect(true);\n                    },\n                    children: \"Create\"\n                }, void 0, false, {\n                    fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n                    lineNumber: 241,\n                    columnNumber: 9\n                }, undefined)\n            ]\n        }, void 0, true, {\n            fileName: \"/Users/Supra/Documents/GitHub/DumpTruckApp/pages/register.js\",\n            lineNumber: 146,\n            columnNumber: 13\n        }, undefined);\n    }\n};\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Register);\nconst FormWrapper = (styled_components__WEBPACK_IMPORTED_MODULE_2___default().form)`\n\n`;\n//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,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QUFDLENBQUM7cUJBRXZCOzhCQUFHLFFBQU07Ozs7OzZCQUFTOzs7Ozs7cUJBRVQsQ0FFYjtLQUNGO0NBQUM7QUFNTixpRUFBZWQsUUFBUSxFQUFDO0FBSXhCLE1BQU1pRCxXQUFXLEdBQUd2RSwrREFBVyxDQUFDOztBQUVoQyxDQUFFIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vbmV4dC1qcy1hcHAvLi9wYWdlcy9yZWdpc3Rlci5qcz9hMDk3Il0sInNvdXJjZXNDb250ZW50IjpbImltcG9ydCBSZWFjdCwgeyB1c2VTdGF0ZSwgdXNlRWZmZWN0IH0gZnJvbSBcInJlYWN0XCI7XG5pbXBvcnQgc3R5bGVkIGZyb20gXCJzdHlsZWQtY29tcG9uZW50c1wiO1xuaW1wb3J0IHtUeXBvZ3JhcGh5LCBCdXR0b24sIEdyaWQsIFRleHRGaWVsZCB9IGZyb20gJ0BtdWkvbWF0ZXJpYWwnO1xuaW1wb3J0IHsgdXNlU2Vzc2lvbiB9IGZyb20gXCJuZXh0LWF1dGgvcmVhY3RcIjtcbmltcG9ydCB7IHVzZVJvdXRlciB9IGZyb20gXCJuZXh0L3JvdXRlclwiO1xuXG5cbmV4cG9ydCBjb25zdCBnZXRTdGF0aWNQcm9wcyA9IGFzeW5jICgpID0+IHtcbiAgYXdhaXQgZmV0Y2goJ2h0dHBzOi8vanVzdC1jaGFtb2lzLTM4Lmhhc3VyYS5hcHAvdjEvZ3JhcGhxbCcgKVxuXG4gIGNvbnN0IHJlc3BvbnNlID0gYXdhaXQgZmV0Y2goXG4gICAgJ2h0dHBzOi8vanVzdC1jaGFtb2lzLTM4Lmhhc3VyYS5hcHAvdjEvZ3JhcGhxbCcsXG4gICAge1xuICAgICAgbWV0aG9kOiAnUE9TVCcsXG4gICAgICBoZWFkZXJzOiB7XG4gICAgICAgIFsneC1oYXN1cmEtYWRtaW4tc2VjcmV0J106IHByb2Nlc3MuZW52Lk5FWFRfUFVCTElDX0hBU1VSQV9TRUNSRVRcbiAgICAgIH0sXG4gICAgICBib2R5OiBKU09OLnN0cmluZ2lmeSh7XG4gICAgICAgIHF1ZXJ5OiBgXG4gICAgICAgIHF1ZXJ5IE15UXVlcnkge1xuICAgICAgICAgIFVzZXJzIHtcbiAgICAgICAgICAgIHVpZFxuICAgICAgICAgICAgZW1haWxcbiAgICAgICAgICB9XG4gICAgICAgIH1cbiAgICAgIGBcbiAgICAgIH0pXG4gICAgfVxuICApXG5cbiAgY29uc3QgcmVnID0gYXdhaXQgcmVzcG9uc2UuanNvbigpXG5cbiAgcmV0dXJuIHtcbiAgICBwcm9wczogeyByZWcgfVxuICB9XG59XG5cbmNvbnN0IFJlZ2lzdGVyID0gKHtyZWd9KSA9PiB7XG4gIGNvbnN0IFtmaXJzdE5hbWUsIHNldEZpcnN0TmFtZV0gPSB1c2VTdGF0ZShcIlwiKTtcbiAgY29uc3QgW2RyaXZlckxpYywgc2V0RHJpdmVyTGljXSA9IHVzZVN0YXRlKFwiXCIpO1xuICBjb25zdCBbZW1haWwsIHNldEVtYWlsXSA9IHVzZVN0YXRlKFwiXCIpO1xuICBjb25zdCBbcGhvbmVOdW1iZXIsIHNldFBob25lTnVtYmVyXSA9IHVzZVN0YXRlKFwiXCIpO1xuICBjb25zdCBbY29tTmFtZSwgc2V0Q29tTmFtZV0gPSB1c2VTdGF0ZShcIlwiKTtcbiAgY29uc3QgW3RydWNrUGxhdGVOdW1iZXIsIHNldFRydWNrUGxhdGVOdW1iZXJdID0gdXNlU3RhdGUoXCJcIik7XG4gIGNvbnN0IFtzaG91bGRSZWRpcmVjdCwgc2V0U2hvdWxkUmVkaXJlY3RdID0gdXNlU3RhdGUoZmFsc2UpO1xuICBcbiAgY29uc3QgeyBkYXRhOiBzZXNzaW9uLCBzdGF0dXMgfSA9IHVzZVNlc3Npb24oKTtcbiAgY29uc3Qgcm91dGVyID0gdXNlUm91dGVyKCk7XG5cblxuXG4gIGlmIChzdGF0dXMgPT09IFwibG9hZGluZ1wiKSB7XG4gICAgcmV0dXJuIDxwPkxvYWRpbmcuLi48L3A+XG4gIH1cblxuICBpZiAoc3RhdHVzID09PSBcInVuYXV0aGVudGljYXRlZFwiKSB7XG4gICAgcmV0dXJuIDxwPkFjY2VzcyBEZW5pZWQ8L3A+XG4gIH1cbiAgaWYgKHN0YXR1cyA9PT0gXCJhdXRoZW50aWNhdGVkXCIpIHtcbiAgICBjb25zdCBnTSA9IHNlc3Npb24udXNlci5lbWFpbDtcbiAgICBjb25zdCB1TmFtZSA9IHNlc3Npb24udXNlci5uYW1lO1xuICBcbiAgICAvLyBjb25zb2xlLmxvZyhyZWcuZGF0YS5Vc2Vycy5tYXAodXNlciA9PiB7XG4gICAgLy8gICBpZiAodXNlci5lbWFpbCA9PT0gZ00pIHtcbiAgICAvLyAgICAgcmV0dXJuIHVzZXIudWlkXG4gICAgLy8gICB9XG4gICAgLy8gfSkucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCkucmVwbGFjZSgnTmFOJywgJycpICApXG4gICAgXG4gICBcblxuZnVuY3Rpb24gUmVkaXJlY3Qoe3RvfSl7XG4gIGNvbnN0IHJvdXRlciA9IHVzZVJvdXRlcigpO1xuXG4gIHVzZUVmZmVjdCgoKT0+IHtcblxuICAgIHJvdXRlci5wdXNoKHRvKTtcblxuICB9LCBbdG9dKTtcbiAgcmV0dXJuIG51bGw7XG59XG5cbiAgY29uc3QgaGFuZGxlU3VibWl0ID0gYXN5bmMgKGUpID0+IHtcbiAgICAgXG4gICAgICBjb25zdCBkYXRhID17XG4gIFxuICAgICAgICBmaXJzdE5hbWU6IHNlc3Npb24udXNlci5uYW1lLFxuICAgICAgICBkcml2ZXJMaWM6IGRyaXZlckxpYyxcbiAgICAgICAgZW1haWw6IHNlc3Npb24udXNlci5lbWFpbCxcbiAgICAgICAgIHBob25lTnVtYmVyOiBwaG9uZU51bWJlcixcbiAgICAgICAgIGNvbU5hbWU6IGNvbU5hbWUsXG4gICAgICAgICB0cnVja1BsYXRlTnVtYmVyOiB0cnVja1BsYXRlTnVtYmVyLFxuICAgICAgIFxuICAgICAgfVxuXG4gIC8vIFNlbmQgdGhlIGRhdGEgdG8gdGhlIHNlcnZlciBpbiBKU09OIGZvcm1hdC5cbiAgY29uc3QgSlNPTmRhdGEgPSBKU09OLnN0cmluZ2lmeShkYXRhKVxuXG4gIC8vIGNvbnNvbGUubG9nKEpTT05kYXRhKVxuICAgIFxuICBjb25zdCBlbmRwb2ludCA9ICcvYXBpL3NpZ25VcEFQSSdcblxuICBjb25zdCBvcHRpb25zID0ge1xuICAgIC8vIFRoZSBtZXRob2QgaXMgUE9TVCBiZWNhdXNlIHdlIGFyZSBzZW5kaW5nIGRhdGEuXG4gICAgbWV0aG9kOiAnUE9TVCcsXG4gICAgLy8gVGVsbCB0aGUgc2VydmVyIHdlJ3JlIHNlbmRpbmcgSlNPTi5cbiAgICBoZWFkZXJzOiB7XG4gICAgICAnQ29udGVudC1UeXBlJzogJ2FwcGxpY2F0aW9uL2pzb24nLFxuICAgIH0sXG4gICAgLy8gQm9keSBvZiB0aGUgcmVxdWVzdCBpcyB0aGUgSlNPTiBkYXRhIHdlIGNyZWF0ZWQgYWJvdmUuXG4gICAgYm9keTogSlNPTmRhdGEsXG4gIH1cblxuICBjb25zdCByZXNwb25zZSA9IGF3YWl0IGZldGNoKGVuZHBvaW50LCBvcHRpb25zKVxuXG4gIGNvbnN0IHJlc3VsdCA9IGF3YWl0IHJlc3BvbnNlLmpzb24oKVxuICBhbGVydChgSXMgdGhpcyB5b3VyIGZ1bGwgbmFtZTogJHtyZXN1bHQuZGF0YX1gKVxuXG5cbi8vIGF3YWl0ICBzZXRTaG91bGRSZWRpcmVjdCh0cnVlKTtcblxuICAgIH1cbiAgICBjb25zdCBoYW5kbGVPcGVuID0gaW5kZXggPT4ge1xuICAgICAgc2V0T3Blbih0cnVlKTtcbiAgICAgIHNldERhdGEoZGF0YVtpbmRleF0pO1xuICAgIH07XG4gIFxuICAgIGNvbnN0IGhhbmRsZUNsb3NlID0gKCkgPT4ge1xuICAgICAgc2V0T3BlbihmYWxzZSk7XG4gICAgfTtcbiAgICBcbiAgICBjb25zdCBpZCA9IHJlZy5kYXRhLlVzZXJzLm1hcCh1c2VyID0+IHtcbiAgICAgIGlmICh1c2VyLmVtYWlsID09PSBnTSkge1xuICAgICAgICByZXR1cm4gdXNlci51aWRcbiAgICAgIH1cbiAgICAgIGVsc2UgcmV0dXJuICcnXG4gICAgfSkucmVkdWNlKChhLCBiKSA9PiBhICsgYiwgMCkucmVwbGFjZSgnTmFOJywgJycpOyBcblxuICAgIGxvY2FsU3RvcmFnZS5zZXRJdGVtKFwidVwiLEpTT04uc3RyaW5naWZ5KGlkKSk7XG5cbmlmKHNob3VsZFJlZGlyZWN0KXtcbiAgcmV0dXJuIDxSZWRpcmVjdCB0bz17XCIvdGhhbmt5b3VcIiB9IC8+XG59XG5cbiAgICAgIHJldHVybiAoXG4gICAgICBcbiAgICAgICAgICAgIDxGb3JtV3JhcHBlclxuICAgIGFjdGlvbj1cIi9hcGkvc2lnblVwQVBJXCJcbiAgICBtZXRob2Q9XCJwb3N0XCJcbiAgICBvblN1Ym1pdD17aGFuZGxlU3VibWl0fVxuICAgICAgY3NzPXtgXG4gICAgICAgIHBhZGRpbmc6IDJyZW0gNHJlbTtcbiAgICAgIGB9XG4gICAgPlxuICAgICAgIDxUeXBvZ3JhcGh5ID5DcmVhdGUgQW4gQWNjb3VudDwvVHlwb2dyYXBoeT5cbiAgICAgICA8YnIgLz5cblxuICAgICAgIDxHcmlkIGNvbnRhaW5lciBjb2x1bW5zPXs4fVxuICAgICAgIGRpcmVjdGlvbj0ncm93J1xuICAgICAgIGp1c3RpZnlDb250ZW50PSdjZW50ZXInXG4gICAgICAgYWxpZ25JdGVtcz0nY2VudGVyJz5cblxuICAgICA8R3JpZCBpdGVtIHhzPXs0fT5cbiAgICAgIDxUZXh0RmllbGRcbiAgICAgICBkaXNhYmxlZCBcbiAgICAgIHJlcXVpcmVkPXt0cnVlfVxuICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgbmFtZT1cIk5hbWVcIlxuICAgICAgdmFsdWU9e3VOYW1lfVxuICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRGaXJzdE5hbWUoc2Vzc2lvbi51c2VyLm5hbWUpfVxuICAgICAgcGxhY2Vob2xkZXI9XCJGdWxsIE5hbWVcIiBcbiAgICAgICAvPlxuICAgIFxuICAgICAgPC9HcmlkPlxuICAgICAgPEdyaWQgaXRlbSB4cz17NH0+XG4gIFxuICAgICBcbiAgICAgIDxUZXh0RmllbGQgXG4gICAgICByZXF1aXJlZD17dHJ1ZX1cbiAgICAgIHR5cGU9XCJ0ZXh0XCJcbiAgICAgIG5hbWU9XCJkcml2ZXJMaWNcIlxuICAgICAgdmFsdWU9e2RyaXZlckxpY31cbiAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0RHJpdmVyTGljKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgIHBsYWNlaG9sZGVyPVwiRHJpdmVyIExpYy5cIiBcbiAgICAgICAvPlxuICAgICAgXG4gICAgICA8L0dyaWQ+XG4gICAgICA8R3JpZCBpdGVtIHhzPXs0fT5cbiBcbiAgICAgICAgPFRleHRGaWVsZFxuICAgICAgICAgZGlzYWJsZWRcbiAgICAgICAgcmVxdWlyZWQ9e3RydWV9IFxuICAgICAgICBuYW1lPVwiZW1haWxcIiBcbiAgICAgICAgaWQ9XCJlbWFpbFwiIFxuICAgICAgICB0eXBlPVwidGV4dFwiXG4gICAgICAgIHBsYWNlaG9sZGVyPVwiRW1haWwgQWRkcmVzc1wiXG4gICAgICAgIHZhbHVlPXtnTX0gXG4gICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0RW1haWwoZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAgLz5cbiAgICBcbiAgICAgIDwvR3JpZD5cbiAgICAgIDxHcmlkIGl0ZW0geHM9ezR9PlxuICAgICAgXG4gICAgICAgIDxUZXh0RmllbGQgXG4gICAgICAgIHJlcXVpcmVkPXt0cnVlfVxuICAgICAgICBuYW1lPVwicGhvbmVOdW1iZXJcIiBcbiAgICAgICAgaWQ9XCJwaG9uZU51bWJlclwiIFxuICAgICAgICB0eXBlPVwibnVtYmVyXCJcbiAgICAgICAgdmFsdWU9e3Bob25lTnVtYmVyfSBcbiAgICAgICAgcGxhY2Vob2xkZXI9XCIgUGhvbmUgTnVtYmVyXCIgXG4gICAgICAgIG9uQ2hhbmdlPXsoZSkgPT4gc2V0UGhvbmVOdW1iZXIoZS50YXJnZXQudmFsdWUpfVxuICAgICAgICAvPlxuICAgICAgXG4gICAgICA8L0dyaWQ+XG4gICAgICA8R3JpZCBpdGVtIHhzPXs0fT5cbiAgICAgXG4gICAgICAgIDxUZXh0RmllbGRcbiAgICAgICAgcmVxdWlyZWQ9e3RydWV9IFxuICAgICAgICBuYW1lPVwiY29tTmFtZVwiIFxuICAgICAgICBpZD1cImNvbU5hbWVcIiBcbiAgICAgICAgdHlwZT1cInRleHRcIlxuICAgICAgICB2YWx1ZT17Y29tTmFtZX0gXG4gICAgICAgIHBsYWNlaG9sZGVyPVwiIENvbWFwYW55IE5hbWVcIiBcbiAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRDb21OYW1lKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgLz5cbiAgICBcbiAgICAgIDwvR3JpZD5cbiAgICAgIDxHcmlkIGl0ZW0geHM9ezR9PlxuICAgICAgICA8VGV4dEZpZWxkXG4gICAgICAgIHJlcXVpcmVkPXt0cnVlfSBcbiAgICAgICAgbmFtZT1cInRydWNrUGxhdGVOdW1iZXJcIiBcbiAgICAgICAgaWQ9XCJ0cnVja1BsYXRlTnVtYmVyXCIgXG4gICAgICAgIHR5cGU9XCJ0ZXh0XCJcbiAgICAgICAgdmFsdWU9e3RydWNrUGxhdGVOdW1iZXJ9IFxuICAgICAgICBwbGFjZWhvbGRlcj1cIiBQbGF0ZSBOdW1iZXJcIiBcbiAgICAgICAgb25DaGFuZ2U9eyhlKSA9PiBzZXRUcnVja1BsYXRlTnVtYmVyKGUudGFyZ2V0LnZhbHVlKX1cbiAgICAgICAgLz5cbiAgICAgIFxuICAgICAgPC9HcmlkPlxuICAgICAgPC9HcmlkPlxuICAgICAgICBcbiAgICAgICAgPEJ1dHRvbiB0eXBlPVwic3VibWl0XCIgb25DbGljaz17KCkgPT4geyBoYW5kbGVTdWJtaXQoKTsgXG4gICAgICAgICAgc2V0U2hvdWxkUmVkaXJlY3QodHJ1ZSk7XG5cbiAgICAgICAgICB9IH0+Q3JlYXRlPC9CdXR0b24+XG4gICAgICBcbiAgICAgIDwvRm9ybVdyYXBwZXI+XG4gIFxuICAgICAgKSBcbiAgICB9fVxuICBcblxuICBcbiAgXG5cbmV4cG9ydCBkZWZhdWx0IFJlZ2lzdGVyO1xuXG5cblxuY29uc3QgRm9ybVdyYXBwZXIgPSBzdHlsZWQuZm9ybWBcblxuYDtcblxuXG4gIFxuICBcbiJdLCJuYW1lcyI6WyJSZWFjdCIsInVzZVN0YXRlIiwidXNlRWZmZWN0Iiwic3R5bGVkIiwiVHlwb2dyYXBoeSIsIkJ1dHRvbiIsIkdyaWQiLCJUZXh0RmllbGQiLCJ1c2VTZXNzaW9uIiwidXNlUm91dGVyIiwiZ2V0U3RhdGljUHJvcHMiLCJmZXRjaCIsInJlc3BvbnNlIiwibWV0aG9kIiwiaGVhZGVycyIsInByb2Nlc3MiLCJlbnYiLCJORVhUX1BVQkxJQ19IQVNVUkFfU0VDUkVUIiwiYm9keSIsIkpTT04iLCJzdHJpbmdpZnkiLCJxdWVyeSIsInJlZyIsImpzb24iLCJwcm9wcyIsIlJlZ2lzdGVyIiwiZmlyc3ROYW1lIiwic2V0Rmlyc3ROYW1lIiwiZHJpdmVyTGljIiwic2V0RHJpdmVyTGljIiwiZW1haWwiLCJzZXRFbWFpbCIsInBob25lTnVtYmVyIiwic2V0UGhvbmVOdW1iZXIiLCJjb21OYW1lIiwic2V0Q29tTmFtZSIsInRydWNrUGxhdGVOdW1iZXIiLCJzZXRUcnVja1BsYXRlTnVtYmVyIiwic2hvdWxkUmVkaXJlY3QiLCJzZXRTaG91bGRSZWRpcmVjdCIsImRhdGEiLCJzZXNzaW9uIiwic3RhdHVzIiwicm91dGVyIiwicCIsImdNIiwidXNlciIsInVOYW1lIiwibmFtZSIsIlJlZGlyZWN0IiwidG8iLCJwdXNoIiwiaGFuZGxlU3VibWl0IiwiZSIsIkpTT05kYXRhIiwiZW5kcG9pbnQiLCJvcHRpb25zIiwicmVzdWx0IiwiYWxlcnQiLCJoYW5kbGVPcGVuIiwiaW5kZXgiLCJzZXRPcGVuIiwic2V0RGF0YSIsImhhbmRsZUNsb3NlIiwiaWQiLCJVc2VycyIsIm1hcCIsInVpZCIsInJlZHVjZSIsImEiLCJiIiwicmVwbGFjZSIsImxvY2FsU3RvcmFnZSIsInNldEl0ZW0iLCJGb3JtV3JhcHBlciIsImFjdGlvbiIsIm9uU3VibWl0IiwiY3NzIiwiYnIiLCJjb250YWluZXIiLCJjb2x1bW5zIiwiZGlyZWN0aW9uIiwianVzdGlmeUNvbnRlbnQiLCJhbGlnbkl0ZW1zIiwiaXRlbSIsInhzIiwiZGlzYWJsZWQiLCJyZXF1aXJlZCIsInR5cGUiLCJ2YWx1ZSIsIm9uQ2hhbmdlIiwicGxhY2Vob2xkZXIiLCJ0YXJnZXQiLCJvbkNsaWNrIiwiZm9ybSJdLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./pages/register.js\n");
 
 /***/ }),
 
-/***/ 5692:
+/***/ "@mui/material":
+/*!********************************!*\
+  !*** external "@mui/material" ***!
+  \********************************/
 /***/ ((module) => {
 
 module.exports = require("@mui/material");
 
 /***/ }),
 
-/***/ 1649:
+/***/ "next-auth/react":
+/*!**********************************!*\
+  !*** external "next-auth/react" ***!
+  \**********************************/
 /***/ ((module) => {
 
 module.exports = require("next-auth/react");
 
 /***/ }),
 
-/***/ 1853:
+/***/ "next/router":
+/*!******************************!*\
+  !*** external "next/router" ***!
+  \******************************/
 /***/ ((module) => {
 
 module.exports = require("next/router");
 
 /***/ }),
 
-/***/ 6689:
+/***/ "react":
+/*!************************!*\
+  !*** external "react" ***!
+  \************************/
 /***/ ((module) => {
 
 module.exports = require("react");
 
 /***/ }),
 
-/***/ 997:
+/***/ "react/jsx-dev-runtime":
+/*!****************************************!*\
+  !*** external "react/jsx-dev-runtime" ***!
+  \****************************************/
 /***/ ((module) => {
 
-module.exports = require("react/jsx-runtime");
+module.exports = require("react/jsx-dev-runtime");
 
 /***/ }),
 
-/***/ 7518:
+/***/ "styled-components":
+/*!************************************!*\
+  !*** external "styled-components" ***!
+  \************************************/
 /***/ ((module) => {
 
 module.exports = require("styled-components");
@@ -305,7 +90,7 @@ module.exports = require("styled-components");
 var __webpack_require__ = require("../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = (__webpack_exec__(72));
+var __webpack_exports__ = (__webpack_exec__("./pages/register.js"));
 module.exports = __webpack_exports__;
 
 })();
