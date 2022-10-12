@@ -38,13 +38,13 @@ export const getStaticProps = async () => {
 const ThankYou = ({ reg }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [firstNdame, setFirstName] = useState("");
+  // const [firstNdame, setFirstName] = useState("");
   // const [id, setID] = useState("");
-  const [driverLic, setDriverLic] = useState("");
-  const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [comName, setComName] = useState("");
-  const [truckPlateNumber, setTruckPlateNumber] = useState("");
+  // const [driverLic, setDriverLic] = useState("");
+  // const [email, setEmail] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
+  // const [comName, setComName] = useState("");
+  // const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   // useEffect(() => {
@@ -87,6 +87,8 @@ const ThankYou = ({ reg }) => {
     return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
+
+
     const gM = session.user.email;
     const start = reg.data.Users;
 
@@ -117,7 +119,7 @@ const ThankYou = ({ reg }) => {
 
     const { phone } = usePhone();
     const { id } = useID();
-    const loading = null;
+    const loading =  null;
 
     var filtered = phone.filter(function (el) {
       return el != null;
@@ -125,10 +127,10 @@ const ThankYou = ({ reg }) => {
 
     if (!filtered?.length) {
       {
-        loading = false;
+       setTimeout( loading = false, 4000);
       }
     } else {
-      loading = true;
+      setTimeout( loading = true, 4000);
     }
 
     // const plainPhone =(JSON.stringify(phone))
@@ -137,9 +139,10 @@ const ThankYou = ({ reg }) => {
     console.log(filtered);
     console.log(loading);
 
-    loading
-      ? router.push("/dashboard/" + id.substring(1))
-      : router.push("/register");
+    if(loading===true){
+       router.push("/dashboard/" + id.substring(1))
+    }
+      else {router.push("/register")};
 
     // function Redirect({to}){
     //   const router = useRouter();
