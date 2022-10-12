@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import {Typography, Button, Grid, TextField } from '@mui/material';
+import { Typography, Button, Grid, TextField } from "@mui/material";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export const getStaticProps = async () => {
-  await fetch('https://just-chamois-38.hasura.app/v1/graphql' )
+  await fetch("https://just-chamois-38.hasura.app/v1/graphql");
 
   const response = await fetch(
-    'https://just-chamois-38.hasura.app/v1/graphql',
+    "https://just-chamois-38.hasura.app/v1/graphql",
     {
-      method: 'POST',
+      method: "POST",
       headers: {
-        ['x-hasura-admin-secret']: process.env.NEXT_PUBLIC_HASURA_SECRET
+        ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET,
       },
       body: JSON.stringify({
         query: `
@@ -23,19 +23,19 @@ export const getStaticProps = async () => {
             phone
           }
         }
-      `
-      })
+      `,
+      }),
     }
-  )
+  );
 
-  const reg = await response.json()
+  const reg = await response.json();
 
   return {
-    props: { reg }
-  }
-}
+    props: { reg },
+  };
+};
 
-const ThankYou = ({reg}) => {
+const ThankYou = ({ reg }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [firstNdame, setFirstName] = useState("");
@@ -46,175 +46,139 @@ const ThankYou = ({reg}) => {
   const [comName, setComName] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  
 
   // useEffect(() => {
   //   if (status === 'authenticated'){
-  
-      
+
   // }, [status])
-  
 
+  //   useEffect(()=> {
+  //     if (status === "authenticated") {
 
-//   useEffect(()=> {
-//     if (status === "authenticated") {
+  //      setPhoneNumber(reg.data.Users.map(user => {
+  //        if (user.email === gM) {
+  //          return user.phone
+  //        }else return null
+  //      })),
+  //  setID(reg.data.Users.map(user => {
+  //    if (user.email === gM) {
+  //      return user.uid
+  //    }
+  //    else return ''
+  //  }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
+  //  localStorage.setItem("u",JSON.stringify(id))
+  //    console.log(shouldRedirect)
+  //      phoneNumber ?
+  //        setShouldRedirect(true)
+  //        :
 
-//      setPhoneNumber(reg.data.Users.map(user => {
-//        if (user.email === gM) {
-//          return user.phone
-//        }else return null
-//      })),
-    //  setID(reg.data.Users.map(user => {
-    //    if (user.email === gM) {
-    //      return user.uid
-    //    }
-    //    else return ''
-    //  }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
-    //  localStorage.setItem("u",JSON.stringify(id))
-//    console.log(shouldRedirect)
-//      phoneNumber ?
-//        setShouldRedirect(true)
-//        :
-   
-//        setShouldRedirect(false),
-   
-     
-//          shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
-    
-  
-// }
-//    }, []);
+  //        setShouldRedirect(false),
 
+  //          shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
+
+  // }
+  //    }, []);
 
   if (status === "loading") {
-    return <p>Loading...</p>
+    return <p>Loading...</p>;
   }
 
   if (status === "unauthenticated") {
-    return <p>Access Denied</p>
+    return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
-
-   
     const gM = session.user.email;
-    const start = reg.data.Users
+    const start = reg.data.Users;
 
-    const usePhone = () => ({ phone: start.map(user => {
-    
-      if (user.email === gM) {
-        return user.phone
-      }else return null
-    }) })
-  
-    const useID = () => ({ id: start.map(user => {
+    const usePhone = () => ({
+      phone: start.map((user) => {
+        if (user.email === gM) {
+          return user.phone;
+        } else return null;
+      }),
+    });
 
-      if (user.email === gM) {
-        return user.uid
-      }
-      else return ''
-    }).reduce((a, b) => a + b, 0).replace('NaN', '') })
+    const useID = () => ({
+      id: start
+        .map((user) => {
+          if (user.email === gM) {
+            return user.uid;
+          } else return "";
+        })
+        .reduce((a, b) => a + b, 0)
+        .replace("NaN", ""),
+    });
 
-   
     // function onlyNumbers(array) {
     //   return array.every(element => {
     //     return typeof element === 'number';
     //   });
     // }
-    
 
-    const { phone } = usePhone()
-    const { id } = useID()
-    const loading = null
+    const { phone } = usePhone();
+    const { id } = useID();
+    const loading = null;
 
     var filtered = phone.filter(function (el) {
       return el != null;
     });
 
-    if (!filtered?.length){
+    if (!filtered?.length) {
       {
-loading =false
-   }
-    
-    
+        loading = false;
+      }
+    } else {
+      loading = true;
     }
-    else{
-      (
-        
-          loading = true
-        
-      )    }  
- 
-
-
-
 
     // const plainPhone =(JSON.stringify(phone))
 
     // console.log(onlyNumbers(plainPhone))
-    console.log(filtered)
-    console.log(loading)
+    console.log(filtered);
+    console.log(loading);
 
+    loading
+      ? router.push("/dashboard/" + id.substring(1))
+      : router.push("/register");
 
+    // function Redirect({to}){
+    //   const router = useRouter();
 
-    loading ?   router.push( "/dashboard/" + id.substring(1))
-     :
+    //   useEffect(()=> {
 
-  router.push('/register')
-    
-   
- 
-   
+    //     router.push(to),
+    //     setPhoneNumber(reg.data.Users.map(user => {
+    //       if (user.email === gM) {
+    //         return user.phone
+    //       }else return null
+    //     })),
+    //     setID(reg.data.Users.map(user => {
+    //       if (user.email === gM) {
+    //         return user.uid
+    //       }
+    //       else return ''
+    //     }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
+    //     localStorage.setItem("u",JSON.stringify(id))
 
-     
-  
+    //     phoneNumber ?
+    //       setShouldRedirect(true)
+    //       :
 
+    //       setShouldRedirect(false),
 
-// function Redirect({to}){
-//   const router = useRouter();
-  
-//   useEffect(()=> {
+    //         shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
 
-//     router.push(to),
-//     setPhoneNumber(reg.data.Users.map(user => {
-//       if (user.email === gM) {
-//         return user.phone
-//       }else return null
-//     })),
-//     setID(reg.data.Users.map(user => {
-//       if (user.email === gM) {
-//         return user.uid
-//       }
-//       else return ''
-//     }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
-//     localStorage.setItem("u",JSON.stringify(id))
+    //   }, [to]);
+    //   return null;
+    // }
 
-//     phoneNumber ?
-//       setShouldRedirect(true)
-//       :
-  
-//       setShouldRedirect(false),
+    return (
+      <>
+        <h1>Thank You</h1>
+        {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
+      </>
+    );
+  }
+};
 
-    
-//         shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
-   
-//   }, [to]);
-//   return null;
-// }
-
-
-
-
-
-      return (
-    <>
-      <h1>Thank You</h1>
-   {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
-
-   </>
-  
-      ) 
-    }}
-    
-
-export default ThankYou;  
-  
+export default ThankYou;
