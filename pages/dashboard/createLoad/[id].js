@@ -54,7 +54,7 @@ export const getStaticPaths = async () => {
     })
   })
   const data = await res.json()
-  const paths = data.data.Users.map(user => {
+  const paths = data.data.Users?.map(user => {
     return {
       params: { id: user.uid.toString() }
     }
