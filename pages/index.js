@@ -5,9 +5,33 @@ import logo from '../images/logo.webp'
 import {Container, Grid, Stack} from '@mui/material';
 import Image from 'next/image'
 import Head from 'next/head';
-
+import { useSession } from 'next-auth/react'
+import { useRouter } from "next/router";
 
 export default function Homepage() {
+
+  const { data: status }  =  useSession()
+
+  function Redirect({to}){
+    const router = useRouter();
+    
+    React.useEffect(()=> {
+      router.push(to)
+
+    }, [to]);
+    return null;
+  }
+
+  if (status === 'authenticated') {
+    
+
+    // React.useEffect(() =>{
+
+    //   Router.push('/thankyou/')
+
+    // })
+  
+  }
 
   return (
     <>
@@ -17,7 +41,7 @@ export default function Homepage() {
       <meta name="theme-color" content="#fff" />
       <meta
         name="description"
-        content="make your Next.js application work offline using service workers via Google's workbox"
+        content="DumpTruck App"
       />
     </Head>
         <Grid
@@ -51,7 +75,7 @@ export default function Homepage() {
 <meta property="og:description" content="Dump Truck Ticketing App" />
 <meta property="og:site_name" content="Dump Truck App" />
 <meta property="og:url" content="https://dump-truck-app.vercel.app" />
-<meta property="og:image" content="/logo.webp" /> */} å
+<meta property="og:image" content="/logo.webp" /> */} 
 
   </Head>
 <Layout />
@@ -73,6 +97,8 @@ export default function Homepage() {
  
        </Stack>
        </Grid>
+       {/* <Redirect to={"/thankyou/"} /> */}
+
   
        </>
   

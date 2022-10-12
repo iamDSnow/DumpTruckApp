@@ -4,7 +4,6 @@ import {Typography, Button, Grid, TextField } from '@mui/material';
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
-
 export const getStaticProps = async () => {
   await fetch('https://just-chamois-38.hasura.app/v1/graphql' )
 
@@ -21,6 +20,7 @@ export const getStaticProps = async () => {
           Users {
             uid
             email
+            phone
           }
         }
       `
@@ -36,7 +36,10 @@ export const getStaticProps = async () => {
 }
 
 const ThankYou = ({reg}) => {
-  const [firstName, setFirstName] = useState("");
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [firstNdame, setFirstName] = useState("");
+  // const [id, setID] = useState("");
   const [driverLic, setDriverLic] = useState("");
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -44,9 +47,43 @@ const ThankYou = ({reg}) => {
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
   
-  const { data: session, status } = useSession();
-  const router = useRouter();
 
+  // useEffect(() => {
+  //   if (status === 'authenticated'){
+  
+      
+  // }, [status])
+  
+
+
+//   useEffect(()=> {
+//     if (status === "authenticated") {
+
+//      setPhoneNumber(reg.data.Users.map(user => {
+//        if (user.email === gM) {
+//          return user.phone
+//        }else return null
+//      })),
+    //  setID(reg.data.Users.map(user => {
+    //    if (user.email === gM) {
+    //      return user.uid
+    //    }
+    //    else return ''
+    //  }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
+    //  localStorage.setItem("u",JSON.stringify(id))
+//    console.log(shouldRedirect)
+//      phoneNumber ?
+//        setShouldRedirect(true)
+//        :
+   
+//        setShouldRedirect(false),
+   
+     
+//          shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
+    
+  
+// }
+//    }, []);
 
 
   if (status === "loading") {
@@ -57,60 +94,111 @@ const ThankYou = ({reg}) => {
     return <p>Access Denied</p>
   }
   if (status === "authenticated") {
-    const gM = session.user.email;
-    const uName = session.user.name;
-  
-    // console.log(reg.data.Users.map(user => {
-    //   if (user.email === gM) {
-    //     return user.uid
-    //   }
-    // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )
-    
+
    
+    const gM = session.user.email;
+    const start = reg.data.Users
 
-function Redirect({to}){
-  const router = useRouter();
-
-  useEffect(()=> {
-
-    router.push(to);
-
-  }, [to]);
-  return null;
-}
-
+    const usePhone = () => ({ phone: start.map(user => {
+    
+      if (user.email === gM) {
+        return user.phone
+      }else return null
+    }) })
   
-    const id = reg.data.Users.map(user => {
+    const useID = () => ({ id: start.map(user => {
+
       if (user.email === gM) {
         return user.uid
       }
       else return ''
-    }).reduce((a, b) => a + b, 0).replace('NaN', '') 
-    localStorage.setItem("u",JSON.stringify(id))
-    console.log(id)
-if(id){
-  return <Redirect to={"/dashboard/" + id.substring(1)} />
-}
+    }).reduce((a, b) => a + b, 0).replace('NaN', '') })
+
+   
+    
+    const { phone } = usePhone()
+    const { id } = useID()
+    const loading = null
+
+
+    if (phone.length<=5){
+      {
+loading =false
+   }
+    
+    
+    }
+    else{
+      (
+        
+          loading = true
+        
+      )    }  
+ 
+
+
+    console.log(phone)
+
+
+     loading ?    router.push( "/dashboard/" + id.substring(1))
+     :
+
+  router.push('/register')
+    
+   
+ 
+   
+
+     
+  
+
+
+// function Redirect({to}){
+//   const router = useRouter();
+  
+//   useEffect(()=> {
+
+//     router.push(to),
+//     setPhoneNumber(reg.data.Users.map(user => {
+//       if (user.email === gM) {
+//         return user.phone
+//       }else return null
+//     })),
+//     setID(reg.data.Users.map(user => {
+//       if (user.email === gM) {
+//         return user.uid
+//       }
+//       else return ''
+//     }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
+//     localStorage.setItem("u",JSON.stringify(id))
+
+//     phoneNumber ?
+//       setShouldRedirect(true)
+//       :
+  
+//       setShouldRedirect(false),
+
+    
+//         shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
+   
+//   }, [to]);
+//   return null;
+// }
+
+
+
+
 
       return (
-    
+    <>
       <h1>Thank You</h1>
+   {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
+
+   </>
   
       ) 
     }}
-  
+    
 
-  
-  
-
-export default ThankYou;
-
-
-
-const FormWrapper = styled.form`
-
-`;
-
-
-  
+export default ThankYou;  
   

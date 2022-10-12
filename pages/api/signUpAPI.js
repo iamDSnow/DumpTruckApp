@@ -12,20 +12,22 @@ export default async function  handler(req, res) {
   };
 
   const responseBodyString = JSON.stringify({
-    query: `mutation insertUser($firstName:String,$lastName:String,$email:String, $phone:String, $company:String,  $truckPlateNumber:String) {
-      insert_Users(objects: {email:$email, firstName:$firstName, lastName:$lastName, phone:$phone, company:$company, truckPlateNumber:$truckPlateNumber}) {
-        affected_rows
-      }
+    query: `
+  mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
+    insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
+      affected_rows
     }
-    `,
+  }
+`,
     variables: {
       
       firstName: data.firstName,
-      lastName: data.lastName,
       email: data.email,
       phone: data.phoneNumber,
       company: data.comName,
       truckPlateNumber: data.truckPlateNumber,
+      driverLic: data.driverLic,
+      
       
     },
   });
@@ -48,12 +50,12 @@ export default async function  handler(req, res) {
   } else return { statusCode: 200, body: JSON.stringify(responseBody) };
 
 
-  // if (!data.firstName || !data.lastName) {
-  //   // Sends a HTTP bad request error code
-  //   return res.status(400).json({ data: 'First or last name not found' })
-  // }
+  if (!data.firstName) {
+    // Sends a HTTP bad request error code
+    return res.status(400).json({ data: 'badHTTP' })
+  }
 
   // // Found the name.
   // // Sends a HTTP success code
-  // res.status(200).json({ data: `${data.firstName} ${data.lastName}` })
+  res.status(200)
 }

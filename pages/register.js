@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import {Typography, Button, Grid, TextField } from '@mui/material';
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 
@@ -81,12 +81,8 @@ function Redirect({to}){
 
   const handleSubmit = async (e) => {
      
-  
-  
       const data ={
-    
-          
-    
+  
         firstName: session.user.name,
         driverLic: driverLic,
         email: session.user.email,
@@ -94,14 +90,12 @@ function Redirect({to}){
          comName: comName,
          truckPlateNumber: truckPlateNumber,
        
-    
       }
-
 
   // Send the data to the server in JSON format.
   const JSONdata = JSON.stringify(data)
 
-  console.log(JSONdata)
+  // console.log(JSONdata)
     
   const endpoint = '/api/signUpAPI'
 
@@ -131,19 +125,21 @@ function Redirect({to}){
     const handleClose = () => {
       setOpen(false);
     };
+    
     const id = reg.data.Users.map(user => {
       if (user.email === gM) {
         return user.uid
       }
       else return ''
-    }).reduce((a, b) => a + b, 0).replace('NaN', '') 
-    localStorage.setItem("u",JSON.stringify(id))
-if(shouldRedirect){
-  return <Redirect to={"/thankyou" } />
-}
+    }).reduce((a, b) => a + b, 0).replace('NaN', ''); 
+
+    localStorage.setItem("u",JSON.stringify(id));
+
+// if(shouldRedirect){
+//   return <Redirect to={"/thankyou" } />
+// }
 
       return (
-    
       
             <FormWrapper
     action="/api/signUpAPI"
@@ -241,7 +237,8 @@ if(shouldRedirect){
       </Grid>
         
         <Button type="submit" onClick={() => { handleSubmit(); 
-          setShouldRedirect(true);
+          // setShouldRedirect(true);
+          router.push('/thankyou');
           } }>Create</Button>
       
       </FormWrapper>

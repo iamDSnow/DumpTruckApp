@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSession, signIn, signOut } from 'next-auth/react'
 import { Button } from '@mui/material'
 import styled from 'styled-components'
-import  Router  from 'next/router'
+import { useRouter } from 'next/router'
 
 
 const Wrapper = styled.div`
@@ -17,98 +17,33 @@ const SButton = styled(Button)`
 `
 
 function Login ()  {
-  const [d, setD] = useState()
-  const [isLoading, setLoading] = useState()
-  const [gM, setGM] = useState()
+  
+  const router = useRouter()
+
+
   const { data: session, status }  =  useSession()
-
-
-
-  useEffect(() => {
-    const ApiAsync = async () => {
-      const resopnse = await fetch(
-        "https://just-chamois-38.hasura.app/v1/graphql",
-      {
-        method: "POST",
-        headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
-        body: JSON.stringify({
-          query:  `
-          query MyQuery {
-            Users {
-              uid
-              email
-              firstName
-              driverLic
-            }
-          }
-        `
-        })
-      }
-    );
-      const resopnseJson = await resopnse.json();
-
-  
-      await setD(resopnseJson.data.Users.map((user)=> {
-       
-        user.email 
-  
-           
-  }));
-      await setLoading(resopnseJson)
-    };
-    ApiAsync();
-  }, []);
-
-  React.useEffect(() => {
-    if (status === 'authenticated') 
-  
-    setGM(session.user.email)
-
-
-   
-    
-    
-  }, [status])
 
   
   if (status === 'authenticated') {
-    
-   
 
-        
-        
-         d=== gM? 
-    
-             
-   Router.push('/thankyou')
-         :
-            Router.push('/register')
-         
+    const useUser = () => ({ user: status ? session.user.name : null, loading: user ? true : false })
 
-// console.log(JSON.stringify(d))
+    const { user, loading } = useUser( router.push( '/thankyou' ))
 
-    //       (d ==='undefined')?
-  
-    // <div>...loading</div>
-    // :
-    // getE()
-    
- 
-  
-    return (
-      <Wrapper>
-       <div></div>
-      </Wrapper>
-    )
+    // Server-render loading state
+    if (user || user === true) {
+      return <Wrapper>Loading...</Wrapper>
+    }
+      
   } else {
     return (
       <Wrapper>
-        <p> Please sign in.</p>
+        {/* <p> Please sign in.</p> */}
         <SButton
           size='large'
           onClick={() => {
             signIn(
-              // 'google', { callbackUrl: '/register/' }
+              'google', { callbackUrl: '/thankyou' }
               )
           }}
         >
