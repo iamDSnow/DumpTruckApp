@@ -120,7 +120,6 @@ const getStaticPaths = async ()=>{
           email
           company
           firstName
-          lastName
           phone
           truckPlateNumber
           Tickets {
@@ -176,8 +175,7 @@ const getStaticProps = async (context)=>{
             uid
             email
             company
-            firstName
-            lastName
+            firstNam
             phone
             driverLic
             truckPlateNumber
