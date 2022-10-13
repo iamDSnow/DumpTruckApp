@@ -204,8 +204,8 @@ export default function ThankYou ({ reg }){
 var change = null;
 
   shouldRedirect ?
-       change = true    :
- router.push("/register")
+       change = true    : change = false 
+ 
 
 
 
@@ -213,7 +213,7 @@ var change = null;
  console.log(change)
  
  change || shouldRedirect ? router.push("/dashboard/" + id.substring(1))
- : console.log(loading, shouldRedirect )
+ : router.push("/register")
 
 }
 
