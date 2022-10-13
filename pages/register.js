@@ -208,7 +208,6 @@ const Register = ({ reg }) => {
               id="firstName"
               value={firstName}
               placeholder="Full Name"
-              onChange={() => setFirstName(firstName)}
 
             />
           </Grid>
@@ -232,7 +231,6 @@ const Register = ({ reg }) => {
               type="email"
               placeholder="Email Address"
               value={email}
-              // onChange={() => setEmail(gM)}
 
             />
           </Grid>
