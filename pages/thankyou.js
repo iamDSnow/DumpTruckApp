@@ -64,41 +64,7 @@ export default function ThankYou ({ reg }){
   useEffect(() => {
 
 
-      const usePhone = () => ({
-        phone: start.map((user) => {
-          if (user.email === gM) {
-            return user.phone;
-          } else return null;
-        }),
-      });
-    
-      const useID = () => ({
-        id: start
-          .map((user) => {
-            if (user.email === gM) {
-              return user.uid;
-            } else return "";
-          })
-          .reduce((a, b) => a + b, 0)
-          .replace("NaN", ""),
-      });
-
-      const { phone } = usePhone();
-      const { id } = useID();
-      let filtered = phone.filter(function (el) {
-        return el != null;
-      }); 
-
-    filtered.length ?
-      change = true:
-
-      change= false
-   
-
-console.log(filtered)
-console.log(change)
-
-change ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
+ 
 
   
   }, []);
@@ -147,7 +113,41 @@ change ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/
   
   if (status === "authenticated") {
 
+    const usePhone = () => ({
+      phone: start.map((user) => {
+        if (user.email === gM) {
+          return user.phone;
+        } else return null;
+      }),
+    });
+  
+    const useID = () => ({
+      id: start
+        .map((user) => {
+          if (user.email === gM) {
+            return user.uid;
+          } else return "";
+        })
+        .reduce((a, b) => a + b, 0)
+        .replace("NaN", ""),
+    });
 
+    const { phone } = usePhone();
+    const { id } = useID();
+    let filtered = phone.filter(function (el) {
+      return el != null;
+    }); 
+
+  filtered.length ?
+    change = true:
+
+    change= false
+ 
+
+console.log(filtered)
+console.log(change)
+
+change ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
     
 
    
