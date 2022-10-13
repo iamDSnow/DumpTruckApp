@@ -39,7 +39,8 @@ export default function ThankYou ({ reg }){
   const { data: session, status } = useSession();
   const gM = session.user.email;
     const start = reg.data.Users;
-  let loading =  null;
+    const [loading, setLoading] = useState(null);
+
   var redir = null;
 
   const usePhone = () => ({
@@ -200,10 +201,15 @@ export default function ThankYou ({ reg }){
 
 // console.log(shouldRedirect)
 
+let change = null;
+
   shouldRedirect ?
-  router.push("/dashboard/" + id.substring(1))
-:
+       change = true    :
  router.push("/register")
+
+ 
+ change || shouldRedirect ? router.push("/dashboard/" + id.substring(1))
+ : console.log(loading, shouldRedirect )
 
 }
 

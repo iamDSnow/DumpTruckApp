@@ -136,6 +136,8 @@ const Register = ({ reg }) => {
       }
       
       startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
+      router.push('/thankyou'); 
+
       
 
     };
@@ -161,7 +163,7 @@ const Register = ({ reg }) => {
       <FormWrapper
         // action="/api/signUpAPI"
         // method="post"
-        // onSubmit={handleSubmit}
+        onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
         `}
@@ -247,8 +249,7 @@ const Register = ({ reg }) => {
         <Button
           type="submit"
           onClick={() => {
-            handleSubmit(),
-            router.push('/thankyou'); 
+            // handleSubmit(),
           }}
 
         >
