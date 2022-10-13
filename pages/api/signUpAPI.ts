@@ -1,4 +1,9 @@
-export default async function  handler(req, res) {
+import { VercelRequest, VercelResponse } from '@vercel/node';
+
+
+export default async function  handler(req: VercelRequest , res: VercelResponse ) {
+
+  
   // Get data submitted in request's body.
   const data = await req.body
 
@@ -25,13 +30,15 @@ export default async function  handler(req, res) {
 // Optional logging to see the responses
    console.log('body: ', data)
 
+   const requestHeaders: HeadersInit = new Headers();
+requestHeaders.set( "x-hasura-admin-secret" , process.env.NEXT_PUBLIC_HASURA_SECRET as any);
 
   const response = await fetch(
     "https://just-chamois-38.hasura.app/v1/graphql",
     {
       method: "POST",
       body: responseBodyString,
-      headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+      headers: requestHeaders,
     }
   );
   const { errors, payload } = await response.json();
@@ -48,7 +55,7 @@ export default async function  handler(req, res) {
 
   // // Found the name.
   // // Sends a HTTP success code
- console.log(res.status());
+//  console.log(res.status());
   await res.status(200);
 
   
