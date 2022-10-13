@@ -177,7 +177,7 @@ const JSONdata = JSON.stringify(data)
 
 // console.log(JSONdata)
   
-const endpoint = './api/signUpAPI.js'
+const endpoint = './api/signUpAPI.ts'
 
 const options = {
   // The method is POST because we are sending data.
@@ -220,8 +220,8 @@ await router.push('/thankyou');
 
     return (
       <FormWrapper
-        action="/api/signUpAPI"
-        method="post"
+        // action="/api/signUpAPI"
+        // method="post"
         // onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
