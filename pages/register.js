@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Typography, Button, Grid, TextField } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export const getStaticProps = async () => {
   await fetch("https://just-chamois-38.hasura.app/v1/graphql");
@@ -112,61 +113,98 @@ const Register = ({ reg }) => {
     const handleSubmit = async (e) => {
 
 
-      async function fetchGraphQL(operationsDoc, operationName, variables) {
-        const result = await fetch(
-          "https://just-chamois-38.hasura.app/v1/graphql",
-          {
-            headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
-            method: "POST",
-            body: JSON.stringify({
-              query: operationsDoc,
-              variables: variables,
-              operationName: operationName
-            })
-          }
-        );
+    //   async function fetchGraphQL(operationsDoc, operationName, variables) {
+    //     const result = await fetch(
+    //       "https://just-chamois-38.hasura.app/v1/graphql",
+    //       {
+    //         headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+    //         method: "POST",
+    //         body: JSON.stringify({
+    //           query: operationsDoc,
+    //           variables: variables,
+    //           operationName: operationName
+    //         })
+    //       }
+    //     );
       
-        return await result.json();
-      }
+    //     return await result.json();
+    //   }
       
-      const operationsDoc = `
-        mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
-          insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
-            affected_rows
-          }
-        }
-      `;
+    //   const operationsDoc = `
+    //     mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
+    //       insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
+    //         affected_rows
+    //       }
+    //     }
+    //   `;
       
-      function executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
-        return fetchGraphQL(
-          operationsDoc,
-          "MyMutation",
-          {"phone": phone, "truckPlateNumber": truckPlateNumber, "firstName": firstName, "email": email, "driverLic": driverLic, "company": company}
-        );
-      }
+    //   function executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
+    //     return fetchGraphQL(
+    //       operationsDoc,
+    //       "MyMutation",
+    //       {"phone": phone, "truckPlateNumber": truckPlateNumber, "firstName": firstName, "email": email, "driverLic": driverLic, "company": company}
+    //     );
+    //   }
       
-      async function startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
-        const { errors, data } = await executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
+    //   async function startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
+    //     const { errors, data } = await executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
       
-        if (errors) {
-          // handle those errors like a pro
-          console.error(errors);
-        }
+    //     if (errors) {
+    //       // handle those errors like a pro
+    //       console.error(errors);
+    //     }
       
-        // do something great with this precious data
-        console.log(data);
-      }
+    //     // do something great with this precious data
+    //     console.log(data);
+    //   }
       
-      startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company).then(router.push('/thankyou'))
+    //   startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company).then(router.push('/thankyou'))
 
+
+    const data ={
+  
+      firstName: firstName,
+      driverLic: driverLic,
+      email: email,
+      phone: phone,
+       company: company,
+       truckPlateNumber: truckPlateNumber,
+     
+    }
+
+// Send the data to the server in JSON format.
+const JSONdata = JSON.stringify(data)
+
+// console.log(JSONdata)
+  
+const endpoint = './api/signUpAPI.js'
+
+const options = {
+  // The method is POST because we are sending data.
+  method: 'POST',
+  // Tell the server we're sending JSON.
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  // Body of the request is the JSON data we created above.
+  body: JSONdata,
+}
+
+const response = await fetch(endpoint, options)
+
+const result = await response.json()
+alert(`Is this your full name: ${result.data}`)
+
+
+await router.push('/thankyou');
       
 
     };
 
-    if (shouldRedirect) {
-      return <Redirect to={"/thankyou"} />;
-      // return router.push('/thankyou/')
-    }
+    // if (shouldRedirect) {
+    //   return <Redirect to={"/thankyou"} />;
+    //   // return router.push('/thankyou/')
+    // }
 
   
 
@@ -182,8 +220,8 @@ const Register = ({ reg }) => {
 
     return (
       <FormWrapper
-        // action="/api/signUpAPI"
-        // method="post"
+        action="/api/signUpAPI"
+        method="post"
         // onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
@@ -269,17 +307,22 @@ const Register = ({ reg }) => {
           </Grid>
         </Grid>
 
-        <Button
-          // type="submit"
+        <Link
+          href="/thankyou"
+          >
+            <Button
+          type="submit"
+
           onClick={() => {
-            handleSubmit(),
-            router.push('/thankyou')
+            handleSubmit();
+          //   // router.push('/thankyou')
 
           }}
 
         >
           Create
-        </Button>
+          </Button>
+        </Link>
       </FormWrapper>
     );
   }
