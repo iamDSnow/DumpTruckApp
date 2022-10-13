@@ -134,20 +134,19 @@ export default function ThankYou ({ reg }){
 
     const { phone } = usePhone();
     const { id } = useID();
-    let filtered = phone.filter(function (el) {
+    var filtered = phone.filter(function (el) {
       return el != null;
     }); 
 
   filtered.length ?
-    change = true:
+  router.push( "/dashboard/" + id.substring(1) ) :
 
-    change= false
+  router.push("/register/")
  
-
+    
 console.log(filtered)
-console.log(change)
+// console.log(change)
 
-change ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
     
 
    
