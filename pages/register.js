@@ -38,7 +38,7 @@ export const getStaticProps = async () => {
 const Register = ({ reg }) => {
   const [firstName, setFirstName] = useState();
   const [driverLic, setDriverLic] = useState("");
-  const [email, setEmail] = useState("");
+  // const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
@@ -50,14 +50,9 @@ const Register = ({ reg }) => {
  
 
   
-  useEffect(() => {
-   
-     
-
-   
+  // useEffect(() => {
     
-    
-  }, []);
+  // }, []);
 
   
 
@@ -70,20 +65,23 @@ const Register = ({ reg }) => {
   }
   if (status === "authenticated") {
 
-    const gM = session.user.email;
-  const uName = session.user.name;
+    const email = session.user.email;
+  const firstName = session.user.name;
   
     const start = reg.data.Users;
 
     const usePhone = () => ({
       phones: start.map((user) => {
-        if (user.email === gM) {
+        if (user.email === email) {
           return user.phone;
-        } else return null;
+        } 
       }), 
     });
 
+
+
     const { phones } = usePhone();
+
 
     var filtered = phones.filter(function (el) {
       return el != null;
@@ -210,7 +208,7 @@ const Register = ({ reg }) => {
               id="firstName"
               value={firstName}
               placeholder="Full Name"
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={() => setFirstName(firstName)}
 
             />
           </Grid>
@@ -234,7 +232,7 @@ const Register = ({ reg }) => {
               type="email"
               placeholder="Email Address"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              // onChange={() => setEmail(gM)}
 
             />
           </Grid>
