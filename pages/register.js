@@ -45,44 +45,21 @@ const Register = ({ reg }) => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const { data: session, status } = useSession();
-  const start = reg.data.Users;
 
   const router = useRouter();
+ 
 
-
-
-  useEffect(() => {
-    
-    if (status === "authenticated") {
-      const uName = String(session.user.name);
-
-      const gM = session.user.email;
-      setFirstName(uName)
-
-    setEmail(gM)
-
-    const usePhone = () => ({
-      phone: start.map((user) => {
-        if (user.email === gM) {
-          return user.phone;
-        } else return null;
-      }), 
-    });
-
-    const { phone } = usePhone();
-
-    var filtered = phone.filter(function (el) {
-      return el != null;
-    });
   
+  useEffect(() => {
+   
+     
 
-    filtered ? router.push('/thankyou') : null
-
+   
     
-    }
+    
   }, []);
 
-
+  
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -92,7 +69,32 @@ const Register = ({ reg }) => {
     return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
+
+    const gM = session.user.email;
+  const uName = session.user.name;
   
+    const start = reg.data.Users;
+
+    const usePhone = () => ({
+      phones: start.map((user) => {
+        if (user.email === gM) {
+          return user.phone;
+        } else return null;
+      }), 
+    });
+
+    const { phones } = usePhone();
+
+    var filtered = phones.filter(function (el) {
+      return el != null;
+    });
+  
+
+    console.log( phones)
+
+
+    console.log( filtered.length)
+    filtered.length ?  router.push('/thankyou') : null
 
     // console.log(reg.data.Users.map(user => {
     //   if (user.email === gM) {
@@ -157,7 +159,7 @@ const Register = ({ reg }) => {
         console.log(data);
       }
       
-      startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
+      startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company).then(router.push('/thankyou'))
 
       
 
@@ -184,7 +186,7 @@ const Register = ({ reg }) => {
       <FormWrapper
         // action="/api/signUpAPI"
         // method="post"
-        onSubmit={handleSubmit}
+        // onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
         `}
@@ -208,6 +210,8 @@ const Register = ({ reg }) => {
               id="firstName"
               value={firstName}
               placeholder="Full Name"
+              onChange={(e) => setFirstName(e.target.value)}
+
             />
           </Grid>
           <Grid item xs={4}>
@@ -230,6 +234,8 @@ const Register = ({ reg }) => {
               type="email"
               placeholder="Email Address"
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
+
             />
           </Grid>
           <Grid item xs={4}>
@@ -268,9 +274,9 @@ const Register = ({ reg }) => {
         </Grid>
 
         <Button
-          type="submit"
+          // type="submit"
           onClick={() => {
-            // handleSubmit(),
+            handleSubmit(),
             router.push('/thankyou')
 
           }}

@@ -43,29 +43,11 @@ export default function ThankYou ({ reg }){
 
   var redir = null;
 
-  const usePhone = () => ({
-    phone: start.map((user) => {
-      if (user.email === gM) {
-        return user.phone;
-      } else return null;
-    }),
-  });
-
-  const useID = () => ({
-    id: start
-      .map((user) => {
-        if (user.email === gM) {
-          return user.uid;
-        } else return "";
-      })
-      .reduce((a, b) => a + b, 0)
-      .replace("NaN", ""),
-  });
+ 
 
   const router = useRouter();
 
-  const { phone } = usePhone();
-  const { id } = useID();
+ 
 
   // const [firstNdame, setFirstName] = useState("");
   // const [id, setID] = useState("");
@@ -76,28 +58,49 @@ export default function ThankYou ({ reg }){
   // const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(null);
 
-  var filtered = phone.filter(function (el) {
-    return el != null;
-  });
+  var change = null
 
 
   useEffect(() => {
 
-    if(filtered.length === 0 ){
-      setShouldRedirect(false)
 
-
-    } 
-   else{
-
-      setShouldRedirect(true)
-
+      const usePhone = () => ({
+        phone: start.map((user) => {
+          if (user.email === gM) {
+            return user.phone;
+          } else return null;
+        }),
+      });
     
-   }
+      const useID = () => ({
+        id: start
+          .map((user) => {
+            if (user.email === gM) {
+              return user.uid;
+            } else return "";
+          })
+          .reduce((a, b) => a + b, 0)
+          .replace("NaN", ""),
+      });
 
-// console.log(filtered)
+      const { phone } = usePhone();
+      const { id } = useID();
+      let filtered = phone.filter(function (el) {
+        return el != null;
+      }); 
 
+    filtered.length ?
+      change = true:
 
+      change= false
+   
+
+console.log(filtered)
+console.log(change)
+
+change ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
+
+  
   }, []);
   // useEffect(() => {
   //   if (status === 'authenticated'){
@@ -191,7 +194,6 @@ export default function ThankYou ({ reg }){
 
     //       setShouldRedirect(false),
 
-    //         shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
 
     //   }, [to]);
     //   return null;
@@ -201,19 +203,14 @@ export default function ThankYou ({ reg }){
 
 // console.log(shouldRedirect)
 
-var change = null;
 
-  shouldRedirect ?
-       change = true    : change = false 
  
 
 
 
- // you are leaving off console longing change to see if it is null or if it is actually changing
- console.log(change)
  
- change || shouldRedirect ? router.push("/dashboard/" + id.substring(1))
- : router.push("/register")
+//        shouldRedirect  ? router.push("/dashboard/" + id.substring(1))
+//  : router.push("/register")
 
 }
 
