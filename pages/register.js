@@ -35,16 +35,32 @@ export const getStaticProps = async () => {
 };
 
 const Register = ({ reg }) => {
-  const [firstName, setFirstName] = useState("");
+  const [firstName, setFirstName] = useState();
   const [driverLic, setDriverLic] = useState("");
   const [email, setEmail] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [comName, setComName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const { data: session, status } = useSession();
   const router = useRouter();
+
+
+
+  useEffect(() => {
+    
+    if (status === "authenticated") {
+      const uName = String(session.user.name);
+
+      const gM = session.user.email;
+      setFirstName(uName)
+
+    setEmail(gM)
+    }
+  }, []);
+
+
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -54,8 +70,7 @@ const Register = ({ reg }) => {
     return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
-    const gM = session.user.email;
-    const uName = session.user.name;
+  
 
     // console.log(reg.data.Users.map(user => {
     //   if (user.email === gM) {
@@ -73,39 +88,56 @@ const Register = ({ reg }) => {
     }
 
     const handleSubmit = async (e) => {
-      const data = {
-        firstName: session.user.name,
-        driverLic: driverLic,
-        email: session.user.email,
-        phoneNumber: phoneNumber,
-        comName: comName,
-        truckPlateNumber: truckPlateNumber,
-      };
 
-      // Send the data to the server in JSON format.
-      const JSONdata = JSON.stringify(data);
 
-      // console.log(JSONdata)
+      async function fetchGraphQL(operationsDoc, operationName, variables) {
+        const result = await fetch(
+          "https://just-chamois-38.hasura.app/v1/graphql",
+          {
+            headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+            method: "POST",
+            body: JSON.stringify({
+              query: operationsDoc,
+              variables: variables,
+              operationName: operationName
+            })
+          }
+        );
+      
+        return await result.json();
+      }
+      
+      const operationsDoc = `
+        mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
+          insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
+            affected_rows
+          }
+        }
+      `;
+      
+      function executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
+        return fetchGraphQL(
+          operationsDoc,
+          "MyMutation",
+          {"phone": phone, "truckPlateNumber": truckPlateNumber, "firstName": firstName, "email": email, "driverLic": driverLic, "company": company}
+        );
+      }
+      
+      async function startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company) {
+        const { errors, data } = await executeMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
+      
+        if (errors) {
+          // handle those errors like a pro
+          console.error(errors);
+        }
+      
+        // do something great with this precious data
+        console.log(data);
+      }
+      
+      startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
+      
 
-      const endpoint = "/api/signUpAPI";
-
-      const options = {
-        // The method is POST because we are sending data.
-        method: "POST",
-        // Tell the server we're sending JSON.
-        headers: {
-          "Content-Type": "application/json",
-        },
-        // Body of the request is the JSON data we created above.
-        body: JSONdata,
-      };
-
-      const response = await fetch(endpoint, options);
-
-      const result = await response.json();
-      console.log(result);
-
-      setShouldRedirect(true);
     };
 
     if (shouldRedirect) {
@@ -113,17 +145,10 @@ const Register = ({ reg }) => {
       // return router.push('/thankyou/')
     }
 
-    // const handleOpen = (index) => {
-    //   setOpen(true);
-    //   setData(data[index]);
-    // };
-
-    // const handleClose = () => {
-    //   setOpen(false);
-    // };
+  
 
     const id = reg.data.Users.map((user) => {
-      if (user.email === gM) {
+      if (user.email === email) {
         return user.uid;
       } else return "";
     })
@@ -134,8 +159,8 @@ const Register = ({ reg }) => {
 
     return (
       <FormWrapper
-        action="/api/signUpAPI"
-        method="post"
+        // action="/api/signUpAPI"
+        // method="post"
         // onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
@@ -157,8 +182,8 @@ const Register = ({ reg }) => {
               required={true}
               type="text"
               name="firstName"
-              value={uName}
-              onChange={(e) => setFirstName(session.user.name)}
+              id="firstName"
+              value={firstName}
               placeholder="Full Name"
             />
           </Grid>
@@ -167,6 +192,7 @@ const Register = ({ reg }) => {
               required={true}
               type="text"
               name="driverLic"
+              id="driverLic"
               value={driverLic}
               onChange={(e) => setDriverLic(e.target.value)}
               placeholder="Driver Lic."
@@ -177,32 +203,32 @@ const Register = ({ reg }) => {
               disabled
               required={true}
               name="email"
-              type="text"
+              id="email"
+              type="email"
               placeholder="Email Address"
-              value={gM}
-              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
           </Grid>
           <Grid item xs={4}>
             <TextField
               required={true}
-              name="phoneNumber"
-              id="phoneNumber"
+              name="phone"
+              id="phone"
               type="number"
-              value={phoneNumber}
+              value={phone}
               placeholder=" Phone Number"
-              onChange={(e) => setPhoneNumber(e.target.value)}
+              onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
           <Grid item xs={4}>
             <TextField
               required={true}
-              name="comName"
-              id="comName"
+              name="company"
+              id="company"
               type="text"
-              value={comName}
+              value={company}
               placeholder=" Comapany Name"
-              onChange={(e) => setComName(e.target.value)}
+              onChange={(e) => setCompany(e.target.value)}
             />
           </Grid>
           <Grid item xs={4}>
@@ -221,9 +247,10 @@ const Register = ({ reg }) => {
         <Button
           type="submit"
           onClick={() => {
-            handleSubmit();
-            setTimeout(setShouldRedirect(true), 5000);
+            handleSubmit(),
+            router.push('/thankyou'); 
           }}
+
         >
           Create
         </Button>

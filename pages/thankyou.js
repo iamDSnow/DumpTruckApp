@@ -35,9 +35,37 @@ export const getStaticProps = async () => {
   };
 };
 
-const ThankYou = ({ reg }) => {
+export default function ThankYou ({ reg }){
   const { data: session, status } = useSession();
+  const gM = session.user.email;
+    const start = reg.data.Users;
+  let loading =  null;
+  var redir = null;
+
+  const usePhone = () => ({
+    phone: start.map((user) => {
+      if (user.email === gM) {
+        return user.phone;
+      } else return null;
+    }),
+  });
+
+  const useID = () => ({
+    id: start
+      .map((user) => {
+        if (user.email === gM) {
+          return user.uid;
+        } else return "";
+      })
+      .reduce((a, b) => a + b, 0)
+      .replace("NaN", ""),
+  });
+
   const router = useRouter();
+
+  const { phone } = usePhone();
+  const { id } = useID();
+
   // const [firstNdame, setFirstName] = useState("");
   // const [id, setID] = useState("");
   // const [driverLic, setDriverLic] = useState("");
@@ -45,8 +73,31 @@ const ThankYou = ({ reg }) => {
   // const [phoneNumber, setPhoneNumber] = useState("");
   // const [comName, setComName] = useState("");
   // const [truckPlateNumber, setTruckPlateNumber] = useState("");
-  const [shouldRedirect, setShouldRedirect] = useState(false);
+  const [shouldRedirect, setShouldRedirect] = useState(null);
 
+  var filtered = phone.filter(function (el) {
+    return el != null;
+  });
+
+
+  useEffect(() => {
+
+    if(filtered.length === 0 ){
+      setShouldRedirect(false)
+
+
+    } 
+   else{
+
+      setShouldRedirect(true)
+
+    
+   }
+
+// console.log(filtered)
+
+
+  }, []);
   // useEffect(() => {
   //   if (status === 'authenticated'){
 
@@ -79,6 +130,7 @@ const ThankYou = ({ reg }) => {
   // }
   //    }, []);
 
+
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -86,69 +138,32 @@ const ThankYou = ({ reg }) => {
   if (status === "unauthenticated") {
     return <p>Access Denied</p>;
   }
+
+  
+  
   if (status === "authenticated") {
 
 
-    const gM = session.user.email;
-    const start = reg.data.Users;
+    
 
-    const usePhone = () => ({
-      phone: start.map((user) => {
-        if (user.email === gM) {
-          return user.phone;
-        } else return null;
-      }),
-    });
-
-    const useID = () => ({
-      id: start
-        .map((user) => {
-          if (user.email === gM) {
-            return user.uid;
-          } else return "";
-        })
-        .reduce((a, b) => a + b, 0)
-        .replace("NaN", ""),
-    });
-
+   
     // function onlyNumbers(array) {
     //   return array.every(element => {
     //     return typeof element === 'number';
     //   });
     // }
 
-    const { phone } = usePhone();
-    const { id } = useID();
-    const loading =  null;
-    const redir = null;
-
-    var filtered = phone.filter(function (el) {
-      return el != null;
-    });
-
-    if (!filtered?.length) {
-      {
-       setTimeout( loading = false, 4000);
-      }
-    } else {
-      setTimeout( loading = true, 4000);
-      redir = true
-
-    }
+    
+   
 
     // const plainPhone =(JSON.stringify(phone))
 
-    // console.log(onlyNumbers(plainPhone))
-    console.log(filtered);
-    console.log(loading);
+    // console.log(onlyNumbers(filtered))
+    // console.log(filtered);
+    // console.log(loading);
 
-    if(loading===true|| redir === true){
-       router.push("/dashboard/" + id.substring(1))
-    }
-      else {router.push("/register")
-      redir =true
     
-    };
+    
 
     // function Redirect({to}){
     //   const router = useRouter();
@@ -180,14 +195,35 @@ const ThankYou = ({ reg }) => {
     //   }, [to]);
     //   return null;
     // }
+// if(loading){
+
+
+// console.log(shouldRedirect)
+
+  shouldRedirect ?
+  router.push("/dashboard/" + id.substring(1))
+:
+ router.push("/register")
+
+}
 
     return (
       <>
         <h1>Thank You</h1>
         {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
       </>
-    );
-  }
-};
+    )
+    // }
 
-export default ThankYou;
+  //   else{
+    
+
+
+
+    
+  // }
+};
+ThankYou.auth = {
+  unauthorized: "/", // redirect to this url
+}
+
