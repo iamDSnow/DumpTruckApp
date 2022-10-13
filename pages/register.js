@@ -20,6 +20,7 @@ export const getStaticProps = async () => {
           Users {
             uid
             email
+            phone
           }
         }
       `,
@@ -44,6 +45,8 @@ const Register = ({ reg }) => {
   const [shouldRedirect, setShouldRedirect] = useState(false);
 
   const { data: session, status } = useSession();
+  const start = reg.data.Users;
+
   const router = useRouter();
 
 
@@ -57,6 +60,25 @@ const Register = ({ reg }) => {
       setFirstName(uName)
 
     setEmail(gM)
+
+    const usePhone = () => ({
+      phone: start.map((user) => {
+        if (user.email === gM) {
+          return user.phone;
+        } else return null;
+      }), 
+    });
+
+    const { phone } = usePhone();
+
+    var filtered = phone.filter(function (el) {
+      return el != null;
+    });
+  
+
+    filtered ? router.push('/thankyou') : null
+
+    
     }
   }, []);
 
@@ -136,7 +158,6 @@ const Register = ({ reg }) => {
       }
       
       startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company);
-      router.push('/thankyou'); 
 
       
 
@@ -250,6 +271,8 @@ const Register = ({ reg }) => {
           type="submit"
           onClick={() => {
             // handleSubmit(),
+            router.push('/thankyou')
+
           }}
 
         >
