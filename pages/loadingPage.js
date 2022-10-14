@@ -39,7 +39,10 @@ export default function LoadingPage ({ reg }){
   const { data: session, status } = useSession();
   const gM = session.user.email;
     const [loading, setLoading] = useState(null);
- 
+    const start = reg.data.Users;
+    const [id, setID] = useState("");
+
+
   const router = useRouter();
 
   const [shouldRedirect, setShouldRedirect] = useState(null);
@@ -48,13 +51,33 @@ export default function LoadingPage ({ reg }){
 
 
   useEffect(() => {
+    if (status === 'authenticated'){
 
 
- 
-      
-  
-    
-  }, [])
+
+    const idC = () => ({
+      idCheck: start
+        .map((user) => {
+          if (user.email === gM) {
+            return user.uid
+          } else return "";
+        })
+        .reduce((a, b) => a + b, 0)
+        .replace("NaN", ""),
+    });
+
+
+    const {idCheck} = idC()
+    setID(idCheck)
+      if (idCheck === ''){
+        return setLoading(false)
+      }
+      else{
+        setLoading(true)
+      }
+    }
+      setLoading()
+  }, [status])
 
 
   if (status === "loading") {
@@ -70,7 +93,6 @@ export default function LoadingPage ({ reg }){
   if (status === "authenticated") {
 
    
-    const start = reg.data.Users;
 
    
 
@@ -103,7 +125,7 @@ const router = useRouter();
      .replace("NaN", "");
 
  
-     id ?
+     loading ?
 router.push("/dashboard/" + id.substring(1) ) :
 
 router.push("/register") 

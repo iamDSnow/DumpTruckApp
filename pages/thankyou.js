@@ -39,6 +39,8 @@ export default function ThankYou ({ reg }){
   const { data: session, status } = useSession();
   const gM = session.user.email;
     const [loading, setLoading] = useState(null);
+    const start = reg.data.Users;
+
 
   var redir = null;
 
@@ -58,7 +60,7 @@ export default function ThankYou ({ reg }){
  
 
   // const [firstNdame, setFirstName] = useState("");
-  // const [id, setID] = useState("");
+  const [id, setID] = useState("");
   // const [driverLic, setDriverLic] = useState("");
   // const [email, setEmail] = useState("");
   // const [phoneNumber, setPhoneNumber] = useState("");
@@ -76,10 +78,38 @@ export default function ThankYou ({ reg }){
 
   
   // }, []);
-  // useEffect(() => {
-  //   if (status === 'authenticated'){
 
-  // }, [status])
+  
+
+
+  useEffect(() => {
+    if (status === 'authenticated'){
+
+
+
+    const idC = () => ({
+      idCheck: start
+        .map((user) => {
+          if (user.email === gM) {
+            return user.uid
+          } else return "";
+        })
+        .reduce((a, b) => a + b, 0)
+        .replace("NaN", ""),
+    });
+
+
+    const {idCheck} = idC()
+    setID(idCheck)
+      if (idCheck === ''){
+        return setLoading(false)
+      }
+      else{
+        setLoading(true)
+      }
+    }
+      setLoading()
+  }, [status])
 
   //   useEffect(()=> {
   //     if (status === "authenticated") {
@@ -121,7 +151,6 @@ export default function ThankYou ({ reg }){
   
   if (status === "authenticated") {
 
-    const start = reg.data.Users;
 
     
     
@@ -134,16 +163,7 @@ export default function ThankYou ({ reg }){
       }),
     });
   
-    const id = 
-      start
-        .map((user) => {
-          if (user.email === gM) {
-            return user.uid;
-          } else return "";
-        })
-        .reduce((a, b) => a + b, 0)
-        .replace("NaN", "");
-
+   
     const { phone } = usePhone();
     // const { id } = useID();
     var filtered = phone.filter(function (el) {
@@ -152,7 +172,7 @@ export default function ThankYou ({ reg }){
 
     console.log(id)
 
-  id ?
+  loading ?
 router.push("/dashboard/" + id.substring(1) ) :
 
 router.push("/register") 

@@ -45,23 +45,24 @@ const Register = ({ reg }) => {
   const [company, setCompany] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
+  const start = reg.data.Users;
 
   const { data: session, status } = useSession();
 
-  // const router = useRouter();
+  const router = useRouter();
  
 
 
-  function Redirect({to}){
-    const router = useRouter();
+  // function Redirect({to}){
+  //   const router = useRouter();
 
-    useEffect(()=> {
+  //   useEffect(()=> {
 
-      router.push(to)
+  //     router.push(to)
 
-    }, [to]);
-    return null;
-  }
+  //   }, [to]);
+  //   return null;
+  // }
   
   useEffect(() => {
     if (status === "authenticated") {
@@ -88,7 +89,6 @@ const Register = ({ reg }) => {
 
    
   
-    const start = reg.data.Users;
 
     // const usePhone = () => ({
     //   phones: start.map((user) => {
@@ -112,7 +112,6 @@ const Register = ({ reg }) => {
 
 
     // console.log( filtered.length)
-    // filtered.length ?  router.push('/thankyou') : null
 
     // console.log(reg.data.Users.map(user => {
     //   if (user.email === gM) {
@@ -177,7 +176,6 @@ const Register = ({ reg }) => {
     //     console.log(data);
     //   }
       
-    //   startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company).then(router.push('/thankyou'))
 
 
     const data ={
@@ -211,17 +209,14 @@ const options = {
 
 const response = await fetch(endpoint, options)
 
-console.log(response)
+console.log('Success')
 
 
       
 
     };
 
-    // if (shouldRedirect) {
-    //   return <Redirect to={"/thankyou"} />;
-    //   // return router.push('/thankyou/')
-    // }
+   
 
   
 
@@ -324,7 +319,7 @@ console.log(response)
         </Grid>
 
         <Link
-          href="/dashboard'"
+          href="/loadingPage"
           >
             <Button
           type="submit"
@@ -332,12 +327,13 @@ console.log(response)
 
           onClick={
             () => {
-            handleSubmit();
-            // router.push('/loadingPage');
+            handleSubmit(),
+            router.push('/loadingPage');
+
           }
         }
         >
-          <Redirect to={"/loadingPage/"} />
+          {/* <Redirect to={"/loadingPage/"} /> */}
           Create
           </Button>
         </Link>
