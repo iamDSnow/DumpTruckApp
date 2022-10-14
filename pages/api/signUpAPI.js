@@ -55,7 +55,8 @@ export default async function  handler(req , res) {
   // // Sends a HTTP success code
 //  console.log(res.status());
 // console.log(res)
-  return resJSON.status(200);
+console.log(resJSON)
+  return res.status(200);
 
 
   
