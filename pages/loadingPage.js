@@ -97,9 +97,9 @@ const router = useRouter();
     start.map((user) => {
        if (user.email === gM) {
          return user.uid;
-       } else return "";
+       } else return false;
      })
-     .reduce((a, b) => a + b, false)
+     .reduce((a, b) => a + b, 0)
      .replace("NaN", "");
 
  
