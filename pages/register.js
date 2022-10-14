@@ -40,7 +40,7 @@ export const getStaticProps = async () => {
 const Register = ({ reg }) => {
   const [firstName, setFirstName] = useState();
   const [driverLic, setDriverLic] = useState("");
-  // const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [company, setCompany] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
@@ -52,9 +52,17 @@ const Register = ({ reg }) => {
  
 
   
-  // useEffect(() => {
+  useEffect(() => {
+    if (status === "authenticated") {
+      const gEmail = session.user.email;
+      const gFirstName = session.user.name;
+
+        setEmail(gEmail),
+        setFirstName(gFirstName)
+
+    }
     
-  // }, []);
+  }, [status]);
 
   
 
@@ -67,8 +75,7 @@ const Register = ({ reg }) => {
   }
   if (status === "authenticated") {
 
-    const email = session.user.email;
-  const firstName = session.user.name;
+   
   
     const start = reg.data.Users;
 
@@ -197,7 +204,7 @@ const result = await response.json()
 alert(`Is this your full name: ${result.data}`)
 
 
-await router.push('/thankyou');
+await router.push('/dashboard');
       
 
     };
