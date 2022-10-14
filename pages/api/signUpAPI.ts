@@ -1,7 +1,12 @@
+import { VercelRequest, VercelResponse } from '@vercel/node';
 
-export default async function  handler(req, res) {
+
+export default async function  handler(req:VercelRequest , res:VercelResponse) {
   // Get data submitted in request's body.
   const data = await req.body
+
+  const requestHeaders: HeadersInit = new Headers();
+   requestHeaders.set("x-hasura-admin-secret", process.env.NEXT_PUBLIC_HASURA_SECRET as any);
 
   const responseBodyString =  JSON.stringify({
     query: `
@@ -32,7 +37,7 @@ export default async function  handler(req, res) {
     {
       method: "POST",
       body: responseBodyString,
-      headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+      headers: requestHeaders,
     }
   );
   const { errors, payload } = await response.json();
@@ -49,8 +54,8 @@ export default async function  handler(req, res) {
 
   // // Found the name.
   // // Sends a HTTP success code
- console.log(res.status());
-  await res.status(200);
+//  console.log(res.status());
+   res.status(200);
 
   
 

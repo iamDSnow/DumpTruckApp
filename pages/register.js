@@ -315,11 +315,13 @@ const JSONdata = JSON.stringify(data)
             <Button
           type="submit"
 
-          onClick={() => {
+          onClick={
+            // () => {
             // handleSubmit();
-            router.push('/thankyou');
+            router.push('/thankyou')
 
-          }}
+          // }
+        }
 
         >
           Create
