@@ -79,28 +79,28 @@ const Register = ({ reg }) => {
   
     const start = reg.data.Users;
 
-    const usePhone = () => ({
-      phones: start.map((user) => {
-        if (user.email === email) {
-          return user.phone;
-        } 
-      }), 
-    });
+    // const usePhone = () => ({
+    //   phones: start.map((user) => {
+    //     if (user.email === email) {
+    //       return user.phone;
+    //     } 
+    //   }), 
+    // });
 
 
 
-    const { phones } = usePhone();
+    // const { phones } = usePhone();
 
 
-    var filtered = phones.filter(function (el) {
-      return el != null;
-    });
+    // var filtered = phones.filter(function (el) {
+    //   return el != null;
+    // });
   
 
-    console.log( phones)
+    // console.log( phones)
 
 
-    console.log( filtered.length)
+    // console.log( filtered.length)
     // filtered.length ?  router.push('/thankyou') : null
 
     // console.log(reg.data.Users.map(user => {
@@ -185,7 +185,7 @@ const JSONdata = JSON.stringify(data)
 
 // console.log(JSONdata)
   
-const endpoint = '/api/signUpAPI.js'
+const endpoint = '/api/signUpAPI'
 
 const options = {
   // The method is POST because we are sending data.
@@ -200,11 +200,9 @@ const options = {
 
 const response = await fetch(endpoint, options)
 
-const result = await response.json()
-alert(`Is this your full name: ${result.data}`)
+console.log(response)
 
 
-await router.push('/dashboard');
       
 
     };
@@ -228,8 +226,8 @@ await router.push('/dashboard');
 
     return (
       <FormWrapper
-        action="/api/signUpAPI"
-        method="post"
+        // action="/api/signUpAPI"
+        // method="post"
         css={`
           padding: 2rem 4rem;
         `}
@@ -324,8 +322,8 @@ await router.push('/dashboard');
 
           onClick={
             () => {
-            handleSubmit()
-        //     router.push('/thankyou')
+            handleSubmit(),
+            router.push('/dashboard')
 
           }
         }

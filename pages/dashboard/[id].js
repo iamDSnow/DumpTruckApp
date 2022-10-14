@@ -162,6 +162,7 @@ export default function Details ({ data, id }) {
 
   
   const handleSubmit = async (e) => {
+    e.preventDefault();
 
 
     // Prep Payload

@@ -1,12 +1,9 @@
-import { VercelRequest, VercelResponse } from '@vercel/node';
-
-
-export default async function  handler(req:VercelRequest , res:VercelResponse) {
+export default async function  handler(req , res) {
   // Get data submitted in request's body.
   const data = await req.body
 
-  const requestHeaders: HeadersInit = new Headers();
-   requestHeaders.set("x-hasura-admin-secret", process.env.NEXT_PUBLIC_HASURA_SECRET as any);
+  // const requestHeaders: HeadersInit = new Headers();
+  //  requestHeaders.set(["x-hasura-admin-secret"], process.env.NEXT_PUBLIC_HASURA_SECRET as any);
 
   const responseBodyString =  JSON.stringify({
     query: `
@@ -29,7 +26,7 @@ export default async function  handler(req:VercelRequest , res:VercelResponse) {
     },
   });
 // Optional logging to see the responses
-   console.log('body: ', data)
+  //  console.log('body: ', data)
 
 
   const response = await fetch(
@@ -37,25 +34,27 @@ export default async function  handler(req:VercelRequest , res:VercelResponse) {
     {
       method: "POST",
       body: responseBodyString,
-      headers: requestHeaders,
+      headers: {["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
     }
   );
-  const { errors, payload } = await response.json();
-  if (errors) {
-    console.log(errors);
-  } else 
-  return { statusCode: 200, body: JSON.stringify(payload) };
+  // const { errors, payload } = await response.json();
+  // if (errors) {
+  //   console.log(errors);
+  // } else 
+  //  {  console.log(JSON.stringify(errors) )};
 
 
-  if (!data.firstName) {
-    // Sends a HTTP bad request error code
-    return res.status(400).json({ data: 'badHTTP' })
-  }
+  // if (!data.firstName) {
+  //   // Sends a HTTP bad request error code
+  //   return res.status(400).json({ data: 'badHTTP' })
+  // }
 
   // // Found the name.
   // // Sends a HTTP success code
 //  console.log(res.status());
-   res.status(200);
+// console.log(res)
+res.status(200);
+
 
   
 
