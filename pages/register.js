@@ -33,8 +33,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { reg },
-    revalidate: 30
-
+    
   };
 };
 
