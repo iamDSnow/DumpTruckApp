@@ -212,7 +212,11 @@ const response = await fetch(endpoint, options)
 console.log('Success')
 
 
-      
+      if (response){
+        router.push('/loadingPage');
+        console.log('going forward')
+
+      }
 
     };
 
@@ -327,8 +331,7 @@ console.log('Success')
 
           onClick={
             () => {
-            handleSubmit(),
-            router.push('/loadingPage');
+            handleSubmit();
 
           }
         }

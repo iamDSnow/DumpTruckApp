@@ -134,7 +134,7 @@ router.push("/register")
 
     return (
       <>
-        <h1>Thank You</h1>
+        <h1>Loading..</h1>
       </>
     )
     
