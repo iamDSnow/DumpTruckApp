@@ -33,6 +33,8 @@ export const getStaticProps = async () => {
 
   return {
     props: { reg },
+    revalidate: 1
+
   };
 };
 
@@ -161,42 +163,42 @@ const Register = ({ reg }) => {
     //   startExecuteMyMutation(phone, truckPlateNumber, firstName, email, driverLic, company).then(router.push('/thankyou'))
 
 
-    const data ={
+//     const data ={
   
-      firstName: firstName,
-      driverLic: driverLic,
-      email: email,
-      phone: phone,
-       company: company,
-       truckPlateNumber: truckPlateNumber,
+//       firstName: firstName,
+//       driverLic: driverLic,
+//       email: email,
+//       phone: phone,
+//        company: company,
+//        truckPlateNumber: truckPlateNumber,
      
-    }
+//     }
 
-// Send the data to the server in JSON format.
-const JSONdata = JSON.stringify(data)
+// // Send the data to the server in JSON format.
+// const JSONdata = JSON.stringify(data)
 
-// console.log(JSONdata)
+// // console.log(JSONdata)
   
-const endpoint = './api/signUpAPI.ts'
+// const endpoint = './api/signUpAPI.ts'
 
-const options = {
-  // The method is POST because we are sending data.
-  method: 'POST',
-  // Tell the server we're sending JSON.
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  // Body of the request is the JSON data we created above.
-  body: JSONdata,
-}
+// const options = {
+//   // The method is POST because we are sending data.
+//   method: 'POST',
+//   // Tell the server we're sending JSON.
+//   headers: {
+//     'Content-Type': 'application/json',
+//   },
+//   // Body of the request is the JSON data we created above.
+//   body: JSONdata,
+// }
 
-const response = await fetch(endpoint, options)
+// const response = await fetch(endpoint, options)
 
-const result = await response.json()
-alert(`Is this your full name: ${result.data}`)
+// const result = await response.json()
+// alert(`Is this your full name: ${result.data}`)
 
 
-await router.push('/thankyou');
+// await router.push('/thankyou');
       
 
     };
@@ -220,8 +222,8 @@ await router.push('/thankyou');
 
     return (
       <FormWrapper
-        // action="/api/signUpAPI"
-        // method="post"
+        action="/api/signUpAPI"
+        method="post"
         // onSubmit={handleSubmit}
         css={`
           padding: 2rem 4rem;
@@ -313,11 +315,11 @@ await router.push('/thankyou');
             <Button
           type="submit"
 
-          onClick={() => {
-            handleSubmit();
-          //   // router.push('/thankyou')
+          // onClick={() => {
+          //   handleSubmit();
+          // //   // router.push('/thankyou')
 
-          }}
+          // }}
 
         >
           Create
