@@ -223,7 +223,6 @@ const JSONdata = JSON.stringify(data)
       <FormWrapper
         action="/api/signUpAPI"
         method="post"
-        onSubmit={router.push('/thankyou')}
         css={`
           padding: 2rem 4rem;
         `}
@@ -313,6 +312,8 @@ const JSONdata = JSON.stringify(data)
           > */}
             <Button
           type="submit"
+          onSubmit={router.push('/thankyou')}
+
 
         //   onClick={
         //     // () => {
