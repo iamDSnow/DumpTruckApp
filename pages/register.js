@@ -312,26 +312,23 @@ console.log(response)
           </Grid>
         </Grid>
 
-        {/* <Link
-          href="/thankyou"
-          > */}
+        <Link
+          href="/dashboard'"
+          >
             <Button
           type="submit"
-          // onSubmit={router.push('/thankyou')}
 
 
           onClick={
             () => {
-            handleSubmit(),
-            router.push('/dashboard')
-
+            handleSubmit();
+            // router.push('/dashboard');
           }
         }
-
         >
           Create
           </Button>
-        {/* </Link> */}
+        </Link>
       </FormWrapper>
     );
   }
