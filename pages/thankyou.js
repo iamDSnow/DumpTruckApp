@@ -38,12 +38,20 @@ export const getStaticProps = async () => {
 export default function ThankYou ({ reg }){
   const { data: session, status } = useSession();
   const gM = session.user.email;
-    const start = reg.data.Users;
     const [loading, setLoading] = useState(null);
 
   var redir = null;
 
- 
+  // function Redirect({to}){
+  //   const router = useRouter();
+  
+  //   useEffect(()=> {
+  
+  //     router.push(to)
+  
+  //   }, [to]);
+  //   return null;
+  // }
 
   const router = useRouter();
 
@@ -113,6 +121,11 @@ export default function ThankYou ({ reg }){
   
   if (status === "authenticated") {
 
+    const start = reg.data.Users;
+
+    
+    
+    
     const usePhone = () => ({
       phone: start.map((user) => {
         if (user.email === gM) {
@@ -121,33 +134,33 @@ export default function ThankYou ({ reg }){
       }),
     });
   
-    const useID = () => ({
-      id: start
+    const id = 
+      start
         .map((user) => {
           if (user.email === gM) {
             return user.uid;
           } else return "";
         })
-        .reduce((a, b) => a + b, 0)
-        .replace("NaN", ""),
-    });
+        .reduce((a, b) => a + b, false)
+        .replace("NaN", "");
 
     const { phone } = usePhone();
-    const { id } = useID();
+    // const { id } = useID();
     var filtered = phone.filter(function (el) {
       return el != null;
     }); 
 
-  filtered.length ?
-  router.push( "/dashboard/" + id.substring(1) ) :
+    console.log(id)
 
-  router.push("/register/")
- 
+  id ?
+router.push("/dashboard/" + id.substring(1) ) :
+
+router.push("/register") 
     
-console.log(filtered)
+// console.log(filtered)
 // console.log(change)
 
-    
+
 
    
     // function onlyNumbers(array) {
@@ -213,21 +226,13 @@ console.log(filtered)
 
 }
 
+
     return (
       <>
         <h1>Thank You</h1>
         {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
       </>
     )
-    // }
-
-  //   else{
-    
-
-
-
-    
-  // }
 };
 ThankYou.auth = {
   unauthorized: "/", // redirect to this url

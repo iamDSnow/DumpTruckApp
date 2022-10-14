@@ -48,9 +48,20 @@ const Register = ({ reg }) => {
 
   const { data: session, status } = useSession();
 
-  const router = useRouter();
+  // const router = useRouter();
  
 
+
+  function Redirect({to}){
+    const router = useRouter();
+
+    useEffect(()=> {
+
+      router.push(to)
+
+    }, [to]);
+    return null;
+  }
   
   useEffect(() => {
     if (status === "authenticated") {
@@ -322,10 +333,11 @@ console.log(response)
           onClick={
             () => {
             handleSubmit();
-            // router.push('/dashboard');
+            // router.push('/loadingPage');
           }
         }
         >
+          <Redirect to={"/loadingPage/"} />
           Create
           </Button>
         </Link>
