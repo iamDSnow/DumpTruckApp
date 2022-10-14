@@ -178,26 +178,26 @@ const JSONdata = JSON.stringify(data)
 
 // console.log(JSONdata)
   
-// const endpoint = './api/signUpAPI.js'
+const endpoint = '/api/signUpAPI.js'
 
-// const options = {
-//   // The method is POST because we are sending data.
-//   method: 'POST',
-//   // Tell the server we're sending JSON.
-//   headers: {
-//     'Content-Type': 'application/json',
-//   },
-//   // Body of the request is the JSON data we created above.
-//   body: JSONdata,
-// }
+const options = {
+  // The method is POST because we are sending data.
+  method: 'POST',
+  // Tell the server we're sending JSON.
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  // Body of the request is the JSON data we created above.
+  body: JSONdata,
+}
 
-// const response = await fetch(endpoint, options)
+const response = await fetch(endpoint, options)
 
-// const result = await response.json()
-// alert(`Is this your full name: ${result.data}`)
+const result = await response.json()
+alert(`Is this your full name: ${result.data}`)
 
 
-// await router.push('/thankyou');
+await router.push('/thankyou');
       
 
     };
@@ -315,13 +315,13 @@ const JSONdata = JSON.stringify(data)
           // onSubmit={router.push('/thankyou')}
 
 
-        //   onClick={
-        //     // () => {
-        //     // handleSubmit();
+          onClick={
+            () => {
+            handleSubmit()
         //     router.push('/thankyou')
 
-        //   // }
-        // }
+          }
+        }
 
         >
           Create
