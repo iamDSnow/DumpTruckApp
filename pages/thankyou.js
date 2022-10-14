@@ -61,13 +61,13 @@ export default function ThankYou ({ reg }){
   var change = null
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
 
  
 
   
-  }, []);
+  // }, []);
   // useEffect(() => {
   //   if (status === 'authenticated'){
 
