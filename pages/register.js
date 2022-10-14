@@ -33,7 +33,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { reg },
-    revalidate: 1
+    revalidate: 10
 
   };
 };
@@ -103,14 +103,14 @@ const Register = ({ reg }) => {
     //   }
     // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )
 
-    function Redirect({ to }) {
-      const router = useRouter();
+    // function Redirect({ to }) {
+    //   const router = useRouter();
 
-      useEffect(() => {
-        router.push(to);
-      }, [to]);
-      return null;
-    }
+    //   useEffect(() => {
+    //     router.push(to);
+    //   }, [to]);
+    //   return null;
+    // }
 
     const handleSubmit = async (e) => {
 
