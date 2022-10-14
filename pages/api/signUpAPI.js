@@ -37,6 +37,8 @@ export default async function  handler(req , res) {
       headers: {["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
     }
   );
+
+  const resJSON = await response.json() 
   // const { errors, payload } = await response.json();
   // if (errors) {
   //   console.log(errors);
@@ -53,7 +55,7 @@ export default async function  handler(req , res) {
   // // Sends a HTTP success code
 //  console.log(res.status());
 // console.log(res)
-res.status(200);
+ await resJSON.status(200);
 
 
   
