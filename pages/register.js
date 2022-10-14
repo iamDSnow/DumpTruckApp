@@ -33,7 +33,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { reg },
-    
+
   };
 };
 
@@ -94,7 +94,7 @@ const Register = ({ reg }) => {
 
 
     console.log( filtered.length)
-    filtered.length ?  router.push('/thankyou') : null
+    // filtered.length ?  router.push('/thankyou') : null
 
     // console.log(reg.data.Users.map(user => {
     //   if (user.email === gM) {
