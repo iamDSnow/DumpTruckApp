@@ -38,7 +38,15 @@ export default async function  handler(req , res) {
     }
   );
 
-  const resJSON = await response.json() 
+
+  const { errors, payload } = await response.json();
+  if (errors) {
+    console.log(errors);
+  } else return { statusCode: 200
+ };
+
+
+  // const resJSON = await response.json() 
   // const { errors, payload } = await response.json();
   // if (errors) {
   //   console.log(errors);
@@ -55,8 +63,8 @@ export default async function  handler(req , res) {
   // // Sends a HTTP success code
 //  console.log(res.status());
 // console.log(res)
-console.log(resJSON)
-  return res.status(200);
+// console.log(resJSON)
+//   return res.status(200);
 
 
   
