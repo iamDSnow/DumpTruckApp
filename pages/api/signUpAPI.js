@@ -1,3 +1,5 @@
+const fetch = require('node-fetch');
+
 export default async function  handler(req , res) {
   // Get data submitted in request's body.
   const data = await req.body
@@ -34,7 +36,7 @@ export default async function  handler(req , res) {
     {
       method: "POST",
       body: responseBodyString,
-      headers: {["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+      headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET },
     }
   );
 
@@ -42,7 +44,7 @@ export default async function  handler(req , res) {
   const { errors, payload } = await response.json();
   if (errors) {
     console.log(errors);
-  } else return { statusCode: 200
+  } else return { statusCode: 200, data: payload
  };
 
 
