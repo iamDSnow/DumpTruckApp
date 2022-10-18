@@ -51,19 +51,6 @@ const Register = ({ reg }) => {
 
   const router = useRouter();
  
-
-
-  // function Redirect({to}){
-  //   const router = useRouter();
-
-  //   useEffect(()=> {
-
-  //     router.push(to)
-
-  //   }, [to]);
-  //   return null;
-  // }
-  
   useEffect(() => {
     if (status === "authenticated") {
       const gEmail = session.user.email;
@@ -86,47 +73,6 @@ const Register = ({ reg }) => {
     return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
-
-   
-  
-
-    // const usePhone = () => ({
-    //   phones: start.map((user) => {
-    //     if (user.email === email) {
-    //       return user.phone;
-    //     } 
-    //   }), 
-    // });
-
-
-
-    // const { phones } = usePhone();
-
-
-    // var filtered = phones.filter(function (el) {
-    //   return el != null;
-    // });
-  
-
-    // console.log( phones)
-
-
-    // console.log( filtered.length)
-
-    // console.log(reg.data.Users.map(user => {
-    //   if (user.email === gM) {
-    //     return user.uid
-    //   }
-    // }).reduce((a, b) => a + b, 0).replace('NaN', '')  )
-
-    // function Redirect({ to }) {
-    //   const router = useRouter();
-
-    //   useEffect(() => {
-    //     router.push(to);
-    //   }, [to]);
-    //   return null;
-    // }
 
     const handleSubmit = async (e) => {
 
@@ -222,8 +168,6 @@ console.log('Success')
 
    
 
-  
-
     const id = reg.data.Users.map((user) => {
       if (user.email === email) {
         return user.uid;
@@ -236,8 +180,6 @@ console.log('Success')
 
     return (
       <FormWrapper
-        // action="/api/signUpAPI"
-        // method="post"
         css={`
           padding: 2rem 4rem;
         `}
@@ -336,7 +278,6 @@ console.log('Success')
           }
         }
         >
-          {/* <Redirect to={"/loadingPage/"} /> */}
           Create
           </Button>
         </Link>
