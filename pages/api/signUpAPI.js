@@ -1,5 +1,6 @@
 const fetch = require('node-fetch');
 
+
 export default async function  handler(req , res) {
   // Get data submitted in request's body.
   const data = await req.body
@@ -27,6 +28,7 @@ export default async function  handler(req , res) {
       
     },
   });
+
 // Optional logging to see the responses
   //  console.log('body: ', data)
 
@@ -41,11 +43,15 @@ export default async function  handler(req , res) {
   );
 
 
-  const { errors, payload } = await response.json();
-  if (errors) {
-    console.log(errors);
-  } else return { statusCode: 200, data: payload
- };
+
+
+
+   await console.time(response.json())
+//   if (errors) {
+//     console.log(errors);
+//   } else return { statusCode: 200, data: payload
+//  };
+
 
 
   // const resJSON = await response.json() 
