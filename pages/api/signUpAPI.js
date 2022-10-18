@@ -2,6 +2,7 @@ const fetch = require('node-fetch');
 
 
 export default async function  handler(req , res) {
+
   // Get data submitted in request's body.
   const data = await req.body
 
@@ -33,6 +34,7 @@ export default async function  handler(req , res) {
   //  console.log('body: ', data)
 
 
+
   const response = await fetch(
     "https://just-chamois-38.hasura.app/v1/graphql",
     {
@@ -46,7 +48,9 @@ export default async function  handler(req , res) {
 
 
 
-   await console.time(response.json())
+   const payload = await response.json()
+   return res.status(200).json({payload})
+
 //   if (errors) {
 //     console.log(errors);
 //   } else return { statusCode: 200, data: payload
