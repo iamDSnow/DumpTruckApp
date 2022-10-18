@@ -128,7 +128,7 @@ const router = useRouter();
      loading ?
 router.push("/dashboard/" + id.substring(1) ) :
 
-router.push("/register") 
+router.push("/dashboard") 
 
 }
 

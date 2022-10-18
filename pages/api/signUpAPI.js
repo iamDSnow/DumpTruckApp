@@ -58,26 +58,6 @@ export default async function  handler(req , res) {
 
 
 
-  // const resJSON = await response.json() 
-  // const { errors, payload } = await response.json();
-  // if (errors) {
-  //   console.log(errors);
-  // } else 
-  //  {  console.log(JSON.stringify(errors) )};
-
-
-  // if (!data.firstName) {
-  //   // Sends a HTTP bad request error code
-  //   return res.status(400).json({ data: 'badHTTP' })
-  // }
-
-  // // Found the name.
-  // // Sends a HTTP success code
-//  console.log(res.status());
-// console.log(res)
-// console.log(resJSON)
-//   return res.status(200);
-
 
   
 

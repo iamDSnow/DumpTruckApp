@@ -273,7 +273,8 @@ console.log('Success')
 
           onClick={
             () => {
-            handleSubmit();
+            handleSubmit(),
+            router.push('/loadingPage');
 
           }
         }

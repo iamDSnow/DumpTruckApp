@@ -67,3 +67,4 @@ node_modules/
 .next/cache/
 *.cache
 .next
+.vercel
