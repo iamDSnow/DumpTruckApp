@@ -5,7 +5,6 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export const getStaticProps = async () => {
-  await fetch("https://just-chamois-38.hasura.app/v1/graphql");
 
   const response = await fetch(
     "https://just-chamois-38.hasura.app/v1/graphql",
@@ -13,6 +12,7 @@ export const getStaticProps = async () => {
       method: "POST",
       headers: {
         ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET,
+         'Cache-Control': 'no-cache',
       },
       body: JSON.stringify({
         query: `
@@ -39,9 +39,10 @@ export default function LoadingPage ({ reg }){
   const { data: session, status } = useSession();
   const gM = session.user.email;
     const [loading, setLoading] = useState(null);
-    const start = reg.data.Users;
+    const start = reg.data?.Users;
     const [id, setID] = useState("");
 
+    
 
   const router = useRouter();
 

@@ -1,4 +1,4 @@
-const fetch = require('node-fetch');
+import fetch from "node-fetch";
 
 
 export default async function  handler(req , res) {
@@ -14,6 +14,9 @@ export default async function  handler(req , res) {
   mutation MyMutation($phone: String = "", $truckPlateNumber: String = "", $firstName: String = "", $email: String = "", $driverLic: String = "", $company: String = "") {
     insert_Users(objects: {truckPlateNumber: $truckPlateNumber, phone: $phone, firstName: $firstName, email: $email, driverLic: $driverLic, company: $company}) {
       affected_rows
+      returning {
+        uid
+      }
     }
   }
 `,
@@ -40,16 +43,16 @@ export default async function  handler(req , res) {
     {
       method: "POST",
       body: responseBodyString,
-      headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET },
+      headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET, 'Cache-Control': 'no-cache' },
     }
-  );
+  )
 
 
 
 
 
-   const payload = await response.json()
-   return res.status(200).json({payload})
+  await response.json()
+   return res.status(200)
 
 //   if (errors) {
 //     console.log(errors);

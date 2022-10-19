@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 
 export const getStaticProps = async () => {
-  await fetch("https://just-chamois-38.hasura.app/v1/graphql");
 
   const response = await fetch(
     "https://just-chamois-38.hasura.app/v1/graphql",
@@ -14,6 +13,7 @@ export const getStaticProps = async () => {
       method: "POST",
       headers: {
         ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET,
+         'Cache-Control': 'no-cache' 
       },
       body: JSON.stringify({
         query: `
@@ -45,7 +45,8 @@ const Register = ({ reg }) => {
   const [company, setCompany] = useState("");
   const [truckPlateNumber, setTruckPlateNumber] = useState("");
   const [shouldRedirect, setShouldRedirect] = useState(false);
-  const start = reg.data.Users;
+
+  const start = reg.data?.Users;
 
   const { data: session, status } = useSession();
 
@@ -73,7 +74,34 @@ const Register = ({ reg }) => {
     return <p>Access Denied</p>;
   }
   if (status === "authenticated") {
+    const revalidate = async (e) => {
 
+      const data ={
+        email: email,
+      }
+  
+  // Send the data to the server in JSON format.
+  const JSONdata = JSON.stringify(data)
+  
+
+  console.log(JSONdata)
+  const endpoint = '/api/revalidate'
+  
+  const options = {
+    // The method is POST because we are sending data.
+    method: 'POST',
+    // Tell the server we're sending JSON.
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    // Body of the request is the JSON data we created above.
+    body: JSONdata,
+  }
+  
+  await fetch(endpoint, options)
+  
+  console.log('Success')
+    }
     const handleSubmit = async (e) => {
 
 
@@ -159,7 +187,7 @@ console.log('Success')
 
 
       if (response){
-        router.push('/loadingPage');
+        // router.push('/loadingPage');
         console.log('going forward')
 
       }
@@ -168,7 +196,7 @@ console.log('Success')
 
    
 
-    const id = reg.data.Users.map((user) => {
+    const id = reg.data?.Users.map((user) => {
       if (user.email === email) {
         return user.uid;
       } else return "";
@@ -274,7 +302,8 @@ console.log('Success')
           onClick={
             () => {
             handleSubmit(),
-            router.push('/loadingPage');
+            revalidate();
+            // router.push('/loadingPage');
 
           }
         }

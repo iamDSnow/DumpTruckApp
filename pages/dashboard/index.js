@@ -9,7 +9,9 @@ export const getStaticProps = async () => {
         "https://just-chamois-38.hasura.app/v1/graphql",
       {
         method: "POST",
-        headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
+        headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET,
+        'Cache-Control': 'no-cache' 
+       },
         body: JSON.stringify({
           query:  `
           query MyQuery {
@@ -26,9 +28,8 @@ export const getStaticProps = async () => {
   const data = await res.json()
 
   return{
-    props: {data},
-    revalidate: 2
-  }
+    props: {data}
+    }
 
   }
 
