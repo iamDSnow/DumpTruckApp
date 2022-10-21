@@ -5,9 +5,9 @@ export default async function  handler(req , res) {
 
   const SENDGRID_API = 'https://api.sendgrid.com/v3/mail/send'
   
-  const data = JSON.stringify(req.body)
+  // const data = req.body
 
-  console.log(data.notesInput)
+  // console.log(data.company)
 
 
   const msg = await {
@@ -22,13 +22,35 @@ export default async function  handler(req , res) {
     SENDGRID_API,
     {
       method: "POST",
-      body: msg,
       Authorization: `Bearer ${process.env.NEXT_PUBLIC_SENDGRID_API_KEY}`,
+      body: JSON.stringify({
+        personalizations: [
+          {
+            to: [
+              {
+                email: 'snow.derrickl@gmail.com'
+              }
+            ],
+            subject: 'Demo success :)'
+          }
+        ],
+        from: {
+          email: 'suprawhiz@gmail.com',
+          name: 'Test SendGrid'
+        },
+        content: [
+          {
+            type: 'text/html',
+            value: `test`
+          }
+        ]
+      }),
+  
         }
   )
  
 
-  return res.status(200).json({ revalidated: true })
+  return res.status(200).json()
 
 }
   catch (err){
