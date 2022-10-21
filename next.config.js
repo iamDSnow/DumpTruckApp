@@ -6,6 +6,6 @@ module.exports = {
       formats: ['image/webp'],
     },
     env: {
-      SENDGRID_API_KEY: process.env.SENDGRID_API_KEY
+      SENDGRID_API_KEY: process.env.NEXT_PUBLIC_SENDGRID_API_KEY
     }
   }

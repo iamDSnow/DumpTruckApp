@@ -1,9 +1,8 @@
 const mail = require('@sendgrid/mail')
 
+export default async function(req, res) {
 
-export default async function  handler(req , res) {
-
-  mail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY)
+  mail.setApiKey('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')
 
 
   // const SENDGRID_API = 'https://api.sendgrid.com/v3/mail/send'
@@ -18,14 +17,14 @@ export default async function  handler(req , res) {
     from: 'snow.derrickl@gmail.com',
     subject: 'JOB APPLICATION:',
     text: data,
-    html: 'test'
+    html: '<p>test<p>'
   }
 
   try {
-    await mail.send(content)
+    await mail.send(msg)
     res.status(200).send('Message sent successfully.')
   } catch (error) {
-    console.log('ERROR', error)
+    console.log(error.response.data, error)
     res.status(400).send('Message not sent.')
   }
 
