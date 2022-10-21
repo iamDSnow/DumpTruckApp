@@ -118,9 +118,7 @@ export const getStaticProps = async context => {
   const data = await response.json()
 
   return {
-    props: { data, id },
-    revalidate: 1
-  }
+    props: { data, id }  }
 }
 
 export default function Details ({ data, id }) {

@@ -187,10 +187,10 @@ const handleSubmit = async e => {
   const payload = await {
     firstName: nameInput.toString(),
     email: emailInput.toString(),
-    company: companyInput,
-    phone: phoneInput,
-    truckPlateNumber: truckNumberInput,
-    driverLic: driverLic,
+    company: companyInput.toString(),
+    phone: phoneInput.toString(),
+    truckPlateNumber: truckNumberInput.toString(),
+    driverLic: driverLic.toString(),
     uid: id,
 
   }
@@ -206,7 +206,7 @@ const handleSubmit = async e => {
         {
           method: 'POST',
           headers: {
-            ['x-hasura-admin-secret']: process.env.NEXT_PUBLIC_HASURA_SECRET
+            'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET
           },
           body: JSON.stringify({
             query: operationsDoc,
@@ -216,7 +216,7 @@ const handleSubmit = async e => {
         }
       )
 
-      return await result.json()
+      return await result.json({revalidate:true})
     }
 
   const operationsDoc = `

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Typography, Button, Grid, TextField } from "@mui/material";
+import { Typography, Button, Grid, TextField, Box } from "@mui/material";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import Link from "next/link";
@@ -181,16 +181,11 @@ const options = {
   body: JSONdata,
 }
 
-const response = await fetch(endpoint, options)
+ await fetch(endpoint, options)
 
 console.log('Success')
 
 
-      if (response){
-        // router.push('/loadingPage');
-        console.log('going forward')
-
-      }
 
     };
 
@@ -207,9 +202,14 @@ console.log('Success')
     localStorage.setItem("u", JSON.stringify(id));
 
     return (
+
+     
       <FormWrapper
         css={`
           padding: 2rem 4rem;
+          display: flex;
+          justify-items: center;
+          
         `}
       >
         <Typography>Create An Account</Typography>
@@ -217,12 +217,16 @@ console.log('Success')
 
         <Grid
           container
-          columns={8}
-          direction="row"
+          columns={12}
           justifyContent="center"
           alignItems="center"
+
         >
-          <Grid item xs={4}>
+          <Grid
+          container
+      
+        >
+          <Grid item  >
             <TextField
               disabled
               required={true}
@@ -234,7 +238,7 @@ console.log('Success')
 
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item >
             <TextField
               required={true}
               type="text"
@@ -244,8 +248,15 @@ console.log('Success')
               onChange={(e) => setDriverLic(e.target.value)}
               placeholder="Driver Lic."
             />
+            </Grid>
+            
           </Grid>
-          <Grid item xs={4}>
+          <Grid
+          container
+          row={12}
+      
+        >
+          <Grid item >
             <TextField
               disabled
               required={true}
@@ -257,18 +268,24 @@ console.log('Success')
 
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item >
             <TextField
               required={true}
               name="phone"
               id="phone"
-              type="number"
+              type="text"
               value={phone}
               placeholder=" Phone Number"
               onChange={(e) => setPhone(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          </Grid>
+          <Grid
+          container
+          row={12}
+      
+        >
+          <Grid item  >
             <TextField
               required={true}
               name="company"
@@ -279,7 +296,7 @@ console.log('Success')
               onChange={(e) => setCompany(e.target.value)}
             />
           </Grid>
-          <Grid item xs={4}>
+          <Grid item  >
             <TextField
               required={true}
               name="truckPlateNumber"
@@ -289,6 +306,7 @@ console.log('Success')
               placeholder=" Plate Number"
               onChange={(e) => setTruckPlateNumber(e.target.value)}
             />
+            </Grid>
           </Grid>
         </Grid>
 
@@ -301,9 +319,8 @@ console.log('Success')
 
           onClick={
             () => {
-            handleSubmit(),
-            revalidate();
-            // router.push('/loadingPage');
+            handleSubmit();
+            // revalidate();
 
           }
         }

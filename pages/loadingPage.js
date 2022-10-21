@@ -3,6 +3,9 @@ import styled from "styled-components";
 import { Typography, Button, Grid, TextField } from "@mui/material";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import logo from '../images/logo.webp';
+import Image from 'next/image';
+
 
 export const getStaticProps = async () => {
 
@@ -42,15 +45,6 @@ export default function LoadingPage ({ reg }){
     const start = reg.data?.Users;
     const [id, setID] = useState("");
 
-    
-
-  const router = useRouter();
-
-  const [shouldRedirect, setShouldRedirect] = useState(null);
-
-  var change = null
-
-
   useEffect(() => {
     if (status === 'authenticated'){
 
@@ -70,7 +64,7 @@ export default function LoadingPage ({ reg }){
 
     const {idCheck} = idC()
     setID(idCheck)
-      if (idCheck === ''){
+      if (id === ''){
         return setLoading(false)
       }
       else{
@@ -79,6 +73,7 @@ export default function LoadingPage ({ reg }){
     }
       setLoading()
   }, [status])
+  
 
 
   if (status === "loading") {
@@ -93,37 +88,16 @@ export default function LoadingPage ({ reg }){
   
   if (status === "authenticated") {
 
-   
-
-   
-
- 
-    
-// console.log(change)
-
-    
-
 const router = useRouter();
 
-    // function Redirect({to}){
-    //     const router = useRouter();
-
-    //   useEffect(()=> {
-
-    //     router.push(to)
-
-    //   }, [to]);
-    //   return null;
-    // }
-
-    const id  = 
-    start.map((user) => {
-       if (user.email === gM) {
-         return user.uid;
-       } else return "";
-     })
-     .reduce((a, b) => a + b, 0)
-     .replace("NaN", "");
+    // const id  = 
+    // start.map((user) => {
+    //    if (user.email === gM) {
+    //      return user.uid;
+    //    } else return "";
+    //  })
+    //  .reduce((a, b) => a + b, 0)
+    //  .replace("NaN", "");
 
  
      loading ?
@@ -135,7 +109,16 @@ router.push("/dashboard")
 
     return (
       <>
-        <h1>Loading..</h1>
+       
+    <Image
+      
+      src={logo}
+      alt="logo"
+      
+    />
+
+        <div>Loading..</div>
+
       </>
     )
     

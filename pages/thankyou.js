@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { Typography, Button, Grid, TextField } from "@mui/material";
 import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import logo from '../images/logo.webp';
+import Image from 'next/image';
 
 export const getStaticProps = async () => {
   await fetch("https://just-chamois-38.hasura.app/v1/graphql");
@@ -32,6 +34,7 @@ export const getStaticProps = async () => {
 
   return {
     props: { reg },
+    revalidate: 30
   };
 };
 
@@ -111,34 +114,6 @@ export default function ThankYou ({ reg }){
       setLoading()
   }, [status])
 
-  //   useEffect(()=> {
-  //     if (status === "authenticated") {
-
-  //      setPhoneNumber(reg.data.Users.map(user => {
-  //        if (user.email === gM) {
-  //          return user.phone
-  //        }else return null
-  //      })),
-  //  setID(reg.data.Users.map(user => {
-  //    if (user.email === gM) {
-  //      return user.uid
-  //    }
-  //    else return ''
-  //  }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
-  //  localStorage.setItem("u",JSON.stringify(id))
-  //    console.log(shouldRedirect)
-  //      phoneNumber ?
-  //        setShouldRedirect(true)
-  //        :
-
-  //        setShouldRedirect(false),
-
-  //          shouldRedirect ? router.push( "/dashboard/" + id.substring(1) ): router.push("/register/")
-
-  // }
-  //    }, []);
-
-
   if (status === "loading") {
     return <p>Loading...</p>;
   }
@@ -173,7 +148,7 @@ export default function ThankYou ({ reg }){
     console.log(id)
 
   loading ?
-router.push("/dashboard/" + id.substring(1) ) :
+router.push("/dashboard/") :
 
 router.push("/register") 
     
@@ -249,6 +224,12 @@ router.push("/register")
 
     return (
       <>
+       <Image
+      
+      src={logo}
+      alt="logo"
+      
+    />
         <h1>Thank You</h1>
         {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
       </>

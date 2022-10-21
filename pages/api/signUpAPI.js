@@ -1,13 +1,8 @@
-import fetch from "node-fetch";
-
 
 export default async function  handler(req , res) {
 
   // Get data submitted in request's body.
   const data = await req.body
-
-  // const requestHeaders: HeadersInit = new Headers();
-  //  requestHeaders.set(["x-hasura-admin-secret"], process.env.NEXT_PUBLIC_HASURA_SECRET as any);
 
   const responseBodyString =  JSON.stringify({
     query: `
@@ -36,9 +31,10 @@ export default async function  handler(req , res) {
 // Optional logging to see the responses
   //  console.log('body: ', data)
 
+try{
 
 
-  const response = await fetch(
+  await fetch(
     "https://just-chamois-38.hasura.app/v1/graphql",
     {
       method: "POST",
@@ -46,22 +42,19 @@ export default async function  handler(req , res) {
       headers: {'Content-Type': 'application/json', 'x-hasura-admin-secret': process.env.NEXT_PUBLIC_HASURA_SECRET, 'Cache-Control': 'no-cache' },
     }
   )
+  await res.unstable_revalidate("/dashboard")
+  await res.unstable_revalidate("/createLoad")
+  await res.unstable_revalidate("/createTicket")
+  await res.unstable_revalidate("/loadData")
+  await res.unstable_revalidate("/profile")
+  await res.unstable_revalidate("/sendEmail")
+  await res.unstable_revalidate("/ticketCon")
 
+  return res.status(200).json({ revalidated: true })
 
-
-
-
-  await response.json()
-   return res.status(200)
-
-//   if (errors) {
-//     console.log(errors);
-//   } else return { statusCode: 200, data: payload
-//  };
-
-
-
-
-  
+}
+  catch (err){
+    return res.status(500).json({message: 'something went wrong'})
+  }
 
 }

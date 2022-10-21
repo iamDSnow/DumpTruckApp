@@ -115,9 +115,8 @@ export const getStaticProps = async context => {
   const data = await response.json()
 
   return {
-    props: { data, id },
-    revalidate: 15
-  }
+    props: { data, id }
+    }
 }
 
 export default function Details ({ data, id }) {
@@ -245,19 +244,27 @@ export default function Details ({ data, id }) {
           if (user.uid === id) {
             return user.Tickets.filter(
               item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.totalLoads)
+            )
+            .map(ticket => ticket.totalLoads)
+            .reduce((a, b) => a + b, 0)
+
           }
-        }).join('')
+        })
+        .join('')
       : ''
 
+      console.log(totalLoadsInput)
+      
     const totalHoursInput = ticketData
       ? data.data.Users.map(user => {
           if (user.uid === id) {
             return user.Tickets.filter(
               item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.totalHours)
+            )
+            .map(ticket => ticket.totalHours)
           }
-        }).join('')
+        })
+        .join('')
       : ''
 
     const customerNameInput = ticketData
@@ -282,42 +289,6 @@ export default function Details ({ data, id }) {
       })
     ):''
 
-    //       const loadSiteInput
-    //       = ticketData ? data.data.Users.map(user => {
-    //         if (user.uid === id) {
-    //           return user.Tickets.filter(
-    //             item => item.ticket_id === ticketData.ticket_id
-    //           ).map(ticket => {
-    //             return ticket.Loads.map((load) => load.loadSite
-    //             )})}}) : '';
-
-    // const tripNumberInput = ticketData ? data.data.Users.map(user => {
-    //   if (user.uid === id) {
-    //     return user.Tickets.filter(
-    //       item => item.ticket_id === ticketData.ticket_id
-    //     ).map(ticket => {
-    //       return ticket.Loads.filter(
-    //         item => item.ticket_id === ticketData.ticket_id
-    //       ).map((load) => load.tripNumber
-    //       )})}}) : '';
-    // const materialInput= ticketData ? data.data.Users.map(user => {
-    //   if (user.uid === id) {
-    //     return user.Tickets.filter(
-    //       item => item.ticket_id === ticketData.ticket_id
-    //     ).map(ticket => {
-    //       return ticket.Loads.filter(
-    //         item => item.ticket_id === ticketData.ticket_id
-    //       ).map((load) => load.Material
-    //       )})}}) : '';
-    // const tonInput= ticketData ? data.data.Users.map(user => {
-    //   if (user.uid === id) {
-    //     return user.Tickets.filter(
-    //       item => item.ticket_id === ticketData.ticket_id
-    //     ).map(ticket => {
-    //       return ticket.Loads.filter(
-    //         item => item.ticket_id === ticketData.ticket_id
-    //       ).map((load) => load.ton
-    //       )})}}) : '';
 
     const st = new Date()
     const et = new Date()
@@ -355,7 +326,7 @@ export default function Details ({ data, id }) {
         console.log(err)
       }
 
-      console.log(SG)
+      // console.log(SG)
       // Router.push('/dashboard/' + id);
     }
     loadIdInput?
@@ -738,7 +709,7 @@ export default function Details ({ data, id }) {
                   color: '#000'
                 }
               }}
-              onClick={() => Router.push('/dashboard/' + id)}
+              // onClick={() => Router.push('/dashboard/' + id)}
             >
               Dashboard
             </Button>

@@ -98,7 +98,7 @@ export const getStaticPaths = async () => {
   return {
     paths,
     fallback: false
-  }
+    }
 }
 
 export const getStaticProps = async context => {
@@ -154,7 +154,7 @@ export const getStaticProps = async context => {
 
   return {
     props: { data, id },
-    revalidate: 20
+    revalidate: 60
   }
 }
 
@@ -162,7 +162,7 @@ export default function Details ({ data, id }) {
 
   
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
 
     // Prep Payload
@@ -260,7 +260,7 @@ export default function Details ({ data, id }) {
   }, [session.status])
   React.useEffect(() => {
 
-    data.data.Users?.map(user => {
+    data.data?.Users?.map(user => {
   
       //Set table data
     return (setTableData(user.Tickets))
@@ -287,7 +287,7 @@ export default function Details ({ data, id }) {
   function getD() {new Promise(resolve => {
     setTimeout(() => {
       resolve(
-        tableData ?  data.data.Users?.map(user => {
+        tableData ?  data.data?.Users?.map(user => {
                 return user.Tickets.map((tickets, i, row) => {
                   if (i + 1 === row.length) {
                     return(setDT(tickets),
@@ -301,7 +301,7 @@ export default function Details ({ data, id }) {
                 })
               }) : "null",
               
-              setTicket_IdInput( data.data.Users?.map(user => {
+              setTicket_IdInput( data.data?.Users?.map(user => {
                 return user.Tickets.map((tickets, i, row) => {
                   if (i + 1 === row.length) {
                     return( tickets.ticket_id
@@ -326,7 +326,7 @@ export default function Details ({ data, id }) {
                 const handleClose = async () => {
                
                    await setOpen(false);
-                   await  setTotalLoadsUpdate(data.data.Users?.map(user => {
+                   await  setTotalLoadsUpdate(data.data?.Users?.map(user => {
                     if (user.uid === id) {
                       return user.Tickets.filter(
                         item => item.ticket_id === ticketData.ticket_id
@@ -343,7 +343,7 @@ export default function Details ({ data, id }) {
                
 
   // Modal Layout
-  const CustomModal = () => {
+  const CustomModal = (() => {
 
     
     console.log(totalLoadsUpdate)
@@ -406,7 +406,7 @@ export default function Details ({ data, id }) {
         </div>
       </Modal>
     ) : null;
-  }; 
+  }); 
 
 
 
@@ -476,8 +476,8 @@ export default function Details ({ data, id }) {
           direction='column'
           justifyContent='center'
           alignItems='center'
-          xs
-          zeroMinWidth
+          
+          
         >
           <Grid item xs={4}>
             <h1>Current Ticket</h1>
@@ -490,8 +490,7 @@ export default function Details ({ data, id }) {
           direction='column'
           justifyContent='center'
           alignItems='center'
-          xs
-          zeroMinWidth
+        
         >
        
           <Grid item xs={6}>
@@ -500,7 +499,6 @@ export default function Details ({ data, id }) {
                 width: 335,
                 height: 'auto',
                 backgroundColor: '#A9A9A9',
-                direction: 'column',
                 justifyContent: 'center',
                 alignItems: 'center',
                 borderRadius: '5px'
@@ -522,7 +520,7 @@ export default function Details ({ data, id }) {
                   alignItems='center'
                 >
                   <Grid item xs={10}>
-                    {rowTF ? <div>{`NAME: `} <strong>{selectedRow.customerName}</strong></div> : data.data.Users?.map(user => {
+                    {rowTF ? <div>{`NAME: `} <strong>{selectedRow.customerName}</strong></div> : data.data?.Users?.map(user => {
                       return user.Tickets.map((tickets, i, row) => {
                         if (i + 1 === row.length) {
                           return( <div>{`NAME: `} <strong>{tickets.customerName}</strong></div>
@@ -533,7 +531,7 @@ export default function Details ({ data, id }) {
                   </Grid>
                   <Grid item xs={4}>
                     {rowTF ?  <p>{`TICKET: ` + selectedRow.ticket_id}</p> 
-                    :  data.data.Users?.map(user => {
+                    :  data.data?.Users?.map(user => {
                       return user.Tickets.map((tickets, i, row) => {
                         if (i + 1 === row.length) {
                           return( <p>{`TICKET: ` + tickets.ticket_id}</p>
@@ -547,7 +545,7 @@ export default function Details ({ data, id }) {
                   
 
                   <Grid item xs={8}>
-                    {rowTF ? <p>{`PHONE: ` + selectedRow.phone}</p> : data.data.Users?.map(user => {
+                    {rowTF ? <p>{`PHONE: ` + selectedRow.phone}</p> : data.data?.Users?.map(user => {
                       return user.Tickets.map((tickets, i, row) => {
                         if (i + 1 === row.length) {
                           return <p>{`PHONE: ` + tickets.phone}</p>
@@ -575,11 +573,11 @@ export default function Details ({ data, id }) {
                   </Grid>
                 </Grid>
                 <Divider sx={{ background: 'black' }} />
-                <Grid item xs={8} direction='column'>
+                <Grid item xs={8} >
                   <h2> Total Loads</h2>
                 </Grid>
                 <Grid item xs={12}>
-                 <h1>{rowTF ? data.data.Users?.map(user => {
+                 <h1>{rowTF ? data.data?.Users?.map(user => {
     if (user.uid === id) {
       return user.Tickets.filter(
         item => item.ticket_id === selectedRow.ticket_id
@@ -590,7 +588,7 @@ export default function Details ({ data, id }) {
         ).reduce((a, b) => a + b, 0) 
       })
     }
-   }):  data.data.Users?.map(user => {
+   }):  data.data?.Users?.map(user => {
     if (user.uid === id) {
       return user.Tickets.filter(
         item => item.ticket_id === Number(ticket_IdInput)
