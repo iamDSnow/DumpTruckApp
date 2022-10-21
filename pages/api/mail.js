@@ -1,7 +1,10 @@
-const mail = require('@sendgrid/mail')
-const SENDGRID_API = 'https://api.sendgrid.com/v3/mail/send'
 
 export default async function  handler(req , res) {
+
+  const sgMail = require('@sendgrid/mail')
+  // const SENDGRID_API = 'https://api.sendgrid.com/v3/mail/send'
+
+sgMail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID_API_KEY)
 
   const data = JSON.stringify(req.body)
 
@@ -15,26 +18,15 @@ export default async function  handler(req , res) {
     text: data.notesInput,
     html: data.notesInput
   }
-  try{
-  await fetch(
-    SENDGRID_API,
-    {
-      method: "POST",
-      body: msg,
-      Authorization: `Bearer ${process.env.NEXT_PUBLIC_SENDGRID}`,
-        }
-  )
- 
 
-  return res.status(200).json({ revalidated: true })
-
-}
-  catch (err){
-    return res.status(500).json({message: 'something went wrong'})
-  }
-
-}
-
+  sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
+  })}
 // export { sendEmail };
 
 // export default async function handler (req, res) {
