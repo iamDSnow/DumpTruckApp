@@ -36,8 +36,7 @@ export const getStaticProps = async () => {
 
 export default function TicketCon({data, error}) {
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  
   
   const session = useSession()
 
@@ -59,7 +58,8 @@ export default function TicketCon({data, error}) {
     }
   });
 
-
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
   return (
 
     <div>

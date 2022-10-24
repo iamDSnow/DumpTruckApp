@@ -36,8 +36,7 @@ export const getStaticProps = async () => {
 
 export default function Profile({data, error}) {
 
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  
 
   const session = useSession()
   const [ticketData, setTicketData] = React.useState('')
@@ -58,7 +57,8 @@ export default function Profile({data, error}) {
     }
   });
 
-
+  if (error) return <div>Failed to load</div>
+  if (!data) return <div>Loading...</div>
   return (
 
     <div>

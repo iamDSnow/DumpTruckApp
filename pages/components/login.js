@@ -9,7 +9,6 @@ const Wrapper = styled.div`
   display: flex;
   flex-flow: column nowrap;
   justify-content: center;
-  content-align: center;
 `
 
 const SButton = styled(Button)`
@@ -23,15 +22,15 @@ function Login ()  {
 
   const { data: session, status }  =  useSession()
 
-  
-  if (status === 'authenticated') {
 
+  if (status === 'authenticated') {
     const useUser = () => ({ user: status ? session.user.name : null, loading: user ? true : false })
 
     const { user, loading } = useUser( router.push( '/thankyou' ))
+    
 
     // Server-render loading state
-    if (user || user === true) {
+    if (loading || user === true) {
       return <Wrapper>Loading...</Wrapper>
     }
       

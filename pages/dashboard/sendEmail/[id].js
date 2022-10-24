@@ -123,7 +123,11 @@ export default function Details ({ data, id }) {
   const [ticketData, setTicketData] = React.useState('')
   const [isLoading, setisLoading] = React.useState('')
   const { data: session, status } = useSession()
-
+ //Set email State
+ const [email1, setEmail1] = React.useState('')
+ const [email2, setEmail2] = React.useState('')
+ const [email3, setEmail3] = React.useState('')
+ 
   React.useEffect(() => {
     if (status === 'authenticated') {
       //  getD()
@@ -147,175 +151,156 @@ export default function Details ({ data, id }) {
       return someArray
     }
 
-    //Set email State
-    const [email1, setEmail1] = React.useState('')
-    const [email2, setEmail2] = React.useState('')
-    const [email3, setEmail3] = React.useState('')
+   
     //Create variables
-
-    const companyInput = data.data.Users.map(user => {
+   const emailPayload= data.data.Users.map(user => {
       if (user.uid === id) {
-        return user.company
-      }
-    }).join('')
+        let userInfo = {
+ companyInput: ticketData? user.company : '', 
+driverLic: ticketData ? user.driverLic :'',
+truckPlateNumber: ticketData ? user.truckPlateNumber : '',
 
-    const driverLicInput = data.data.Users.map(user => {
-      if (user.uid === id) {
-        return user.driverLic
-      }
-    }).join('')
+phoneClientInput: ticketData? user.Tickets.filter(
+  item => item.ticket_id === ticketData.ticket_id
+).map(ticket => ticket.phone).toString():'',
 
-    const truckNumberInput = data.data.Users.map(user => {
-      if (user.uid === id) {
-        return user.truckPlateNumber
-      }
-    }).join('')
+startTimeInput: ticketData ? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.Tickets.filter(
+      item => item.ticket_id === ticketData.ticket_id
+    ).map(ticket => ticket.startTime)
+  }
+}).toString() :'',
+endTimeInput: ticketData ? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.Tickets.filter(
+      item => item.ticket_id === ticketData.ticket_id
+    ).map(ticket => ticket.endTime)
+  }
+}).toString() : '',
+contractorInput: ticketData? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.Tickets.filter(
+      item => item.ticket_id === ticketData.ticket_id
+    ).map(ticket => ticket.contractor)
+  }
+}).toString():'',
+deliveryLocationInput: ticketData ? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.Tickets.filter(
+      item => item.ticket_id === ticketData.ticket_id
+    ).map(ticket => ticket.deliveryLocation)
+  }
+}).toString(): '',
+notesInput: ticketData ? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.Tickets.filter(
+      item => item.ticket_id === ticketData.ticket_id
+    ).map(ticket => ticket.notes)
+  }
+}).toString() : '',
+phoneInput: ticketData ? data.data.Users.map(user => {
+  if (user.uid === id) {
+    return user.phone
+  }
+}).toString()
+: '',
+totalLoadsInput: ticketData
+? data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      )
+      .map(ticket => ticket.totalLoads)
+      .reduce((a, b) => a + b, 0)
 
-    const phoneClientInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.phone)
-          }
-        }).join('')
-      : ''
-
-    const startTimeInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.startTime)
-          }
-        }).join('')
-      : ''
-
-    const endTimeInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.endTime)
-          }
-        }).join('')
-      : ''
-
-    const contractorInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.contractor)
-          }
-        }).join('')
-      : ''
-
-    const deliveryLocationInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.deliveryLocation)
-          }
-        }).join('')
-      : ''
-
-    const notesInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.notes)
-          }
-        }).join('')
-      : ''
-
-    const phoneInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.phone
-          }
-        }).join('')
-      : ''
-
-    const totalLoadsInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            )
-            .map(ticket => ticket.totalLoads)
-            .reduce((a, b) => a + b, 0)
-
-          }
-        })
-        .join('')
-      : ''
-
-      console.log(totalLoadsInput)
-      
-    const totalHoursInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            )
-            .map(ticket => ticket.totalHours)
-          }
-        })
-        .join('')
-      : ''
-
-    const customerNameInput = ticketData
-      ? data.data.Users.map(user => {
-          if (user.uid === id) {
-            return user.Tickets.filter(
-              item => item.ticket_id === ticketData.ticket_id
-            ).map(ticket => ticket.customerName)
-          }
-        }).join('')
-      : ''
-
-    const loadIdInput = ticketData ?  myFunction(
-      data.data.Users.map(user => {
-        if (user.uid === id) {
-          return user.Tickets.filter(
-            item => item.ticket_id === ticketData.ticket_id
-          ).map(ticket => {
-            return ticket.Loads.map(load => load)
-          })
-        }
+    }
+  })
+  .toString()
+: '',
+totalHoursInput: ticketData
+? data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      )
+      .map(ticket => ticket.totalHours)
+    }
+  })
+  .toString()
+: '',
+loadIdInput: ticketData ?  myFunction(
+  data.data.Users.map(user => {
+      user.uid === id
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => {
+        return ticket.Loads.map(
+          item => item 
+        )
       })
-    ):''
+    
+  })
+):'',
+customerName: ticketData
+? data.data.Users.map(user => {
+    if (user.uid === id) {
+      return user.Tickets.filter(
+        item => item.ticket_id === ticketData.ticket_id
+      ).map(ticket => ticket.customerName)
+    }
+  }).toString()
+: ''
+        }
+        return userInfo 
+      }
+    })
 
+   const lds = JSON.stringify(emailPayload[0].loadIdInput).replaceAll('[','').replaceAll(']','')
+  //  .replaceAll('[','').replaceAll(']','')
+
+  //  for(let i = 0; i < lds.length; i++){
+    // console.log(lds)
+  //      for(let i = 0; i < lds.length; i++){
+  //     var nL = console.log(JSON.stringify(lds[i]).replaceAll('[','').replaceAll(']','').split('},'))
+  //       return nL
+  // }
+  
+  // console.log( ld)
+   
 
     const st = new Date()
     const et = new Date()
 
-    st.getTime(startTimeInput)
-    et.getTime(endTimeInput)
+    st.getTime(emailPayload[0].startTimeInput)
+    et.getTime(emailPayload[0].endTimeInput)
+
+
+const loads =  emailPayload[0].loadIdInput[0];
 
     async function handleSubmit (e) {
+
+
+
+  
       const SG = {
-        company: companyInput,
-        driverLic: driverLicInput,
-        truckNumber: truckNumberInput,
-        clientPhone: phoneClientInput,
-        startTime: startTimeInput,
-        endTime: endTimeInput,
-        contractor: contractorInput,
-        deliveryLocation: deliveryLocationInput,
-        notes: notesInput,
-        phone: phoneInput,
-        totalLoads: totalLoadsInput,
-        totalHours: totalHoursInput,
-        customerName: customerNameInput,
-        loadInfo: loadIdInput[0][0]
-        // loadSite: loadSiteInput,
-        // tripNumber: tripNumberInput,
-        // material: materialInput,
-        // ton: tonInput,
+        company: emailPayload[0].companyInput,
+        driverLic: emailPayload[0].driverLic,
+        truckNumber: emailPayload[0].truckPlateNumber,
+        clientPhone: emailPayload[0].phoneClientInput,
+        startTime: st.toLocaleTimeString(),
+        endTime: et.toLocaleTimeString(),
+        contractor: emailPayload[0].contractorInput,
+        deliveryLocation: emailPayload[0].deliveryLocationInput,
+        notes: emailPayload[0].notesInput,
+        phone: emailPayload[0].phoneInput,
+        totalLoads: emailPayload[0].totalLoadsInput,
+        totalHours: emailPayload[0].totalHoursInput,
+        customerName: emailPayload[0].customerName,
+        loadInfo: lds,
+        email1: email1,
+        email2: email2,
+        email3: email3,
       }
       try {
         await fetch('/api/mail', {
@@ -326,15 +311,13 @@ export default function Details ({ data, id }) {
           body: JSON.stringify(SG)
         })
       } catch (err) {
-        console.log(err)
+        // console.log(err)
       }
 
       // console.log(SG)
       // Router.push('/dashboard/' + id);
     }
-    loadIdInput?
-    console.log(JSON.stringify(loadIdInput[0][0]))
-: console.log('did not run')
+    
     return (
       <>
         <Layout />
@@ -406,10 +389,10 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Contractor'
-                      value={contractorInput}
+                      value={emailPayload[0].contractorInput}
                       name='contractorInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setCustomerNameInput(e.target.value)}
+                      // onChange={e => setCustomerNameInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -419,10 +402,10 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Customer Name'
-                      value={customerNameInput}
+                      value={emailPayload[0].customerName}
                       name='customerNameInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setCustomerNameInput(e.target.value)}
+                      // onChange={e => setCustomerNameInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -432,10 +415,10 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Phone No.'
-                      value={phoneInput}
+                      value={emailPayload[0].phoneInput}
                       name='phoneInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setPhoneInput(e.target.value)}
+                      // onChange={e => setPhoneInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -445,10 +428,9 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Company'
-                      value={companyInput}
+                      value={emailPayload[0].companyInput}
                       name='companyInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setCompanyInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -458,10 +440,9 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Truck No'
-                      value={truckNumberInput}
+                      value={emailPayload[0].truckPlateNumber}
                       name='truckNumberInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setTruckNumberInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -471,9 +452,8 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Driver Lic'
-                      value={driverLicInput}
+                      value={emailPayload[0].driverLic}
                       name='driverLicInput'
-                      onChange={e => setDriverLic(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -483,9 +463,8 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Client Phone No'
-                      value={phoneClientInput}
+                      value={emailPayload[0].phoneClientInput}
                       name='phoneClientInput'
-                      onChange={e => setPhoneClientInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -498,7 +477,6 @@ export default function Details ({ data, id }) {
                       value={st.toLocaleTimeString()}
                       name='startTimeInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setStartTimeInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -511,7 +489,6 @@ export default function Details ({ data, id }) {
                       value={et.toLocaleTimeString()}
                       name='endTimeInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setEndTimeInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -521,10 +498,9 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Total Hours'
-                      value={totalHoursInput}
+                      value={emailPayload[0].totalHoursInput}
                       name='totalHoursInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setTotalHoursInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -534,10 +510,9 @@ export default function Details ({ data, id }) {
                       variant='standard'
                       type='text'
                       label='Delivery Address'
-                      value={deliveryLocationInput}
+                      value={emailPayload[0].deliveryLocationInput}
                       name='deliveryLocationInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setDeliveryLocationInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Grid item xs={6}>
@@ -548,10 +523,9 @@ export default function Details ({ data, id }) {
                       type='text'
                       label='Notes/Details for Delivery'
                       multiline
-                      value={notesInput}
+                      value={emailPayload[0].notesInput}
                       name='notesInput'
                       //  style={{ width: 335 }}
-                      onChange={e => setNotesInput(e.target.value)}
                     ></TextField>
                   </Grid>
                   <Box>
@@ -587,9 +561,9 @@ export default function Details ({ data, id }) {
                                       label='LOAD ID'
                                       value={load.load_id}
                                       name='loadID'
-                                      onChange={e =>
-                                        setLoadIdInput(e.target.value)
-                                      }
+                                      // onChange={e =>
+                                      //   setLoadIdInput(e.target.value)
+                                      // }
                                     ></TextField>
                                   </Grid>
                                   <Grid item xs={6}></Grid>
@@ -603,9 +577,9 @@ export default function Details ({ data, id }) {
                                       label='SITE'
                                       value={load.loadSite}
                                       name='loadSite'
-                                      onChange={e =>
-                                        setLoadSiteInput(e.target.value)
-                                      }
+                                      // onChange={e =>
+                                      //   setLoadSiteInput(e.target.value)
+                                      // }
                                     ></TextField>
                                   </Grid>
 
@@ -618,9 +592,9 @@ export default function Details ({ data, id }) {
                                       label='TRIP NO'
                                       value={load.tripNumber}
                                       name='tripNo'
-                                      onChange={e =>
-                                        setTripNumberInput(e.target.value)
-                                      }
+                                      // onChange={e =>
+                                      //   setTripNumberInput(e.target.value)
+                                      // }
                                     ></TextField>
                                   </Grid>
 
@@ -633,9 +607,9 @@ export default function Details ({ data, id }) {
                                       label='MATERIAL'
                                       value={load.Material}
                                       name='material'
-                                      onChange={e =>
-                                        setMaterialInput(e.target.value)
-                                      }
+                                      // onChange={e =>
+                                      //   setMaterialInput(e.target.value)
+                                      // }
                                     ></TextField>
                                   </Grid>
 
@@ -648,9 +622,9 @@ export default function Details ({ data, id }) {
                                       label='YARD/TONNAGE'
                                       value={load.ton}
                                       name='ton'
-                                      onChange={e =>
-                                        setTonInput(e.target.value)
-                                      }
+                                      // onChange={e =>
+                                      //   setTonInput(e.target.value)
+                                      // }
                                     ></TextField>
                                     <br />
                                   </Grid>
@@ -668,7 +642,7 @@ export default function Details ({ data, id }) {
                           variant='standard'
                           type='text'
                           label='Total Load'
-                          value={totalLoadsInput}
+                          value={emailPayload[0].totalLoadsInput}
                           name='totalLoadInput'
                           //  style={{ width: 335 }}
                           // onChange={e => setTotalLoadsInput(e.target.value)}
@@ -692,7 +666,8 @@ export default function Details ({ data, id }) {
                     }
                   }}
                   onClick={() => {
-                    handleSubmit()
+                    handleSubmit();
+                    Router.push('/dashboard/' + id);
                   }}
                 >
                   Send Email
@@ -712,7 +687,7 @@ export default function Details ({ data, id }) {
                   color: '#000'
                 }
               }}
-              // onClick={() => Router.push('/dashboard/' + id)}
+              onClick={() => Router.push('/dashboard/' + id)}
             >
               Dashboard
             </Button>

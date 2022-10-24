@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { Typography, Button, Grid, TextField } from "@mui/material";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import logo from '../images/logo.webp';
 import Image from 'next/image';
@@ -33,9 +33,8 @@ export const getStaticProps = async () => {
   const reg = await response.json();
 
   return {
-    props: { reg },
-    revalidate: 30
-  };
+    props: { reg }
+    };
 };
 
 export default function ThankYou ({ reg }){
@@ -45,74 +44,34 @@ export default function ThankYou ({ reg }){
     const start = reg.data.Users;
 
 
-  var redir = null;
-
-  // function Redirect({to}){
-  //   const router = useRouter();
-  
-  //   useEffect(()=> {
-  
-  //     router.push(to)
-  
-  //   }, [to]);
-  //   return null;
-  // }
 
   const router = useRouter();
 
  
 
-  // const [firstNdame, setFirstName] = useState("");
   const [id, setID] = useState("");
-  // const [driverLic, setDriverLic] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [phoneNumber, setPhoneNumber] = useState("");
-  // const [comName, setComName] = useState("");
-  // const [truckPlateNumber, setTruckPlateNumber] = useState("");
-  const [shouldRedirect, setShouldRedirect] = useState(null);
-
-  var change = null
-
-
-  // useEffect(() => {
-
-
- 
-
-  
-  // }, []);
-
-  
-
 
   useEffect(() => {
     if (status === 'authenticated'){
 
 
-
-    const idC = () => ({
-      idCheck: start
-        .map((user) => {
-          if (user.email === gM) {
-            return user.uid
-          } else return "";
-        })
-        .reduce((a, b) => a + b, 0)
-        .replace("NaN", ""),
-    });
-
-
-    const {idCheck} = idC()
-    setID(idCheck)
-      if (idCheck === ''){
-        return setLoading(false)
+      const idC = () => ({
+        idCheck: start
+          .map((user) => {
+            if (user.email === gM) {
+              return true
+            } else return false
+          })
+      });
+  
+  
+      const {idCheck} = idC()
+      setID(idCheck)
+      
       }
-      else{
-        setLoading(true)
-      }
-    }
-      setLoading()
-  }, [status])
+    }, [status])
+    
+  
 
   if (status === "loading") {
     return <p>Loading...</p>;
@@ -125,99 +84,11 @@ export default function ThankYou ({ reg }){
   
   
   if (status === "authenticated") {
-
-
     
+    id ?
+    router.push("/dashboard/" ) :
     
-    
-    const usePhone = () => ({
-      phone: start.map((user) => {
-        if (user.email === gM) {
-          return user.phone;
-        } else return null;
-      }),
-    });
-  
-   
-    const { phone } = usePhone();
-    // const { id } = useID();
-    var filtered = phone.filter(function (el) {
-      return el != null;
-    }); 
-
-    console.log(id)
-
-  loading ?
-router.push("/dashboard/") :
-
-router.push("/register") 
-    
-// console.log(filtered)
-// console.log(change)
-
-
-
-   
-    // function onlyNumbers(array) {
-    //   return array.every(element => {
-    //     return typeof element === 'number';
-    //   });
-    // }
-
-    
-   
-
-    // const plainPhone =(JSON.stringify(phone))
-
-    // console.log(onlyNumbers(filtered))
-    // console.log(filtered);
-    // console.log(loading);
-
-    
-    
-
-    // function Redirect({to}){
-    //   const router = useRouter();
-
-    //   useEffect(()=> {
-
-    //     router.push(to),
-    //     setPhoneNumber(reg.data.Users.map(user => {
-    //       if (user.email === gM) {
-    //         return user.phone
-    //       }else return null
-    //     })),
-    //     setID(reg.data.Users.map(user => {
-    //       if (user.email === gM) {
-    //         return user.uid
-    //       }
-    //       else return ''
-    //     }).reduce((a, b) => a + b, 0).replace('NaN', '') ),
-    //     localStorage.setItem("u",JSON.stringify(id))
-
-    //     phoneNumber ?
-    //       setShouldRedirect(true)
-    //       :
-
-    //       setShouldRedirect(false),
-
-
-    //   }, [to]);
-    //   return null;
-    // }
-// if(loading){
-
-
-// console.log(shouldRedirect)
-
-
- 
-
-
-
- 
-//        shouldRedirect  ? router.push("/dashboard/" + id.substring(1))
-//  : router.push("/register")
+    router.push("/register") 
 
 }
 
@@ -231,7 +102,6 @@ router.push("/register")
       
     />
         <h1>Thank You</h1>
-        {/* <Redirect to={shouldRedirect ? "/dashboard/" + id.substring(1) : "/register/"} /> */}
       </>
     )
 };

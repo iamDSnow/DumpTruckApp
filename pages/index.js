@@ -10,28 +10,7 @@ import { useRouter } from "next/router";
 
 export default function Homepage() {
 
-  const { data: status }  =  useSession()
-
-  function Redirect({to}){
-    const router = useRouter();
-    
-    React.useEffect(()=> {
-      router.push(to)
-
-    }, [to]);
-    return null;
-  }
-
-  if (status === 'authenticated') {
-    
-
-    // React.useEffect(() =>{
-
-    //   Router.push('/thankyou/')
-
-    // })
   
-  }
 
   return (
     <>

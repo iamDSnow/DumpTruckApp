@@ -269,7 +269,7 @@ export default function Details ({ data, id }) {
 
     
     //get initial data
-    getD()
+    GetD()
 
     setLoadDisplay()
     
@@ -284,7 +284,7 @@ export default function Details ({ data, id }) {
 
 
   //function to get opening data in state 
-  function getD() {new Promise(resolve => {
+  function GetD() {new Promise(resolve => {
     setTimeout(() => {
       resolve(
         tableData ?  data.data?.Users?.map(user => {

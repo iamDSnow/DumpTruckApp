@@ -134,6 +134,17 @@ export default function Details ({ data, id }) {
   const [loadSite, setLoadSite] = React.useState('')
   const [material, setMaterial] = React.useState('')
   const [ton, setTon] = React.useState(0)
+  const [gM, setGM] = React.useState('')
+  const [ticketData, setTicketData] = React.useState('')
+  const [loadId, setLoadId] = React.useState('')
+  const session = useSession()
+
+  React.useEffect(() => {
+    if (session.status === 'authenticated') setGM(session.data.user.email)
+    setTicketData(JSON.parse(localStorage.getItem('data'))),
+      setLoadId(JSON.parse(localStorage.getItem('LOADID'))),
+      GetD()
+  }, [session.status])
 
   
   const handleSubmit = async e => {
@@ -208,19 +219,7 @@ export default function Details ({ data, id }) {
     Router.push('../../loadData/' + id)
   }
 
-  const session = useSession()
-  const [gM, setGM] = React.useState('')
-  const [ticketData, setTicketData] = React.useState('')
-  const [loadId, setLoadId] = React.useState('')
-
-  React.useEffect(() => {
-    if (session.status === 'authenticated') setGM(session.data.user.email)
-    setTicketData(JSON.parse(localStorage.getItem('data'))),
-      setLoadId(JSON.parse(localStorage.getItem('LOADID'))),
-      getD()
-  }, [session.status])
-
-  function getD () {
+  function GetD () {
     new Promise(resolve => {
       setTimeout(() => {
         resolve(
@@ -320,7 +319,7 @@ export default function Details ({ data, id }) {
       }, 1000)
     })
   }
-  if ( getD()===false){
+  if ( GetD()===false){
     return <div>loading</div>
   }
   else

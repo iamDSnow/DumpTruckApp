@@ -127,13 +127,24 @@ export default function Details ({ data, id }) {
  
 
   //Whos Hauling State
-  const [ticket_idInput, setTicket_IDInput] = React.useState(0)
 
   const [tripNumber, setTripNumber] = React.useState(0)
   const [loadSite, setLoadSite] = React.useState('')
   const [material, setMaterial] = React.useState('')
   const [ton, setTon] = React.useState(0)
+  const session = useSession()
+  const [gM, setGM] = React.useState('')
+  const [ticketData, setTicketData] = React.useState('')
 
+  React.useEffect(() => {
+    if (session.status === 'authenticated') 
+    setGM(session.data.user.email),
+    localStorage.getItem('data')?
+    setTicketData(JSON.parse(localStorage.getItem('data')))
+    : Router.push ('/dashboard/'+ id)
+   
+    
+  }, [session.status])
   
   const handleSubmit = async e => {
     
@@ -205,19 +216,7 @@ export default function Details ({ data, id }) {
     Router.push('../../dashboard/' + id)
   }
 
-  const session = useSession()
-  const [gM, setGM] = React.useState('')
-  const [ticketData, setTicketData] = React.useState('')
-
-  React.useEffect(() => {
-    if (session.status === 'authenticated') 
-    setGM(session.data.user.email),
-    localStorage.getItem('data')?
-    setTicketData(JSON.parse(localStorage.getItem('data')))
-    : Router.push ('/dashboard/'+ id)
-   
-    
-  }, [session.status])
+ 
   
  
   console.log(ticketData.ticket_id)

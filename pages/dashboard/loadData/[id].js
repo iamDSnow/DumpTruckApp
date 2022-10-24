@@ -183,6 +183,8 @@ export default function Details ({ data, id }) {
                         item => item.ticket_id === ticketData.ticket_id
                       ).map(load => (
                         <Box
+                        key={load.load_id}
+
                           sx={{
                             paddingBottom: '15px'
                           }}

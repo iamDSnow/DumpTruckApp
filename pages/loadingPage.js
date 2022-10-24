@@ -44,6 +44,8 @@ export default function LoadingPage ({ reg }){
     const [loading, setLoading] = useState(null);
     const start = reg.data?.Users;
     const [id, setID] = useState("");
+    const router = useRouter();
+
 
   useEffect(() => {
     if (status === 'authenticated'){
@@ -88,18 +90,8 @@ export default function LoadingPage ({ reg }){
   
   if (status === "authenticated") {
 
-const router = useRouter();
 
-    // const id  = 
-    // start.map((user) => {
-    //    if (user.email === gM) {
-    //      return user.uid;
-    //    } else return "";
-    //  })
-    //  .reduce((a, b) => a + b, 0)
-    //  .replace("NaN", "");
-
- 
+   
      loading ?
 router.push("/dashboard/" + id.substring(1) ) :
 

@@ -1,103 +1,139 @@
-const mail = require('@sendgrid/mail')
+const mail = require("@sendgrid/mail");
 
-export default async function(req, res) {
+export default async function Mail(req, res) {
+  mail.setApiKey(
+    "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"
+  );
 
-  mail.setApiKey('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')
+  const data = req.body;
 
-
-  // const SENDGRID_API = 'https://api.sendgrid.com/v3/mail/send'
-  
-  const data = JSON.stringify(req.body)
-
-  // console.log(data.company)
-
-
-  const msg = await {
-    to: 'suprawhiz@gmail.com',
-    from: 'snow.derrickl@gmail.com',
-    subject: 'JOB APPLICATION:',
-    text: data,
-    html: '<p>test<p>'
-  }
+  const msg = {
+    to: data.email1,
+    cc: data.email2 ? data.email2 : " " + "," + data.email3 ? data.email3 : " ",
+    from: "suprawhiz@gmail.com",
+    subject: "TICKET REPORT",
+    text:
+      "Company: " +
+      data.company +
+      "<br>" +
+      "<br>" +
+      "Driver License: " +
+      data.driverLic +
+      "<br>" +
+      "<br>" +
+      "Truck Number: " +
+      data.truckNumber +
+      "<br>" +
+      "<br>" +
+      "Client Phone: " +
+      data.clientPhone +
+      "<br>" +
+      "<br>" +
+      "Start Time: " +
+      data.startTime +
+      "<br>" +
+      "<br>" +
+      "End Time: " +
+      data.endTime +
+      "<br>" +
+      "<br>" +
+      "Contractor: " +
+      data.contractor +
+      "<br>" +
+      "<br>" +
+      "Delivery Location: " +
+      data.deliveryLocation +
+      "<br>" +
+      "<br>" +
+      "Notes: " +
+      data.notes +
+      "<br>" +
+      "<br>" +
+      "Phone: " +
+      data.phone +
+      "<br>" +
+      "<br>" +
+      "TotalLoads: " +
+      data.totalLoads +
+      "<br>" +
+      "<br>" +
+      "Total Hours: " +
+      data.totalHours +
+      "<br>" +
+      "<br>" +
+      "Customer Name: " +
+      data.customerName +
+      "<br>" +
+      "<br>" +
+      "Load Info: " +
+      data.loadInfo,
+    html:
+      "Company: " +
+      data.company +
+      "<br>" +
+      "<br>" +
+      "Driver License: " +
+      data.driverLic +
+      "<br>" +
+      "<br>" +
+      "Truck Number: " +
+      data.truckNumber +
+      "<br>" +
+      "<br>" +
+      "Client Phone: " +
+      data.clientPhone +
+      "<br>" +
+      "<br>" +
+      "Start Time: " +
+      data.startTime +
+      "<br>" +
+      "<br>" +
+      "End Time: " +
+      data.endTime +
+      "<br>" +
+      "<br>" +
+      "Contractor: " +
+      data.contractor +
+      "<br>" +
+      "<br>" +
+      "Delivery Location: " +
+      data.deliveryLocation +
+      "<br>" +
+      "<br>" +
+      "Notes: " +
+      data.notes +
+      "<br>" +
+      "<br>" +
+      "Phone: " +
+      data.phone +
+      "<br>" +
+      "<br>" +
+      "TotalLoads: " +
+      data.totalLoads +
+      "<br>" +
+      "<br>" +
+      "Total Hours: " +
+      data.totalHours +
+      "<br>" +
+      "<br>" +
+      "Customer Name: " +
+      data.customerName +
+      "<br>" +
+      "<br>" +
+      "Load Info: " +
+      data.loadInfo,
+    //  +'<br>'+
+    // loads.load_id+'<br>'+
+    // loads.loadSite+'<br>'+
+    // loads.Material+'<br>'+
+    // loads.ton
+  };
 
   try {
-    await mail.send(msg)
-    res.status(200).send('Message sent successfully.')
+    await mail.send(msg);
+    res.status(200).send("Message sent successfully.");
   } catch (error) {
-    console.log(error.response.data, error)
-    res.status(400).send('Message not sent.')
+    console.log(error.response.data, error);
+    res.status(400).send("Message not sent.");
   }
-
-
-
-
-//   try{
-//   await fetch(
-//     SENDGRID_API,
-//     {
-//       method: "POST",
-//       Authorization: `Bearer ${process.env.NEXT_PUBLIC_SENDGRID_API_KEY}`,
-//       body: JSON.stringify({
-//         personalizations: [
-//           {
-//             to: [
-//               {
-//                 email: 'snow.derrickl@gmail.com'
-//               }
-//             ],
-//             subject: 'Demo success :)'
-//           }
-//         ],
-//         from: {
-//           email: 'suprawhiz@gmail.com',
-//           name: 'Test SendGrid'
-//         },
-//         content: [
-//           {
-//             type: 'text/html',
-//             value: `test`
-//           }
-//         ]
-//       }),
-  
-//         }
-//   )
- 
-
-//   return res.status(200).json()
-
-// }
-//   catch (err){
-//     return res.status(500).json({message: 'something went wrong'})
-//   }
-
 }
-
-// export { sendEmail };
-
-// export default async function handler (req, res) {
-//     await mail.setApiKey(process.env.NEXT_PUBLIC_SENDGRID)
-
-
-//     const appContractor = await req.contractor
-
-//   const msg = await {
-//     to: 'suprawhiz@gmail.com',
-//     from: 'suprawhiz@gmail.com',
-//     subject: 'JOB APPLICATION:',
-//     text: appContractor,
-//     html: appContractor
-//   }
-
-
-//     try {
-//       await msg.send();
-//     } catch (error) {
-//       console.error(error);
-  
-//       if (error.response) {
-//         console.error(error.response.body)
-//       }
-//     }
-//   }
-

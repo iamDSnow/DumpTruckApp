@@ -145,11 +145,11 @@ React.useEffect(() => {
   if (session.status === 'authenticated') setGM(session.data.user.email)
   setTicketData(JSON.parse(localStorage.getItem('data'))),
 
-  getD()
+  GetD()
 }, [session.status])
 
 
-function getD(){
+function GetD(){
   setNameInput(data.data.Users.map(user => {
     if (user.uid === id) {
       return user.firstName

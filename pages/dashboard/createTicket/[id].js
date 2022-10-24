@@ -132,6 +132,16 @@ export default function Details ({ data, id }) {
   const [customerNameInput, setCustomerNameInput] = React.useState('')
   //Who and For Hauling State
   const [user_idInput, setUser_IdInput] = React.useState('')
+  const session = useSession()
+  const [gM, setGM] = React.useState('')
+  // const [ticketData, setTicketData] = React.useState('')
+
+  React.useEffect(() => {
+    if (session.status === 'authenticated') 
+    setGM(session.data.user.email)
+  
+    setUser_IdInput(id)
+  }, [session.status])
  
 
   const handleSubmit = async e => {
@@ -208,16 +218,7 @@ export default function Details ({ data, id }) {
     Router.push('/dashboard/' + id)
   }
 
-  const session = useSession()
-  const [gM, setGM] = React.useState('')
-  const [ticketData, setTicketData] = React.useState('')
-
-  React.useEffect(() => {
-    if (session.status === 'authenticated') 
-    setGM(session.data.user.email)
-  
-    setUser_IdInput(id)
-  }, [session.status])
+ 
 
   
 

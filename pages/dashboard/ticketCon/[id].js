@@ -264,20 +264,9 @@ export default function Details ({ data, id }) {
     Router.push('../../dashboard/' + id)
   }
 
-  const { data: session, status } = useSession()
-  const [isLoading, setIsLoading] = React.useState(false)
-  const [ticketData, setTicketData] = React.useState('')
-
-  React.useEffect(async() => {
-    if (status === 'authenticated') {
-      
-{    await setTicketData(JSON.parse(localStorage.getItem('data')));
-
-    return()=>{}
-  }}
-  }, [status])
+  
  
-  function getD () {
+  function GetD () {
     new Promise(resolve => {
       setTimeout(() => {
         resolve(
@@ -382,7 +371,7 @@ export default function Details ({ data, id }) {
       }, 1000)
     })
   }
-  isLoading ? console.log('success') : getD()
+  isLoading ? console.log('success') : GetD()
 
   return (
     <>
