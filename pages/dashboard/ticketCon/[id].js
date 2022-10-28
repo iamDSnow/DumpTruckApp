@@ -181,7 +181,7 @@ export default function Details ({ data, id }) {
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
-
+  
   const handleSubmit = async e => {
     await setTicket_idInput(e)
     await setPhoneClientInput(e)
@@ -621,7 +621,7 @@ export default function Details ({ data, id }) {
                         disabled
                         id='outlined-disabled'
                         label='Company Name'
-                        defaultValue={data.data.Users.map(user => {
+                        defaultValue={data.data?.Users?.map(user => {
                           if (user.uid === id) {
                             return user.company
                           }
@@ -634,7 +634,7 @@ export default function Details ({ data, id }) {
                         disabled
                         id='outlined-disabled'
                         label='Driver'
-                        defaultValue={data.data.Users.map(user => {
+                        defaultValue={data.data?.Users?.map(user => {
                           if (user.uid === id) {
                             return user.driverLic
                           }
@@ -647,7 +647,7 @@ export default function Details ({ data, id }) {
                         disabled
                         id='outlined-disabled'
                         label='Truck No'
-                        defaultValue={data.data.Users.map(user => {
+                        defaultValue={data.data?.Users?.map(user => {
                           if (user.uid === id) {
                             return user.truckPlateNumber
                           }
@@ -660,7 +660,7 @@ export default function Details ({ data, id }) {
                         disabled
                         id='outlined-disabled'
                         label='Phone No'
-                        defaultValue={data.data.Users.map(user => {
+                        defaultValue={data.data?.Users?.map(user => {
                           if (user.uid === id) {
                             return user.phone
                           }

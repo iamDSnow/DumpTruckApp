@@ -1,18 +1,16 @@
 import Layout from "../../components/Layout";
-
-
 import React from "react";
-import { useSession } from 'next-auth/react'
-import Router from 'next/router'
+import { useSession } from "next-auth/react";
+import Router from "next/router";
 
 export const getStaticProps = async () => {
-    const res = await fetch(
-        "https://just-chamois-38.hasura.app/v1/graphql",
-      {
-        method: "POST",
-        headers: { ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET },
-        body: JSON.stringify({
-          query:  `
+  const res = await fetch("https://just-chamois-38.hasura.app/v1/graphql", {
+    method: "POST",
+    headers: {
+      ["x-hasura-admin-secret"]: process.env.NEXT_PUBLIC_HASURA_SECRET,
+    },
+    body: JSON.stringify({
+      query: `
           query MyQuery {
             Users {
               uid
@@ -20,57 +18,40 @@ export const getStaticProps = async () => {
               firstName
             }
           }
-        `
-        })
-      }
-    );
-  const data = await res.json()
+        `,
+    }),
+  });
+  const data = await res.json();
 
-  return{
-    props: {data}
-  }
+  return {
+    props: { data },
+  };
+};
 
-  }
-
-
-
-
-export default function LoadData({data, error}) {
-
-
-  const [ticketData, setTicketData] = React.useState('')
-  const session = useSession()
-
-
+export default function LoadData({ data, error }) {
+  const [ticketData, setTicketData] = React.useState("");
+  const session = useSession();
   React.useEffect(() => {
-    if (session.status === 'authenticated') 
-  
-    setTicketData(JSON.parse(localStorage.getItem('u')))
-   
-
-   
-    
-  }, [session.status])
+    if (session.status === "authenticated")
+      setTicketData(JSON.parse(localStorage.getItem("u")));
+  }, [session.status]);
   React.useEffect(() => {
     const { pathname } = Router;
     if (pathname === "/dashboard/loadData") {
-      Router.push("/dashboard/loadData/" + ticketData.substring(1))
+      Router.push("/dashboard/loadData/" + ticketData.substring(1));
     }
   });
 
-
-  if (error) return <div>Failed to load</div>
-  if (!data) return <div>Loading...</div>
+  if (error) return <div>Failed to load</div>;
+  if (!data) return <div>Loading...</div>;
   return (
-
     <div>
-          <Layout/> 
-    
-<div>...Loading</div>
+      <Layout />
 
+      <div>...Loading</div>
     </div>
-  )
+  );
 }
 loadData.auth = {
   unauthorized: "/", // redirect to this url
-}
+};
